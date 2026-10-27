@@ -1,0 +1,1898 @@
+[
+  {
+    "LocID": "108",
+    "ISO3_code": "BDI",
+    "ISO2_code": "BI",
+    "ParentID": "910",
+    "Location": "Burundi",
+    "Births": "460.882"
+  },
+  {
+    "LocID": "174",
+    "ISO3_code": "COM",
+    "ISO2_code": "KM",
+    "ParentID": "910",
+    "Location": "Comoros",
+    "Births": "24.366"
+  },
+  {
+    "LocID": "262",
+    "ISO3_code": "DJI",
+    "ISO2_code": "DJ",
+    "ParentID": "910",
+    "Location": "Djibouti",
+    "Births": "23.946"
+  },
+  {
+    "LocID": "232",
+    "ISO3_code": "ERI",
+    "ISO2_code": "ER",
+    "ParentID": "910",
+    "Location": "Eritrea",
+    "Births": "99.058"
+  },
+  {
+    "LocID": "231",
+    "ISO3_code": "ETH",
+    "ISO2_code": "ET",
+    "ParentID": "910",
+    "Location": "Ethiopia",
+    "Births": "4105.685"
+  },
+  {
+    "LocID": "404",
+    "ISO3_code": "KEN",
+    "ISO2_code": "KE",
+    "ParentID": "910",
+    "Location": "Kenya",
+    "Births": "1499.998"
+  },
+  {
+    "LocID": "450",
+    "ISO3_code": "MDG",
+    "ISO2_code": "MG",
+    "ParentID": "910",
+    "Location": "Madagascar",
+    "Births": "1001.244"
+  },
+  {
+    "LocID": "454",
+    "ISO3_code": "MWI",
+    "ISO2_code": "MW",
+    "ParentID": "910",
+    "Location": "Malawi",
+    "Births": "662.289"
+  },
+  {
+    "LocID": "480",
+    "ISO3_code": "MUS",
+    "ISO2_code": "MU",
+    "ParentID": "910",
+    "Location": "Mauritius",
+    "Births": "11.804"
+  },
+  {
+    "LocID": "175",
+    "ISO3_code": "MYT",
+    "ISO2_code": "YT",
+    "ParentID": "910",
+    "Location": "Mayotte",
+    "Births": "11.186"
+  },
+  {
+    "LocID": "508",
+    "ISO3_code": "MOZ",
+    "ISO2_code": "MZ",
+    "ParentID": "910",
+    "Location": "Mozambique",
+    "Births": "1260.855"
+  },
+  {
+    "LocID": "638",
+    "ISO3_code": "REU",
+    "ISO2_code": "RE",
+    "ParentID": "910",
+    "Location": "Réunion",
+    "Births": "12.003"
+  },
+  {
+    "LocID": "646",
+    "ISO3_code": "RWA",
+    "ISO2_code": "RW",
+    "ParentID": "910",
+    "Location": "Rwanda",
+    "Births": "395.578"
+  },
+  {
+    "LocID": "690",
+    "ISO3_code": "SYC",
+    "ISO2_code": "SC",
+    "ParentID": "910",
+    "Location": "Seychelles",
+    "Births": "1.744"
+  },
+  {
+    "LocID": "706",
+    "ISO3_code": "SOM",
+    "ISO2_code": "SO",
+    "ParentID": "910",
+    "Location": "Somalia",
+    "Births": "788.763"
+  },
+  {
+    "LocID": "728",
+    "ISO3_code": "SSD",
+    "ISO2_code": "SS",
+    "ParentID": "910",
+    "Location": "South Sudan",
+    "Births": "328.308"
+  },
+  {
+    "LocID": "800",
+    "ISO3_code": "UGA",
+    "ISO2_code": "UG",
+    "ParentID": "910",
+    "Location": "Uganda",
+    "Births": "1712.75"
+  },
+  {
+    "LocID": "834",
+    "ISO3_code": "TZA",
+    "ISO2_code": "TZ",
+    "ParentID": "910",
+    "Location": "United Republic of Tanzania",
+    "Births": "2346.391"
+  },
+  {
+    "LocID": "894",
+    "ISO3_code": "ZMB",
+    "ISO2_code": "ZM",
+    "ParentID": "910",
+    "Location": "Zambia",
+    "Births": "685.565"
+  },
+  {
+    "LocID": "716",
+    "ISO3_code": "ZWE",
+    "ISO2_code": "ZW",
+    "ParentID": "910",
+    "Location": "Zimbabwe",
+    "Births": "496.917"
+  },
+  {
+    "LocID": "24",
+    "ISO3_code": "AGO",
+    "ISO2_code": "AO",
+    "ParentID": "911",
+    "Location": "Angola",
+    "Births": "1381.37"
+  },
+  {
+    "LocID": "120",
+    "ISO3_code": "CMR",
+    "ISO2_code": "CM",
+    "ParentID": "911",
+    "Location": "Cameroon",
+    "Births": "957.392"
+  },
+  {
+    "LocID": "140",
+    "ISO3_code": "CAF",
+    "ISO2_code": "CF",
+    "ParentID": "911",
+    "Location": "Central African Republic",
+    "Births": "238.858"
+  },
+  {
+    "LocID": "148",
+    "ISO3_code": "TCD",
+    "ISO2_code": "TD",
+    "ParentID": "911",
+    "Location": "Chad",
+    "Births": "819.054"
+  },
+  {
+    "LocID": "178",
+    "ISO3_code": "COG",
+    "ISO2_code": "CG",
+    "ParentID": "911",
+    "Location": "Congo",
+    "Births": "189.365"
+  },
+  {
+    "LocID": "180",
+    "ISO3_code": "COD",
+    "ISO2_code": "CD",
+    "ParentID": "911",
+    "Location": "Democratic Republic of the Congo",
+    "Births": "4369.683"
+  },
+  {
+    "LocID": "226",
+    "ISO3_code": "GNQ",
+    "ISO2_code": "GQ",
+    "ParentID": "911",
+    "Location": "Equatorial Guinea",
+    "Births": "54.694"
+  },
+  {
+    "LocID": "266",
+    "ISO3_code": "GAB",
+    "ISO2_code": "GA",
+    "ParentID": "911",
+    "Location": "Gabon",
+    "Births": "68.745"
+  },
+  {
+    "LocID": "678",
+    "ISO3_code": "STP",
+    "ISO2_code": "ST",
+    "ParentID": "911",
+    "Location": "Sao Tome and Principe",
+    "Births": "6.507"
+  },
+  {
+    "LocID": "12",
+    "ISO3_code": "DZA",
+    "ISO2_code": "DZ",
+    "ParentID": "912",
+    "Location": "Algeria",
+    "Births": "905.981"
+  },
+  {
+    "LocID": "818",
+    "ISO3_code": "EGY",
+    "ISO2_code": "EG",
+    "ParentID": "912",
+    "Location": "Egypt",
+    "Births": "2405.717"
+  },
+  {
+    "LocID": "434",
+    "ISO3_code": "LBY",
+    "ISO2_code": "LY",
+    "ParentID": "912",
+    "Location": "Libya",
+    "Births": "124.371"
+  },
+  {
+    "LocID": "504",
+    "ISO3_code": "MAR",
+    "ISO2_code": "MA",
+    "ParentID": "912",
+    "Location": "Morocco",
+    "Births": "629.832"
+  },
+  {
+    "LocID": "729",
+    "ISO3_code": "SDN",
+    "ISO2_code": "SD",
+    "ParentID": "912",
+    "Location": "Sudan",
+    "Births": "1682.049"
+  },
+  {
+    "LocID": "788",
+    "ISO3_code": "TUN",
+    "ISO2_code": "TN",
+    "ParentID": "912",
+    "Location": "Tunisia",
+    "Births": "167.729"
+  },
+  {
+    "LocID": "732",
+    "ISO3_code": "ESH",
+    "ISO2_code": "EH",
+    "ParentID": "912",
+    "Location": "Western Sahara",
+    "Births": "8.987"
+  },
+  {
+    "LocID": "72",
+    "ISO3_code": "BWA",
+    "ISO2_code": "BW",
+    "ParentID": "913",
+    "Location": "Botswana",
+    "Births": "61.294"
+  },
+  {
+    "LocID": "748",
+    "ISO3_code": "SWZ",
+    "ISO2_code": "SZ",
+    "ParentID": "913",
+    "Location": "Eswatini",
+    "Births": "29.622"
+  },
+  {
+    "LocID": "426",
+    "ISO3_code": "LSO",
+    "ISO2_code": "LS",
+    "ParentID": "913",
+    "Location": "Lesotho",
+    "Births": "55.728"
+  },
+  {
+    "LocID": "516",
+    "ISO3_code": "NAM",
+    "ISO2_code": "NA",
+    "ParentID": "913",
+    "Location": "Namibia",
+    "Births": "76.715"
+  },
+  {
+    "LocID": "710",
+    "ISO3_code": "ZAF",
+    "ISO2_code": "ZA",
+    "ParentID": "913",
+    "Location": "South Africa",
+    "Births": "1186.793"
+  },
+  {
+    "LocID": "204",
+    "ISO3_code": "BEN",
+    "ISO2_code": "BJ",
+    "ParentID": "914",
+    "Location": "Benin",
+    "Births": "478.062"
+  },
+  {
+    "LocID": "854",
+    "ISO3_code": "BFA",
+    "ISO2_code": "BF",
+    "ParentID": "914",
+    "Location": "Burkina Faso",
+    "Births": "728.612"
+  },
+  {
+    "LocID": "132",
+    "ISO3_code": "CPV",
+    "ISO2_code": "CV",
+    "ParentID": "914",
+    "Location": "Cabo Verde",
+    "Births": "6.44"
+  },
+  {
+    "LocID": "384",
+    "ISO3_code": "CIV",
+    "ISO2_code": "CI",
+    "ParentID": "914",
+    "Location": "Côte d'Ivoire",
+    "Births": "997.001"
+  },
+  {
+    "LocID": "270",
+    "ISO3_code": "GMB",
+    "ISO2_code": "GM",
+    "ParentID": "914",
+    "Location": "Gambia",
+    "Births": "82.092"
+  },
+  {
+    "LocID": "288",
+    "ISO3_code": "GHA",
+    "ISO2_code": "GH",
+    "ParentID": "914",
+    "Location": "Ghana",
+    "Births": "888.947"
+  },
+  {
+    "LocID": "324",
+    "ISO3_code": "GIN",
+    "ISO2_code": "GN",
+    "ParentID": "914",
+    "Location": "Guinea",
+    "Births": "487.595"
+  },
+  {
+    "LocID": "624",
+    "ISO3_code": "GNB",
+    "ISO2_code": "GW",
+    "ParentID": "914",
+    "Location": "Guinea-Bissau",
+    "Births": "64.679"
+  },
+  {
+    "LocID": "430",
+    "ISO3_code": "LBR",
+    "ISO2_code": "LR",
+    "ParentID": "914",
+    "Location": "Liberia",
+    "Births": "170.065"
+  },
+  {
+    "LocID": "466",
+    "ISO3_code": "MLI",
+    "ISO2_code": "ML",
+    "ParentID": "914",
+    "Location": "Mali",
+    "Births": "951.445"
+  },
+  {
+    "LocID": "478",
+    "ISO3_code": "MRT",
+    "ISO2_code": "MR",
+    "ParentID": "914",
+    "Location": "Mauritania",
+    "Births": "172.885"
+  },
+  {
+    "LocID": "562",
+    "ISO3_code": "NER",
+    "ISO2_code": "NE",
+    "ParentID": "914",
+    "Location": "Niger",
+    "Births": "1095.892"
+  },
+  {
+    "LocID": "566",
+    "ISO3_code": "NGA",
+    "ISO2_code": "NG",
+    "ParentID": "914",
+    "Location": "Nigeria",
+    "Births": "7509.758"
+  },
+  {
+    "LocID": "654",
+    "ISO3_code": "SHN",
+    "ISO2_code": "SH",
+    "ParentID": "914",
+    "Location": "Saint Helena",
+    "Births": "0.039"
+  },
+  {
+    "LocID": "686",
+    "ISO3_code": "SEN",
+    "ISO2_code": "SN",
+    "ParentID": "914",
+    "Location": "Senegal",
+    "Births": "531.89"
+  },
+  {
+    "LocID": "694",
+    "ISO3_code": "SLE",
+    "ISO2_code": "SL",
+    "ParentID": "914",
+    "Location": "Sierra Leone",
+    "Births": "258.903"
+  },
+  {
+    "LocID": "768",
+    "ISO3_code": "TGO",
+    "ISO2_code": "TG",
+    "ParentID": "914",
+    "Location": "Togo",
+    "Births": "289.759"
+  },
+  {
+    "LocID": "398",
+    "ISO3_code": "KAZ",
+    "ISO2_code": "KZ",
+    "ParentID": "5500",
+    "Location": "Kazakhstan",
+    "Births": "409.417"
+  },
+  {
+    "LocID": "417",
+    "ISO3_code": "KGZ",
+    "ISO2_code": "KG",
+    "ParentID": "5500",
+    "Location": "Kyrgyzstan",
+    "Births": "150.759"
+  },
+  {
+    "LocID": "762",
+    "ISO3_code": "TJK",
+    "ISO2_code": "TJ",
+    "ParentID": "5500",
+    "Location": "Tajikistan",
+    "Births": "271.42"
+  },
+  {
+    "LocID": "795",
+    "ISO3_code": "TKM",
+    "ISO2_code": "TM",
+    "ParentID": "5500",
+    "Location": "Turkmenistan",
+    "Births": "160.1"
+  },
+  {
+    "LocID": "860",
+    "ISO3_code": "UZB",
+    "ISO2_code": "UZ",
+    "ParentID": "5500",
+    "Location": "Uzbekistan",
+    "Births": "943.547"
+  },
+  {
+    "LocID": "156",
+    "ISO3_code": "CHN",
+    "ISO2_code": "CN",
+    "ParentID": "906",
+    "Location": "China",
+    "Births": "8899.881"
+  },
+  {
+    "LocID": "344",
+    "ISO3_code": "HKG",
+    "ISO2_code": "HK",
+    "ParentID": "906",
+    "Location": "China, Hong Kong SAR",
+    "Births": "41.294"
+  },
+  {
+    "LocID": "446",
+    "ISO3_code": "MAC",
+    "ISO2_code": "MO",
+    "ParentID": "906",
+    "Location": "China, Macao SAR",
+    "Births": "4.515"
+  },
+  {
+    "LocID": "158",
+    "ISO3_code": "TWN",
+    "ISO2_code": "TW",
+    "ParentID": "906",
+    "Location": "China, Taiwan Province of China",
+    "Births": "132.404"
+  },
+  {
+    "LocID": "408",
+    "ISO3_code": "PRK",
+    "ISO2_code": "KP",
+    "ParentID": "906",
+    "Location": "Dem. People's Republic of Korea",
+    "Births": "342.038"
+  },
+  {
+    "LocID": "392",
+    "ISO3_code": "JPN",
+    "ISO2_code": "JP",
+    "ParentID": "906",
+    "Location": "Japan",
+    "Births": "749.884"
+  },
+  {
+    "LocID": "496",
+    "ISO3_code": "MNG",
+    "ISO2_code": "MN",
+    "ParentID": "906",
+    "Location": "Mongolia",
+    "Births": "65.019"
+  },
+  {
+    "LocID": "410",
+    "ISO3_code": "KOR",
+    "ISO2_code": "KR",
+    "ParentID": "906",
+    "Location": "Republic of Korea",
+    "Births": "236.394"
+  },
+  {
+    "LocID": "4",
+    "ISO3_code": "AFG",
+    "ISO2_code": "AF",
+    "ParentID": "5501",
+    "Location": "Afghanistan",
+    "Births": "1469.029"
+  },
+  {
+    "LocID": "50",
+    "ISO3_code": "BGD",
+    "ISO2_code": "BD",
+    "ParentID": "5501",
+    "Location": "Bangladesh",
+    "Births": "3489.953"
+  },
+  {
+    "LocID": "64",
+    "ISO3_code": "BTN",
+    "ISO2_code": "BT",
+    "ParentID": "5501",
+    "Location": "Bhutan",
+    "Births": "9.958"
+  },
+  {
+    "LocID": "356",
+    "ISO3_code": "IND",
+    "ISO2_code": "IN",
+    "ParentID": "5501",
+    "Location": "India",
+    "Births": "23219.489"
+  },
+  {
+    "LocID": "364",
+    "ISO3_code": "IRN",
+    "ISO2_code": "IR",
+    "ParentID": "5501",
+    "Location": "Iran (Islamic Republic of)",
+    "Births": "1173.463"
+  },
+  {
+    "LocID": "462",
+    "ISO3_code": "MDV",
+    "ISO2_code": "MV",
+    "ParentID": "5501",
+    "Location": "Maldives",
+    "Births": "5.795"
+  },
+  {
+    "LocID": "524",
+    "ISO3_code": "NPL",
+    "ISO2_code": "NP",
+    "ParentID": "5501",
+    "Location": "Nepal",
+    "Births": "574.297"
+  },
+  {
+    "LocID": "586",
+    "ISO3_code": "PAK",
+    "ISO2_code": "PK",
+    "ParentID": "5501",
+    "Location": "Pakistan",
+    "Births": "6882.058"
+  },
+  {
+    "LocID": "144",
+    "ISO3_code": "LKA",
+    "ISO2_code": "LK",
+    "ParentID": "5501",
+    "Location": "Sri Lanka",
+    "Births": "324.102"
+  },
+  {
+    "LocID": "96",
+    "ISO3_code": "BRN",
+    "ISO2_code": "BN",
+    "ParentID": "920",
+    "Location": "Brunei Darussalam",
+    "Births": "6.237"
+  },
+  {
+    "LocID": "116",
+    "ISO3_code": "KHM",
+    "ISO2_code": "KH",
+    "ParentID": "920",
+    "Location": "Cambodia",
+    "Births": "361.586"
+  },
+  {
+    "LocID": "360",
+    "ISO3_code": "IDN",
+    "ISO2_code": "ID",
+    "ParentID": "920",
+    "Location": "Indonesia",
+    "Births": "4482.359"
+  },
+  {
+    "LocID": "418",
+    "ISO3_code": "LAO",
+    "ISO2_code": "LA",
+    "ParentID": "920",
+    "Location": "Lao People's Democratic Republic",
+    "Births": "163.043"
+  },
+  {
+    "LocID": "458",
+    "ISO3_code": "MYS",
+    "ISO2_code": "MY",
+    "ParentID": "920",
+    "Location": "Malaysia",
+    "Births": "435.989"
+  },
+  {
+    "LocID": "104",
+    "ISO3_code": "MMR",
+    "ISO2_code": "MM",
+    "ParentID": "920",
+    "Location": "Myanmar",
+    "Births": "903.822"
+  },
+  {
+    "LocID": "608",
+    "ISO3_code": "PHL",
+    "ISO2_code": "PH",
+    "ParentID": "920",
+    "Location": "Philippines",
+    "Births": "1840.477"
+  },
+  {
+    "LocID": "702",
+    "ISO3_code": "SGP",
+    "ISO2_code": "SG",
+    "ParentID": "920",
+    "Location": "Singapore",
+    "Births": "47.472"
+  },
+  {
+    "LocID": "764",
+    "ISO3_code": "THA",
+    "ISO2_code": "TH",
+    "ParentID": "920",
+    "Location": "Thailand",
+    "Births": "591.2"
+  },
+  {
+    "LocID": "626",
+    "ISO3_code": "TLS",
+    "ISO2_code": "TL",
+    "ParentID": "920",
+    "Location": "Timor-Leste",
+    "Births": "30.561"
+  },
+  {
+    "LocID": "704",
+    "ISO3_code": "VNM",
+    "ISO2_code": "VN",
+    "ParentID": "920",
+    "Location": "Viet Nam",
+    "Births": "1387.961"
+  },
+  {
+    "LocID": "51",
+    "ISO3_code": "ARM",
+    "ISO2_code": "AM",
+    "ParentID": "922",
+    "Location": "Armenia",
+    "Births": "34.668"
+  },
+  {
+    "LocID": "31",
+    "ISO3_code": "AZE",
+    "ISO2_code": "AZ",
+    "ParentID": "922",
+    "Location": "Azerbaijan",
+    "Births": "125.136"
+  },
+  {
+    "LocID": "48",
+    "ISO3_code": "BHR",
+    "ISO2_code": "BH",
+    "ParentID": "922",
+    "Location": "Bahrain",
+    "Births": "19.558"
+  },
+  {
+    "LocID": "196",
+    "ISO3_code": "CYP",
+    "ISO2_code": "CY",
+    "ParentID": "922",
+    "Location": "Cyprus",
+    "Births": "14.524"
+  },
+  {
+    "LocID": "268",
+    "ISO3_code": "GEO",
+    "ISO2_code": "GE",
+    "ParentID": "922",
+    "Location": "Georgia",
+    "Births": "43.765"
+  },
+  {
+    "LocID": "368",
+    "ISO3_code": "IRQ",
+    "ISO2_code": "IQ",
+    "ParentID": "922",
+    "Location": "Iraq",
+    "Births": "1159.682"
+  },
+  {
+    "LocID": "376",
+    "ISO3_code": "ISR",
+    "ISO2_code": "IL",
+    "ParentID": "922",
+    "Location": "Israel",
+    "Births": "172.312"
+  },
+  {
+    "LocID": "400",
+    "ISO3_code": "JOR",
+    "ISO2_code": "JO",
+    "ParentID": "922",
+    "Location": "Jordan",
+    "Births": "235.776"
+  },
+  {
+    "LocID": "414",
+    "ISO3_code": "KWT",
+    "ISO2_code": "KW",
+    "ParentID": "922",
+    "Location": "Kuwait",
+    "Births": "49.342"
+  },
+  {
+    "LocID": "422",
+    "ISO3_code": "LBN",
+    "ISO2_code": "LB",
+    "ParentID": "922",
+    "Location": "Lebanon",
+    "Births": "93.205"
+  },
+  {
+    "LocID": "512",
+    "ISO3_code": "OMN",
+    "ISO2_code": "OM",
+    "ParentID": "922",
+    "Location": "Oman",
+    "Births": "85.065"
+  },
+  {
+    "LocID": "634",
+    "ISO3_code": "QAT",
+    "ISO2_code": "QA",
+    "ParentID": "922",
+    "Location": "Qatar",
+    "Births": "29.516"
+  },
+  {
+    "LocID": "682",
+    "ISO3_code": "SAU",
+    "ISO2_code": "SA",
+    "ParentID": "922",
+    "Location": "Saudi Arabia",
+    "Births": "546.038"
+  },
+  {
+    "LocID": "275",
+    "ISO3_code": "PSE",
+    "ISO2_code": "PS",
+    "ParentID": "922",
+    "Location": "State of Palestine",
+    "Births": "146.384"
+  },
+  {
+    "LocID": "760",
+    "ISO3_code": "SYR",
+    "ISO2_code": "SY",
+    "ParentID": "922",
+    "Location": "Syrian Arab Republic",
+    "Births": "521.601"
+  },
+  {
+    "LocID": "792",
+    "ISO3_code": "TUR",
+    "ISO2_code": "TR",
+    "ParentID": "922",
+    "Location": "Türkiye",
+    "Births": "1072.014"
+  },
+  {
+    "LocID": "784",
+    "ISO3_code": "ARE",
+    "ISO2_code": "AE",
+    "ParentID": "922",
+    "Location": "United Arab Emirates",
+    "Births": "104.015"
+  },
+  {
+    "LocID": "887",
+    "ISO3_code": "YEM",
+    "ISO2_code": "YE",
+    "ParentID": "922",
+    "Location": "Yemen",
+    "Births": "1386.914"
+  },
+  {
+    "LocID": "112",
+    "ISO3_code": "BLR",
+    "ISO2_code": "BY",
+    "ParentID": "923",
+    "Location": "Belarus",
+    "Births": "65.05"
+  },
+  {
+    "LocID": "100",
+    "ISO3_code": "BGR",
+    "ISO2_code": "BG",
+    "ParentID": "923",
+    "Location": "Bulgaria",
+    "Births": "62.645"
+  },
+  {
+    "LocID": "203",
+    "ISO3_code": "CZE",
+    "ISO2_code": "CZ",
+    "ParentID": "923",
+    "Location": "Czechia",
+    "Births": "91.845"
+  },
+  {
+    "LocID": "348",
+    "ISO3_code": "HUN",
+    "ISO2_code": "HU",
+    "ParentID": "923",
+    "Location": "Hungary",
+    "Births": "85.373"
+  },
+  {
+    "LocID": "616",
+    "ISO3_code": "POL",
+    "ISO2_code": "PL",
+    "ParentID": "923",
+    "Location": "Poland",
+    "Births": "317.916"
+  },
+  {
+    "LocID": "498",
+    "ISO3_code": "MDA",
+    "ISO2_code": "MD",
+    "ParentID": "923",
+    "Location": "Republic of Moldova",
+    "Births": "32.986"
+  },
+  {
+    "LocID": "642",
+    "ISO3_code": "ROU",
+    "ISO2_code": "RO",
+    "ParentID": "923",
+    "Location": "Romania",
+    "Births": "183.623"
+  },
+  {
+    "LocID": "643",
+    "ISO3_code": "RUS",
+    "ISO2_code": "RU",
+    "ParentID": "923",
+    "Location": "Russian Federation",
+    "Births": "1297.207"
+  },
+  {
+    "LocID": "703",
+    "ISO3_code": "SVK",
+    "ISO2_code": "SK",
+    "ParentID": "923",
+    "Location": "Slovakia",
+    "Births": "52.271"
+  },
+  {
+    "LocID": "804",
+    "ISO3_code": "UKR",
+    "ISO2_code": "UA",
+    "ParentID": "923",
+    "Location": "Ukraine",
+    "Births": "212.231"
+  },
+  {
+    "LocID": "208",
+    "ISO3_code": "DNK",
+    "ISO2_code": "DK",
+    "ParentID": "924",
+    "Location": "Denmark",
+    "Births": "57.81"
+  },
+  {
+    "LocID": "233",
+    "ISO3_code": "EST",
+    "ISO2_code": "EE",
+    "ParentID": "924",
+    "Location": "Estonia",
+    "Births": "11.036"
+  },
+  {
+    "LocID": "234",
+    "ISO3_code": "FRO",
+    "ISO2_code": "FO",
+    "ParentID": "924",
+    "Location": "Faroe Islands",
+    "Births": "0.69"
+  },
+  {
+    "LocID": "246",
+    "ISO3_code": "FIN",
+    "ISO2_code": "FI",
+    "ParentID": "924",
+    "Location": "Finland",
+    "Births": "43.556"
+  },
+  {
+    "LocID": "831",
+    "ISO3_code": "GGY",
+    "ISO2_code": "GG",
+    "ParentID": "924",
+    "Location": "Guernsey",
+    "Births": "0.521"
+  },
+  {
+    "LocID": "352",
+    "ISO3_code": "ISL",
+    "ISO2_code": "IS",
+    "ParentID": "924",
+    "Location": "Iceland",
+    "Births": "4.347"
+  },
+  {
+    "LocID": "372",
+    "ISO3_code": "IRL",
+    "ISO2_code": "IE",
+    "ParentID": "924",
+    "Location": "Ireland",
+    "Births": "53.268"
+  },
+  {
+    "LocID": "833",
+    "ISO3_code": "IMN",
+    "ISO2_code": "IM",
+    "ParentID": "924",
+    "Location": "Isle of Man",
+    "Births": "0.702"
+  },
+  {
+    "LocID": "832",
+    "ISO3_code": "JEY",
+    "ISO2_code": "JE",
+    "ParentID": "924",
+    "Location": "Jersey",
+    "Births": "0.853"
+  },
+  {
+    "LocID": "428",
+    "ISO3_code": "LVA",
+    "ISO2_code": "LV",
+    "ParentID": "924",
+    "Location": "Latvia",
+    "Births": "14.25"
+  },
+  {
+    "LocID": "440",
+    "ISO3_code": "LTU",
+    "ISO2_code": "LT",
+    "ParentID": "924",
+    "Location": "Lithuania",
+    "Births": "21.434"
+  },
+  {
+    "LocID": "578",
+    "ISO3_code": "NOR",
+    "ISO2_code": "NO",
+    "ParentID": "924",
+    "Location": "Norway",
+    "Births": "51.545"
+  },
+  {
+    "LocID": "752",
+    "ISO3_code": "SWE",
+    "ISO2_code": "SE",
+    "ParentID": "924",
+    "Location": "Sweden",
+    "Births": "97.915"
+  },
+  {
+    "LocID": "826",
+    "ISO3_code": "GBR",
+    "ISO2_code": "GB",
+    "ParentID": "924",
+    "Location": "United Kingdom",
+    "Births": "688.388"
+  },
+  {
+    "LocID": "8",
+    "ISO3_code": "ALB",
+    "ISO2_code": "AL",
+    "ParentID": "925",
+    "Location": "Albania",
+    "Births": "28.803"
+  },
+  {
+    "LocID": "20",
+    "ISO3_code": "AND",
+    "ISO2_code": "AD",
+    "ParentID": "925",
+    "Location": "Andorra",
+    "Births": "0.555"
+  },
+  {
+    "LocID": "70",
+    "ISO3_code": "BIH",
+    "ISO2_code": "BA",
+    "ParentID": "925",
+    "Location": "Bosnia and Herzegovina",
+    "Births": "24.569"
+  },
+  {
+    "LocID": "191",
+    "ISO3_code": "HRV",
+    "ISO2_code": "HR",
+    "ParentID": "925",
+    "Location": "Croatia",
+    "Births": "31.446"
+  },
+  {
+    "LocID": "292",
+    "ISO3_code": "GIB",
+    "ISO2_code": "GI",
+    "ParentID": "925",
+    "Location": "Gibraltar",
+    "Births": "0.464"
+  },
+  {
+    "LocID": "300",
+    "ISO3_code": "GRC",
+    "ISO2_code": "GR",
+    "ParentID": "925",
+    "Location": "Greece",
+    "Births": "73.661"
+  },
+  {
+    "LocID": "336",
+    "ISO3_code": "VAT",
+    "ISO2_code": "VA",
+    "ParentID": "925",
+    "Location": "Holy See",
+    "Births": "0.002"
+  },
+  {
+    "LocID": "380",
+    "ISO3_code": "ITA",
+    "ISO2_code": "IT",
+    "ParentID": "925",
+    "Location": "Italy",
+    "Births": "384.627"
+  },
+  {
+    "LocID": "412",
+    "ISO3_code": "XKX",
+    "ISO2_code": "XK",
+    "ParentID": "925",
+    "Location": "Kosovo (under UNSC res. 1244)",
+    "Births": "20.514"
+  },
+  {
+    "LocID": "470",
+    "ISO3_code": "MLT",
+    "ISO2_code": "MT",
+    "ParentID": "925",
+    "Location": "Malta",
+    "Births": "4.213"
+  },
+  {
+    "LocID": "499",
+    "ISO3_code": "MNE",
+    "ISO2_code": "ME",
+    "ParentID": "925",
+    "Location": "Montenegro",
+    "Births": "6.981"
+  },
+  {
+    "LocID": "807",
+    "ISO3_code": "MKD",
+    "ISO2_code": "MK",
+    "ParentID": "925",
+    "Location": "North Macedonia",
+    "Births": "16.878"
+  },
+  {
+    "LocID": "620",
+    "ISO3_code": "PRT",
+    "ISO2_code": "PT",
+    "ParentID": "925",
+    "Location": "Portugal",
+    "Births": "86.646"
+  },
+  {
+    "LocID": "674",
+    "ISO3_code": "SMR",
+    "ISO2_code": "SM",
+    "ParentID": "925",
+    "Location": "San Marino",
+    "Births": "0.2"
+  },
+  {
+    "LocID": "688",
+    "ISO3_code": "SRB",
+    "ISO2_code": "RS",
+    "ParentID": "925",
+    "Location": "Serbia",
+    "Births": "59.84"
+  },
+  {
+    "LocID": "705",
+    "ISO3_code": "SVN",
+    "ISO2_code": "SI",
+    "ParentID": "925",
+    "Location": "Slovenia",
+    "Births": "17.902"
+  },
+  {
+    "LocID": "724",
+    "ISO3_code": "ESP",
+    "ISO2_code": "ES",
+    "ParentID": "925",
+    "Location": "Spain",
+    "Births": "336.821"
+  },
+  {
+    "LocID": "40",
+    "ISO3_code": "AUT",
+    "ISO2_code": "AT",
+    "ParentID": "926",
+    "Location": "Austria",
+    "Births": "77.054"
+  },
+  {
+    "LocID": "56",
+    "ISO3_code": "BEL",
+    "ISO2_code": "BE",
+    "ParentID": "926",
+    "Location": "Belgium",
+    "Births": "101.686"
+  },
+  {
+    "LocID": "250",
+    "ISO3_code": "FRA",
+    "ISO2_code": "FR",
+    "ParentID": "926",
+    "Location": "France",
+    "Births": "638.891"
+  },
+  {
+    "LocID": "276",
+    "ISO3_code": "DEU",
+    "ISO2_code": "DE",
+    "ParentID": "926",
+    "Location": "Germany",
+    "Births": "719.249"
+  },
+  {
+    "LocID": "438",
+    "ISO3_code": "LIE",
+    "ISO2_code": "LI",
+    "ParentID": "926",
+    "Location": "Liechtenstein",
+    "Births": "0.371"
+  },
+  {
+    "LocID": "442",
+    "ISO3_code": "LUX",
+    "ISO2_code": "LU",
+    "ParentID": "926",
+    "Location": "Luxembourg",
+    "Births": "6.946"
+  },
+  {
+    "LocID": "492",
+    "ISO3_code": "MCO",
+    "ISO2_code": "MC",
+    "ParentID": "926",
+    "Location": "Monaco",
+    "Births": "0.368"
+  },
+  {
+    "LocID": "528",
+    "ISO3_code": "NLD",
+    "ISO2_code": "NL",
+    "ParentID": "926",
+    "Location": "Netherlands",
+    "Births": "167.842"
+  },
+  {
+    "LocID": "756",
+    "ISO3_code": "CHE",
+    "ISO2_code": "CH",
+    "ParentID": "926",
+    "Location": "Switzerland",
+    "Births": "83.702"
+  },
+  {
+    "LocID": "660",
+    "ISO3_code": "AIA",
+    "ISO2_code": "AI",
+    "ParentID": "915",
+    "Location": "Anguilla",
+    "Births": "0.13"
+  },
+  {
+    "LocID": "28",
+    "ISO3_code": "ATG",
+    "ISO2_code": "AG",
+    "ParentID": "915",
+    "Location": "Antigua and Barbuda",
+    "Births": "1.106"
+  },
+  {
+    "LocID": "533",
+    "ISO3_code": "ABW",
+    "ISO2_code": "AW",
+    "ParentID": "915",
+    "Location": "Aruba",
+    "Births": "1.02"
+  },
+  {
+    "LocID": "44",
+    "ISO3_code": "BHS",
+    "ISO2_code": "BS",
+    "ParentID": "915",
+    "Location": "Bahamas",
+    "Births": "4.335"
+  },
+  {
+    "LocID": "52",
+    "ISO3_code": "BRB",
+    "ISO2_code": "BB",
+    "ParentID": "915",
+    "Location": "Barbados",
+    "Births": "3.155"
+  },
+  {
+    "LocID": "535",
+    "ISO3_code": "BES",
+    "ISO2_code": "BQ",
+    "ParentID": "915",
+    "Location": "Bonaire, Sint Eustatius and Saba",
+    "Births": "0.28"
+  },
+  {
+    "LocID": "92",
+    "ISO3_code": "VGB",
+    "ISO2_code": "VG",
+    "ParentID": "915",
+    "Location": "British Virgin Islands",
+    "Births": "0.325"
+  },
+  {
+    "LocID": "136",
+    "ISO3_code": "CYM",
+    "ISO2_code": "KY",
+    "ParentID": "915",
+    "Location": "Cayman Islands",
+    "Births": "0.865"
+  },
+  {
+    "LocID": "192",
+    "ISO3_code": "CUB",
+    "ISO2_code": "CU",
+    "ParentID": "915",
+    "Location": "Cuba",
+    "Births": "95.938"
+  },
+  {
+    "LocID": "531",
+    "ISO3_code": "CUW",
+    "ISO2_code": "CW",
+    "ParentID": "915",
+    "Location": "Curaçao",
+    "Births": "1.394"
+  },
+  {
+    "LocID": "212",
+    "ISO3_code": "DMA",
+    "ISO2_code": "DM",
+    "ParentID": "915",
+    "Location": "Dominica",
+    "Births": "0.738"
+  },
+  {
+    "LocID": "214",
+    "ISO3_code": "DOM",
+    "ISO2_code": "DO",
+    "ParentID": "915",
+    "Location": "Dominican Republic",
+    "Births": "203.183"
+  },
+  {
+    "LocID": "308",
+    "ISO3_code": "GRD",
+    "ISO2_code": "GD",
+    "ParentID": "915",
+    "Location": "Grenada",
+    "Births": "1.371"
+  },
+  {
+    "LocID": "312",
+    "ISO3_code": "GLP",
+    "ISO2_code": "GP",
+    "ParentID": "915",
+    "Location": "Guadeloupe",
+    "Births": "4.233"
+  },
+  {
+    "LocID": "332",
+    "ISO3_code": "HTI",
+    "ISO2_code": "HT",
+    "ParentID": "915",
+    "Location": "Haiti",
+    "Births": "258.348"
+  },
+  {
+    "LocID": "388",
+    "ISO3_code": "JAM",
+    "ISO2_code": "JM",
+    "ParentID": "915",
+    "Location": "Jamaica",
+    "Births": "33.007"
+  },
+  {
+    "LocID": "474",
+    "ISO3_code": "MTQ",
+    "ISO2_code": "MQ",
+    "ParentID": "915",
+    "Location": "Martinique",
+    "Births": "3.728"
+  },
+  {
+    "LocID": "500",
+    "ISO3_code": "MSR",
+    "ISO2_code": "MS",
+    "ParentID": "915",
+    "Location": "Montserrat",
+    "Births": "0.039"
+  },
+  {
+    "LocID": "630",
+    "ISO3_code": "PRI",
+    "ISO2_code": "PR",
+    "ParentID": "915",
+    "Location": "Puerto Rico",
+    "Births": "18.851"
+  },
+  {
+    "LocID": "652",
+    "ISO3_code": "BLM",
+    "ISO2_code": "BL",
+    "ParentID": "915",
+    "Location": "Saint Barthélemy",
+    "Births": "0.053"
+  },
+  {
+    "LocID": "659",
+    "ISO3_code": "KNA",
+    "ISO2_code": "KN",
+    "ParentID": "915",
+    "Location": "Saint Kitts and Nevis",
+    "Births": "0.549"
+  },
+  {
+    "LocID": "662",
+    "ISO3_code": "LCA",
+    "ISO2_code": "LC",
+    "ParentID": "915",
+    "Location": "Saint Lucia",
+    "Births": "2.019"
+  },
+  {
+    "LocID": "663",
+    "ISO3_code": "MAF",
+    "ISO2_code": "MF",
+    "ParentID": "915",
+    "Location": "Saint Martin (French part)",
+    "Births": "0.47"
+  },
+  {
+    "LocID": "670",
+    "ISO3_code": "VCT",
+    "ISO2_code": "VC",
+    "ParentID": "915",
+    "Location": "Saint Vincent and the Grenadines",
+    "Births": "1.232"
+  },
+  {
+    "LocID": "534",
+    "ISO3_code": "SXM",
+    "ISO2_code": "SX",
+    "ParentID": "915",
+    "Location": "Sint Maarten (Dutch part)",
+    "Births": "0.39"
+  },
+  {
+    "LocID": "780",
+    "ISO3_code": "TTO",
+    "ISO2_code": "TT",
+    "ParentID": "915",
+    "Location": "Trinidad and Tobago",
+    "Births": "16.094"
+  },
+  {
+    "LocID": "796",
+    "ISO3_code": "TCA",
+    "ISO2_code": "TC",
+    "ParentID": "915",
+    "Location": "Turks and Caicos Islands",
+    "Births": "0.496"
+  },
+  {
+    "LocID": "850",
+    "ISO3_code": "VIR",
+    "ISO2_code": "VI",
+    "ParentID": "915",
+    "Location": "United States Virgin Islands",
+    "Births": "0.959"
+  },
+  {
+    "LocID": "84",
+    "ISO3_code": "BLZ",
+    "ISO2_code": "BZ",
+    "ParentID": "916",
+    "Location": "Belize",
+    "Births": "7.41"
+  },
+  {
+    "LocID": "188",
+    "ISO3_code": "CRI",
+    "ISO2_code": "CR",
+    "ParentID": "916",
+    "Location": "Costa Rica",
+    "Births": "51.969"
+  },
+  {
+    "LocID": "222",
+    "ISO3_code": "SLV",
+    "ISO2_code": "SV",
+    "ParentID": "916",
+    "Location": "El Salvador",
+    "Births": "99.428"
+  },
+  {
+    "LocID": "320",
+    "ISO3_code": "GTM",
+    "ISO2_code": "GT",
+    "ParentID": "916",
+    "Location": "Guatemala",
+    "Births": "377.167"
+  },
+  {
+    "LocID": "340",
+    "ISO3_code": "HND",
+    "ISO2_code": "HN",
+    "ParentID": "916",
+    "Location": "Honduras",
+    "Births": "233.793"
+  },
+  {
+    "LocID": "484",
+    "ISO3_code": "MEX",
+    "ISO2_code": "MX",
+    "ParentID": "916",
+    "Location": "Mexico",
+    "Births": "2037.689"
+  },
+  {
+    "LocID": "558",
+    "ISO3_code": "NIC",
+    "ISO2_code": "NI",
+    "ParentID": "916",
+    "Location": "Nicaragua",
+    "Births": "132.214"
+  },
+  {
+    "LocID": "591",
+    "ISO3_code": "PAN",
+    "ISO2_code": "PA",
+    "ParentID": "916",
+    "Location": "Panama",
+    "Births": "71.469"
+  },
+  {
+    "LocID": "32",
+    "ISO3_code": "ARG",
+    "ISO2_code": "AR",
+    "ParentID": "931",
+    "Location": "Argentina",
+    "Births": "503.823"
+  },
+  {
+    "LocID": "68",
+    "ISO3_code": "BOL",
+    "ISO2_code": "BO",
+    "ParentID": "931",
+    "Location": "Bolivia (Plurinational State of)",
+    "Births": "260.151"
+  },
+  {
+    "LocID": "76",
+    "ISO3_code": "BRA",
+    "ISO2_code": "BR",
+    "ParentID": "931",
+    "Location": "Brazil",
+    "Births": "2601.67"
+  },
+  {
+    "LocID": "152",
+    "ISO3_code": "CHL",
+    "ISO2_code": "CL",
+    "ParentID": "931",
+    "Location": "Chile",
+    "Births": "176.196"
+  },
+  {
+    "LocID": "170",
+    "ISO3_code": "COL",
+    "ISO2_code": "CO",
+    "ParentID": "931",
+    "Location": "Colombia",
+    "Births": "705.009"
+  },
+  {
+    "LocID": "218",
+    "ISO3_code": "ECU",
+    "ISO2_code": "EC",
+    "ParentID": "931",
+    "Location": "Ecuador",
+    "Births": "270.3"
+  },
+  {
+    "LocID": "238",
+    "ISO3_code": "FLK",
+    "ISO2_code": "FK",
+    "ParentID": "931",
+    "Location": "Falkland Islands (Malvinas)",
+    "Births": "0.039"
+  },
+  {
+    "LocID": "254",
+    "ISO3_code": "GUF",
+    "ISO2_code": "GF",
+    "ParentID": "931",
+    "Location": "French Guiana",
+    "Births": "7.707"
+  },
+  {
+    "LocID": "328",
+    "ISO3_code": "GUY",
+    "ISO2_code": "GY",
+    "ParentID": "931",
+    "Location": "Guyana",
+    "Births": "16.764"
+  },
+  {
+    "LocID": "600",
+    "ISO3_code": "PRY",
+    "ISO2_code": "PY",
+    "ParentID": "931",
+    "Location": "Paraguay",
+    "Births": "136.778"
+  },
+  {
+    "LocID": "604",
+    "ISO3_code": "PER",
+    "ISO2_code": "PE",
+    "ParentID": "931",
+    "Location": "Peru",
+    "Births": "539.623"
+  },
+  {
+    "LocID": "740",
+    "ISO3_code": "SUR",
+    "ISO2_code": "SR",
+    "ParentID": "931",
+    "Location": "Suriname",
+    "Births": "10.879"
+  },
+  {
+    "LocID": "858",
+    "ISO3_code": "URY",
+    "ISO2_code": "UY",
+    "ParentID": "931",
+    "Location": "Uruguay",
+    "Births": "33.443"
+  },
+  {
+    "LocID": "862",
+    "ISO3_code": "VEN",
+    "ISO2_code": "VE",
+    "ParentID": "931",
+    "Location": "Venezuela (Bolivarian Republic of)",
+    "Births": "426.984"
+  },
+  {
+    "LocID": "60",
+    "ISO3_code": "BMU",
+    "ISO2_code": "BM",
+    "ParentID": "918",
+    "Location": "Bermuda",
+    "Births": "0.521"
+  },
+  {
+    "LocID": "124",
+    "ISO3_code": "CAN",
+    "ISO2_code": "CA",
+    "ParentID": "918",
+    "Location": "Canada",
+    "Births": "356.745"
+  },
+  {
+    "LocID": "304",
+    "ISO3_code": "GRL",
+    "ISO2_code": "GL",
+    "ParentID": "918",
+    "Location": "Greenland",
+    "Births": "0.789"
+  },
+  {
+    "LocID": "666",
+    "ISO3_code": "SPM",
+    "ISO2_code": "PM",
+    "ParentID": "918",
+    "Location": "Saint Pierre and Miquelon",
+    "Births": "0.03"
+  },
+  {
+    "LocID": "840",
+    "ISO3_code": "USA",
+    "ISO2_code": "US",
+    "ParentID": "918",
+    "Location": "United States of America",
+    "Births": "3657.476"
+  },
+  {
+    "LocID": "36",
+    "ISO3_code": "AUS",
+    "ISO2_code": "AU",
+    "ParentID": "927",
+    "Location": "Australia",
+    "Births": "304.34"
+  },
+  {
+    "LocID": "554",
+    "ISO3_code": "NZL",
+    "ISO2_code": "NZ",
+    "ParentID": "927",
+    "Location": "New Zealand",
+    "Births": "59.236"
+  },
+  {
+    "LocID": "242",
+    "ISO3_code": "FJI",
+    "ISO2_code": "FJ",
+    "ParentID": "928",
+    "Location": "Fiji",
+    "Births": "16.631"
+  },
+  {
+    "LocID": "540",
+    "ISO3_code": "NCL",
+    "ISO2_code": "NC",
+    "ParentID": "928",
+    "Location": "New Caledonia",
+    "Births": "4.134"
+  },
+  {
+    "LocID": "598",
+    "ISO3_code": "PNG",
+    "ISO2_code": "PG",
+    "ParentID": "928",
+    "Location": "Papua New Guinea",
+    "Births": "255.331"
+  },
+  {
+    "LocID": "90",
+    "ISO3_code": "SLB",
+    "ISO2_code": "SB",
+    "ParentID": "928",
+    "Location": "Solomon Islands",
+    "Births": "21.548"
+  },
+  {
+    "LocID": "548",
+    "ISO3_code": "VUT",
+    "ISO2_code": "VU",
+    "ParentID": "928",
+    "Location": "Vanuatu",
+    "Births": "8.988"
+  },
+  {
+    "LocID": "316",
+    "ISO3_code": "GUM",
+    "ISO2_code": "GU",
+    "ParentID": "954",
+    "Location": "Guam",
+    "Births": "2.941"
+  },
+  {
+    "LocID": "296",
+    "ISO3_code": "KIR",
+    "ISO2_code": "KI",
+    "ParentID": "954",
+    "Location": "Kiribati",
+    "Births": "3.421"
+  },
+  {
+    "LocID": "584",
+    "ISO3_code": "MHL",
+    "ISO2_code": "MH",
+    "ParentID": "954",
+    "Location": "Marshall Islands",
+    "Births": "0.821"
+  },
+  {
+    "LocID": "583",
+    "ISO3_code": "FSM",
+    "ISO2_code": "FM",
+    "ParentID": "954",
+    "Location": "Micronesia (Fed. States of)",
+    "Births": "2.512"
+  },
+  {
+    "LocID": "520",
+    "ISO3_code": "NRU",
+    "ISO2_code": "NR",
+    "ParentID": "954",
+    "Location": "Nauru",
+    "Births": "0.303"
+  },
+  {
+    "LocID": "580",
+    "ISO3_code": "MNP",
+    "ISO2_code": "MP",
+    "ParentID": "954",
+    "Location": "Northern Mariana Islands",
+    "Births": "0.583"
+  },
+  {
+    "LocID": "585",
+    "ISO3_code": "PLW",
+    "ISO2_code": "PW",
+    "ParentID": "954",
+    "Location": "Palau",
+    "Births": "0.193"
+  },
+  {
+    "LocID": "16",
+    "ISO3_code": "ASM",
+    "ISO2_code": "AS",
+    "ParentID": "957",
+    "Location": "American Samoa",
+    "Births": "0.731"
+  },
+  {
+    "LocID": "184",
+    "ISO3_code": "COK",
+    "ISO2_code": "CK",
+    "ParentID": "957",
+    "Location": "Cook Islands",
+    "Births": "0.178"
+  },
+  {
+    "LocID": "258",
+    "ISO3_code": "PYF",
+    "ISO2_code": "PF",
+    "ParentID": "957",
+    "Location": "French Polynesia",
+    "Births": "3.066"
+  },
+  {
+    "LocID": "570",
+    "ISO3_code": "NIU",
+    "ISO2_code": "NU",
+    "ParentID": "957",
+    "Location": "Niue",
+    "Births": "0.025"
+  },
+  {
+    "LocID": "882",
+    "ISO3_code": "WSM",
+    "ISO2_code": "WS",
+    "ParentID": "957",
+    "Location": "Samoa",
+    "Births": "5.503"
+  },
+  {
+    "LocID": "772",
+    "ISO3_code": "TKL",
+    "ISO2_code": "TK",
+    "ParentID": "957",
+    "Location": "Tokelau",
+    "Births": "0.047"
+  },
+  {
+    "LocID": "776",
+    "ISO3_code": "TON",
+    "ISO2_code": "TO",
+    "ParentID": "957",
+    "Location": "Tonga",
+    "Births": "2.418"
+  },
+  {
+    "LocID": "798",
+    "ISO3_code": "TUV",
+    "ISO2_code": "TV",
+    "ParentID": "957",
+    "Location": "Tuvalu",
+    "Births": "0.226"
+  },
+  {
+    "LocID": "876",
+    "ISO3_code": "WLF",
+    "ISO2_code": "WF",
+    "ParentID": "957",
+    "Location": "Wallis and Futuna Islands",
+    "Births": "0.098"
+  }
+]

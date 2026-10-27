@@ -1,0 +1,17 @@
+{
+  "year": 2023,
+  "revision": "WPP 2024 + interim Togo update (January 2026)",
+  "source": "United Nations, DESA, Population Division — World Population Prospects 2024",
+  "sourceUrl": "https://population.un.org/wpp/",
+  "dataUrl": "https://population.un.org/wpp/assets/Excel%20Files/1_Indicator%20(Standard)/CSV_FILES/WPP2024_Demographic_Indicators_Medium.csv.gz",
+  "updateUrl": "https://population.un.org/wpp/assets/Excel%20Files/1_Indicator%20(Standard)/WPP2024_CSV_files_update.zip",
+  "retrieved": "2026-10-27",
+  "license": "CC BY 3.0 IGO",
+  "method": "Country/Area only; Time=2023; Births multiplied by 1000; Togo row replaced from interim update; weights normalized by country/area total.",
+  "totalBirths": 132088957,
+  "countryCount": 237,
+  "sha256": {
+    "main": "286ac36bb1415e2e1ade03acfef0a29f0e4c087e2f78e38c48f50c5df89082bc",
+    "update": "eb7846bf5d937ee15060198e1130e770b885e58c24035b314966681ed929ca9f"
+  }
+}

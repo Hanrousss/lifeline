@@ -1,0 +1,7 @@
+node_modules/
+.DS_Store
+.env
+.env.*
+!.env.example
+/data/wpp2024-medium.csv.gz
+/data/wpp2024-update.zip
