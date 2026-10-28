@@ -238,3 +238,68 @@ body:has(.game-shell) #toast{z-index:30}
  .game-shell .life-area-bars .area-track{grid-column:1/3;grid-row:2;width:100%;height:5px}
  .game-shell .feeling-bars .area-name{font-size:8px}
 }
+
+/* Light frosted glass, the original paper-and-sage palette, static star maps. */
+body:has(.game-shell){--paper:#f6f4ed;--ink:#303c34;--muted:#7b8175;--line:#dedfd3;background:#f6f4ed;color:var(--ink);font-family:Manrope,-apple-system,BlinkMacSystemFont,Arial,sans-serif}
+.game-sky{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;background:radial-gradient(ellipse at 15% 25%,#e5ecdf77,transparent 65%),radial-gradient(ellipse at 90% 70%,#e9e2d266,transparent 60%)}
+.game-sky .birth-sky{z-index:auto;opacity:.65;height:100%;width:100%}
+.sky-stars circle,.constellation-map,.constellation-map path{animation:none!important}.constellation-map{opacity:.42}.constellation-map path{stroke-dashoffset:0}
+body:has(.game-shell)>header{position:relative;z-index:1;background:transparent;color:var(--ink)}
+body:has(.game-shell) .header-actions{gap:13px}
+body:has(.game-shell) .header-actions .icon{border:1px solid #ffffffcc;background:#ffffff66;box-shadow:none;border-radius:50%;color:#65755f}
+body:has(.game-shell) .header-actions .text-btn{color:#687361;text-decoration:none}
+.restart-control{display:flex;align-items:center;gap:5px;white-space:nowrap}.restart-control svg{width:20px;height:20px;flex:none}
+.theme-preview svg{display:block;margin:auto;width:17px;height:17px}.theme-preview:disabled{opacity:.45;cursor:default}
+.game-shell.flow-layout{position:relative;z-index:1;background:transparent;border:0;box-shadow:none}
+.game-shell .tabs{background:transparent}.game-shell .tabs button{font-weight:600;color:#84907d;border:1px solid transparent;border-radius:12px;box-shadow:none}
+.game-shell .tabs button.active{background:#ffffff88;border:1px solid #ffffffdb;color:#46573e;box-shadow:none;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+.game-shell .live-stage{background:#ffffff42;border:1px solid #ffffffbb;border-radius:20px 20px 0 0;overflow:hidden;color:var(--ink)}
+.stage-topline small,.game-shell .live-status{color:#7d8973}.stage-topline strong{font-weight:600}
+.age-badge{border:1px solid #d0d8c7;background:#ffffff77;color:#617356;box-shadow:none;font-weight:500}.age-road{border:0;height:3px;background:#dbe0d2}.age-road i{background:#8d9c7b}.next-age{color:#94a087;font-weight:500}
+.game-shell .activity-label{border:1px solid #ffffffbb;background:#f6f4edb3;backdrop-filter:blur(8px);color:#6f7e62}
+.game-shell .life-monitor{background:#ffffff70;color:var(--ink);border-top:1px solid #ffffffc9;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+.game-shell .area-name,.game-shell .life-area-bar strong{color:#748268}.game-shell .area-track{background:#dce1d4;border:0}
+.game-shell .current-state-row{border-color:#dbe0d180}.game-shell .sphere-info{background:transparent;border:0;color:#7d8e71}
+.game-shell .temporary-state{background:#e5eadca1;color:#6d7e60;border:0}
+.game-shell .time-controls{background:#ffffff50;border-top:1px solid #ffffff99}
+.game-shell .time-controls button,.game-shell .time-controls .speed-controls button{background:#ffffff50;border:1px solid #d8dfcf80;box-shadow:none;color:#718465}
+.game-shell .time-controls .speed-controls button.selected{background:#dfe7d6a1;border-color:#c3d0b6;color:#526647}
+.game-shell .time-controls button:disabled{background:transparent;color:#9b826c}
+.story-deck{background:transparent}.story-scroll{scrollbar-color:#c7cfbd transparent;padding-top:15px}
+.game-shell .feed-heading{color:#8a967e}.game-shell .feed-heading .text-btn{color:#8a967e}
+.game-shell .feed-row{background:#ffffff70;border:1px solid #ffffffe0;border-radius:16px;box-shadow:none;padding:12px 15px;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+.game-shell .feed-row>span{color:#9ca58f}.game-shell .feed-row b{color:#869678;font-weight:600}.game-shell .feed-row p{color:#69745f;font-weight:400}
+.game-shell .feed-empty,.game-shell .between-choices p{color:#8a967e}.game-shell .between-choices{color:var(--ink)}.game-shell .between-choices h2{font:400 24px/1.4 Prata,Georgia,serif}
+.game-shell .info-screen{background:#ffffff55;color:var(--ink);border-radius:18px}.game-shell .info-screen>.tabs{background:#f6f4eddd;backdrop-filter:blur(18px)}
+.game-shell .info-screen .forecast,.game-shell .info-screen .habits-panel{background:#ffffff66;border:1px solid #ffffffcc;box-shadow:none}
+body:has(.game-shell) dialog{border:1px solid #ffffffdd;background:#f6f4ede8;color:var(--ink);backdrop-filter:blur(24px);box-shadow:0 12px 40px #53634c12}
+.has-decision::before{content:"";position:fixed;inset:0;background:#e8ebdf66;backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);z-index:20}
+.game-shell .decision-panel.flow-story{position:fixed;z-index:21;inset:0;width:min(660px,calc(100% - 32px));height:fit-content;max-height:calc(100dvh - 32px - env(safe-area-inset-top) - env(safe-area-inset-bottom));margin:auto;flex:none;background:#f9f9f0c9;border:1px solid #ffffffed;border-radius:24px;overflow:hidden;box-shadow:0 16px 60px #61735417;backdrop-filter:blur(28px) saturate(1.15);-webkit-backdrop-filter:blur(28px) saturate(1.15)}
+.game-shell .decision-narrative{padding:23px 25px 12px;flex:1 1 auto;overflow-y:auto}
+.game-shell .decision-panel .chapter-line{color:#8b9b7c;font-weight:500}
+.game-shell .decision-panel .event-title{font:400 27px/1.3 Prata,Georgia,serif;letter-spacing:-.5px;color:#46533e}
+.game-shell .decision-panel .event-desc{color:#7b8471;font-size:12px;line-height:1.75}
+.game-shell .decision-narrative>.tiny{color:#9ca38e;font-size:9px!important;margin-top:12px}
+.game-shell .decision-panel .habit-context{background:#e7ecdca1;border:1px solid #dce3d0;color:#7b876c}
+.game-shell .decision-actions{background:transparent;border:0;padding:12px 25px 24px;max-height:50dvh;overflow-y:auto}
+.answer-label{color:#9da68e;font-weight:500;letter-spacing:1.5px;margin-bottom:12px}
+.game-shell .decision-panel .choices{grid-template-columns:repeat(2,minmax(0,1fr));gap:17px 14px;align-items:start}
+.game-shell .decision-panel .decision-option{display:flex;flex-direction:column;gap:6px}
+.game-shell .decision-panel .decision-button,.game-shell .decision-panel .decision-option:nth-child(2) .decision-button,.game-shell .decision-panel .decision-option:nth-child(3) .decision-button{background:#e3e9dcb3;border:1px solid #c5d1b8;box-shadow:none;color:#5c704d;border-radius:14px;font-weight:500;min-height:45px;padding:11px 14px!important;transform:none}
+.game-shell .decision-panel .decision-button:hover,.game-shell .decision-panel .decision-option:nth-child(2) .decision-button:hover,.game-shell .decision-panel .decision-option:nth-child(3) .decision-button:hover{background:#d7e1ccbd;border-color:#aebf9c;transform:none;box-shadow:none}
+.game-shell .decision-panel .decision-button:active{transform:none;box-shadow:none}
+.game-shell .decision-detail{color:#8a967b;font-size:10px;font-weight:400;text-align:center}.game-shell .decision-detail .effects em{color:#8b9d7b}.game-shell .decision-detail .effects em.negative{color:#b4937d}.game-shell .decision-detail .job-metrics{color:#8a967b}
+.game-shell .live-visuals .infant-scene{height:clamp(165px,28dvh,280px);image-rendering:auto;object-position:center}
+@media(max-width:500px){
+ .game-shell .decision-panel.flow-story{width:calc(100% - 24px);border-radius:21px}
+ .game-shell .decision-narrative{padding:19px 18px 10px}.game-shell .decision-panel .event-title{font-size:24px}
+ .game-shell .decision-actions{padding:9px 18px 19px}.game-shell .decision-panel .choices{grid-template-columns:1fr;gap:12px}
+ .game-shell .decision-panel .decision-option{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:13px;align-items:center}
+ .game-shell .decision-detail{text-align:left;font-size:10px}.game-shell .decision-detail .effects,.game-shell .decision-detail .job-metrics{justify-content:flex-start}
+ .game-shell .story-screen:has(.decision-panel) .live-pixel-scene{height:clamp(120px,23dvh,200px)}
+ .game-shell .live-visuals .infant-scene{height:clamp(170px,29dvh,245px)}
+ .game-shell .decision-panel .decision-button{font-size:11px}
+}
+@media(max-height:500px) and (min-width:501px){.game-shell .story-screen{display:flex}.game-shell .story-screen>.live-stage{overflow:visible;border:1px solid #ffffffaa}.game-shell .decision-panel .choices{grid-template-columns:repeat(3,minmax(0,1fr))}.game-shell .decision-panel .decision-option{display:flex}.game-shell .decision-narrative{padding:14px 20px 7px}.game-shell .decision-panel .event-title{font-size:22px}.game-shell .decision-actions{padding:8px 20px 16px}}
+@supports not (backdrop-filter:blur(1px)){.game-shell .decision-panel.flow-story,.game-shell .feed-row{background:#f6f4ed}}
+.game-sky .constellation-map{opacity:0}.game-sky .constellation-map:nth-of-type(2){opacity:.55}
