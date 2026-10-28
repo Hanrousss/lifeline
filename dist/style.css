@@ -303,3 +303,7 @@ body:has(.game-shell) dialog{border:1px solid #ffffffdd;background:#f6f4ede8;col
 @media(max-height:500px) and (min-width:501px){.game-shell .story-screen{display:flex}.game-shell .story-screen>.live-stage{overflow:visible;border:1px solid #ffffffaa}.game-shell .decision-panel .choices{grid-template-columns:repeat(3,minmax(0,1fr))}.game-shell .decision-panel .decision-option{display:flex}.game-shell .decision-narrative{padding:14px 20px 7px}.game-shell .decision-panel .event-title{font-size:22px}.game-shell .decision-actions{padding:8px 20px 16px}}
 @supports not (backdrop-filter:blur(1px)){.game-shell .decision-panel.flow-story,.game-shell .feed-row{background:#f6f4ed}}
 .game-sky .constellation-map{opacity:0}.game-sky .constellation-map:nth-of-type(2){opacity:.55}
+
+/* Let portraits settle before the two branches enter the clear centre corridor. */
+.family-links path{animation-delay:1.5s;stroke-linecap:round;stroke-linejoin:round}
+.family-links circle{animation-delay:1.7s}
