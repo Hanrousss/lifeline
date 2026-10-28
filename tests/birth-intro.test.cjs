@@ -8,11 +8,7 @@ vm.runInContext(fs.readFileSync(path.join(__dirname,'../dist/live-scene.js'),'ut
 for(const months of [0,1,6,11,12,18,23,24]){
  const s=E.fresh(42);F.begin(s);s.flow.playing=false;s.flow.months=months;s.age=Math.floor(months/12);view.state=s;
  const before=JSON.stringify(s),html=vm.runInContext('renderLiveScene(state)',view);
- assert.equal(JSON.stringify(s),before,'Rendering must not change a save');
- if(months<12){assert.match(html,/data-perspective="infant"/);assert.match(html,/feGaussianBlur/);assert.match(html,/scale\(4/);}
- else if(months<24){assert.match(html,/data-perspective="nursery"/);assert(!html.includes('infant-background-blur'));}
- else assert.match(html,/data-perspective="room"/);
+ assert.equal(JSON.stringify(s),before);assert.match(html,/data-perspective="overview"/);assert(!html.includes('feGaussianBlur'));assert(!html.includes('infant-scene'));
+ assert.equal(html.includes('scene-cradle'),months<12);
 }
-const stroller=E.fresh(42);F.begin(stroller);stroller.flow.activity='park';view.state=stroller;
-assert.match(vm.runInContext('renderLiveScene(state)',view),/из коляски/);
-console.log('Passed: infant close-up indoors and in stroller, nursery from 12 months, normal scene from 24 months, read-only rendering.');
+console.log('Passed: overview scene at every age, cradle only before one year, no infant close-up or background blur, read-only rendering.');

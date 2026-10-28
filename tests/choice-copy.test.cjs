@@ -1,0 +1,16 @@
+const assert=require('node:assert/strict'),R=require('../dist/habits.js'),C=require('../dist/choice-copy.js');
+const s={age:25,flow:{months:300},stats:{joy:85,energy:85,bond:85},habits:{uses:{alcohol:4},urges:{alcohol:0},recovery:{alcohol:{since:296}}}};
+const party={kind:'social',topic:'party',text:'Long placeholder'};
+assert.equal(C.hint({...s,habits:undefined},party,{action:'party'}),'');
+assert.match(C.hint(s,party,{action:'party'}),/недавно/);
+assert.equal(C.hint(s,party,{action:'rest'}),'','Only the relevant option carries the hint');
+assert.equal(C.hint(s,{kind:'social',topic:'partner'},{action:'single'}),'');
+assert.equal(C.careerHint({topic:'jobs'},{action:'stay'}),'');
+assert.match(C.careerHint({topic:'balance'},{action:'break'}),/Доход/);
+assert.match(C.hint(s,{topic:'treatment'},{action:'combined'}),/побочные эффекты/);
+assert.match(C.hint(s,{topic:'review'},{action:'taper'}),/специалистом/);
+assert(!C.title('Отказаться и остаться общаться').includes('выпивки'),'Shared refusal label also works for cigarettes');
+assert.equal(C.title('Пойти на встречу с Никой'),'Пойти к Нике');
+assert.equal(C.title('Новый незнакомый выбор'),'Новый незнакомый выбор','Unknown actions retain their meaning');
+assert(C.sceneText(party).length<120);
+console.log('Passed: selective contextual hints, concise actions, essential treatment and career information, neutral choices without filler.');

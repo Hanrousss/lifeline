@@ -3,7 +3,7 @@
 const kinds={tobacco:'Сигареты',alcohol:'Алкоголь',lottery:'Лотереи',gambling:'Азартные игры',unknown:'Неизвестные вещества'};
 const keyFor=k=>k==='lottery'?'gambling':k;
 const cap=(x,a=0,b=100)=>Math.max(a,Math.min(b,x));
-function ensure(s){if(!s.habits)s.habits={version:1,comfort:0,comfortUntil:0,urges:{tobacco:0,alcohol:0,gambling:0,unknown:0},uses:{tobacco:0,alcohol:0,gambling:0,unknown:0},recent:{tobacco:[],alcohol:[],gambling:[],unknown:[]},cooldowns:{},network:0,active:null,nextOpportunity:Math.max(222,(s.flow?.months||0)+6),lastMonth:s.flow?.months||0,queue:[],care:{symptomMonths:0,severity:0,assessed:false,plan:null,started:null,remission:null,reviewed:false,taper:null,reviewAfter:0}};return s.habits;}
+function ensure(s){if(!s.habits)s.habits={version:1,comfort:0,comfortUntil:0,urges:{tobacco:0,alcohol:0,gambling:0,unknown:0},uses:{tobacco:0,alcohol:0,gambling:0,unknown:0},recent:{tobacco:[],alcohol:[],gambling:[],unknown:[]},cooldowns:{},network:0,active:null,nextOpportunity:Math.max(222,(s.flow?.months||0)+6),lastMonth:s.flow?.months||0,queue:[],care:{symptomMonths:0,severity:0,assessed:false,plan:null,started:null,remission:null,reviewed:false,taper:null,reviewAfter:0}};if(!s.habits.recovery)s.habits.recovery={};return s.habits;}
 function month(s){return s.flow?.months||s.age*12;}
 function vulnerability(s){return Math.round(cap((100-s.stats.joy)*.45+(100-s.stats.energy)*.35+(100-s.stats.bond)*.2));}
 function roll(s){s.rng=(Math.imul(1664525,s.rng)+1013904223)>>>0;return s.rng/4294967296;}
@@ -22,6 +22,7 @@ function makeOffer(s,kind){
  if(!defs[kind]||s.age<18||(kind==='unknown'&&v<65))return null;
  const d=defs[kind];options[0].title=d[3];options[0].desc=d[4];
  if(kind==='tobacco'||kind==='alcohol'){options[1].title='Отказаться и остаться общаться';options[1].desc='Отказ не разрывает дружбу. Возможна неловкая пауза.';}
+ if(kind==='alcohol'&&h.uses.alcohol>0&&!h.recovery.alcohol)options.push({action:'quit',title:'Больше не пить',desc:''});
  return {kind:'habit',topic:kind,title:urge>=30?'Снова хочется повторить':d[0],text:d[1],scene:d[2],context:context(s),appeal:level(cap(v*.7+urge*.7)),urge:level(urge),options};
 }
 function careOffer(s,topic){
@@ -56,7 +57,7 @@ function resolve(s,index){
  }else{
   const key=keyFor(p.topic);h.cooldowns[key]=now+(o.action==='use'?6:18);
   if(o.action==='use'){
-   h.uses[key]++;h.recent[key]=h.recent[key].filter(m=>now-m<=24);h.recent[key].push(now);
+   delete h.recovery[key];h.uses[key]++;h.recent[key]=h.recent[key].filter(m=>now-m<=24);h.recent[key].push(now);
    const unpleasant=roll(s)<(p.topic==='unknown'?.4:.2),relief=unpleasant?0:Math.round(3+v/10);
    h.comfort=relief;h.comfortUntil=now+1;
    // Acute comfort is displayed separately; it never permanently adds joy.
@@ -71,8 +72,10 @@ function resolve(s,index){
     const bad=roll(s)<.5;later(s,1,bad?'После неизвестной таблетки самочувствие ухудшилось. Вы обратились за медицинской помощью.':'Приятное ощущение не удержалось. Неизвестный состав по-прежнему означал риск.',bad?{health:-7,energy:-5,money:-3}:{energy:-3});
    }else later(s,1,p.topic==='alcohol'?'На следующий день было труднее восстановиться. Временная передышка не решила накопившиеся трудности.':'Перерыв закончился. Источники напряжения остались прежними.',p.topic==='alcohol'?{energy:-4}:{health:-1});
    if(h.recent[key].length>=2)emit(events,'habit','Схожие ситуации всё чаще вызывают желание повторить. Это пока не диагноз, но привычка заметно укрепляется.');
-  }else if(o.action==='decline'){
+  }else if(o.action==='decline'||o.action==='quit'){
+   if(o.action==='quit')h.recovery[key]={since:now};
    note=(p.topic==='tobacco'||p.topic==='alcohol')?'Вы отказались и остались в разговоре. Дружба не исчезла из-за этого решения.':'Вы отказались. Предложение осталось предложением.';
+   if(o.action==='quit')note='Вы решили больше не пить алкоголь. Поддержка и привычный распорядок помогут придерживаться решения.';
    if(v>=65||h.urges[key]>=30){s.stats.energy-=3;note+=' Решение потребовало усилия; напряжение не исчезло сразу.';}
    later(s,1,'У вас получилось пройти этот эпизод без повторения. Желание можно переждать, а поддержку — искать снова.',{energy:1});
   }else{
@@ -117,6 +120,14 @@ function tick(s){
  }
  return events;
 }
+function recoveryHint(s){
+ const h=s.habits,r=h?.recovery?.alcohol;
+ if(!r||!Number.isFinite(r.since)||r.since>month(s)||!(h.uses?.alcohol>0))return '';
+ const elapsed=month(s)-r.since;
+ if(elapsed<12)return 'Вы недавно отказались от алкоголя. На вечеринке может быть трудно не выпить.';
+ if((h.urges?.alcohol||0)>=30||vulnerability(s)>=65)return 'Вы давно не пьёте, но сейчас тяга или напряжение сильнее. На вечеринке может быть непросто.';
+ return 'Вы давно не пьёте. Отказ может даваться легче, хотя тяга иногда возвращается.';
+}
 function pending(s){return ensure(s).active;}
-root.LifeHabits={ensure,vulnerability,context,makeOffer,offer,resolve,tick,pending,kinds,keyFor};if(typeof module!=='undefined')module.exports=root.LifeHabits;
+root.LifeHabits={recoveryHint,ensure,vulnerability,context,makeOffer,offer,resolve,tick,pending,kinds,keyFor};if(typeof module!=='undefined')module.exports=root.LifeHabits;
 })(typeof window!=='undefined'?window:globalThis);
