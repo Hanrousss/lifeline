@@ -317,3 +317,20 @@ body:has(.game-shell) dialog{border:1px solid #ffffffdd;background:#f6f4ede8;col
 .game-shell .feed-row[class*="event-"]{background:var(--event-wash);border-left:3px solid var(--event-accent)}
 .game-shell .feed-row[class*="event-"] b{color:var(--event-accent)}.event-tone-label{font-size:inherit;letter-spacing:0;text-transform:none;font-weight:500}
 @media(max-width:500px){.scene-playback{width:40px;height:40px;right:10px;bottom:10px}}
+/* Routine choices carry only their action; contextual hints stay beside exceptions. */
+.game-shell .decision-panel .decision-option:has(>.decision-button:only-child){display:flex;flex-direction:column}
+.game-shell .decision-panel .decision-option:has(>.decision-button:only-child) .decision-button{width:100%}
+.game-shell .decision-detail{font-size:10px;line-height:1.4}.game-shell .compact-job{margin:0;font-size:10px}
+/* A broad, obtuse Y sits below names, leaving portraits and labels clear. */
+.parent-orbits{height:250px}.family-links{height:260px}
+.decision-close{position:absolute;top:12px;right:12px;z-index:3;background:#f6f4edc9;border:1px solid #d8dfcd;color:#77866b}
+.game-shell .decision-panel .chapter-line{padding-right:28px}
+.dialog-controls{position:sticky;top:0;z-index:6;display:flex;justify-content:flex-end;align-items:center;gap:16px;background:var(--paper);padding:0 0 8px}
+dialog .dialog-controls .close{position:static;flex:none;right:auto;top:auto}
+.main-menu-view{position:relative;isolation:isolate;text-align:center;max-width:460px;margin:8vh auto;padding:48px 30px;overflow:hidden;border-radius:24px}
+.main-menu-view h1{font-size:52px;margin:18px 0 20px}.main-menu-view>p{font-size:12px;color:var(--muted);margin-bottom:28px}.main-menu-view .primary{justify-content:center}.main-menu-view .birth-sky{opacity:.6}
+.simple-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}.simple-stat>div{display:flex;justify-content:space-between;gap:8px;align-items:center;font-size:10px;color:#7c8b70;margin-bottom:7px}.simple-stat strong{font-weight:500;font-size:11px}
+.simple-track{height:4px;background:#dce2d2;display:block;border-radius:10px;overflow:hidden}.simple-track i{height:100%;display:block;border-radius:10px}.game-shell .simple-monitor{padding:13px 16px}
+.game-shell .live-visuals .live-pixel-scene{height:auto;aspect-ratio:320/112;max-height:230px;object-fit:contain;image-rendering:pixelated}
+@media(max-width:600px){.parent-orbits{height:232px}.family-links{height:242px}}
+@media(max-width:500px){body:has(.game-shell) .header-actions{gap:8px}.game-shell .simple-monitor{padding:11px 12px}.simple-stats{gap:14px}.simple-stat>div{font-size:9px}.game-shell .story-screen:has(.decision-panel) .live-pixel-scene{height:auto;aspect-ratio:320/112}.main-menu-view{padding:40px 24px}}
