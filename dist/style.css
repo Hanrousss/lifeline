@@ -130,3 +130,13 @@ dialog.goal-dialog[open]{display:flex;flex-direction:column;padding:0;width:min(
 @keyframes parent-circle-left{0%{transform:translateX(-54px);opacity:0}20%{opacity:1}62%{transform:translateX(14px)}82%{transform:translateX(-4px)}100%{transform:translateX(0)}}
 @keyframes parent-circle-right{0%{transform:translateX(54px);opacity:0}20%{opacity:1}62%{transform:translateX(-14px)}82%{transform:translateX(4px)}100%{transform:translateX(0)}}
 @media(prefers-reduced-motion:reduce){.birth-mother .parent-circle,.birth-father .parent-circle{animation:none}}
+
+/* On phones a decision is a fixed sheet, never content scrolling under the scene. */
+@media(max-width:700px){
+ body:has(.decision-panel){overflow:hidden}
+ .feed-choice-stack{isolation:auto}
+ .feed-choice-stack::before{content:"";position:fixed;inset:0;z-index:20;background:#303c343d;backdrop-filter:blur(2px)}
+ .decision-panel.flow-story{position:fixed;z-index:21;left:12px;right:12px;bottom:max(12px,env(safe-area-inset-bottom));width:auto;margin:0;max-height:calc(100dvh - 32px - env(safe-area-inset-top) - env(safe-area-inset-bottom));overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;background:var(--paper);padding:18px 18px 16px;border-radius:22px;box-shadow:0 14px 48px #26342c35;scrollbar-width:thin}
+ .decision-panel .chapter-line{margin:0 0 8px;font-size:8px}.decision-panel .event-title{font-size:23px;margin:0 0 10px;line-height:1.3}.decision-panel .event-desc{font-size:12px;line-height:1.65;margin:0 0 16px}
+ .decision-panel .choices{gap:10px}.decision-panel .decision-button{height:48px;min-height:48px;font-size:12px;padding:7px 14px!important}.decision-detail{padding-top:5px;font-size:10px;line-height:1.5}.decision-panel>.tiny{font-size:8px!important;margin-top:12px}.decision-panel .habit-context{margin:10px 0 14px;padding:10px 12px}
+}
