@@ -104,17 +104,6 @@ dialog.goal-dialog[open]{display:flex;flex-direction:column;padding:0;width:min(
 
 .cohort-line>p{margin:0;font-size:11px;line-height:1.65}.cohort-line .birth-source-link{padding:2px 0 2px 8px;font-size:15px;text-decoration:none}.cohort-line{padding:10px 0}
 
-/* Desktop columns scroll independently: choosing never moves the people panel. */
-@media(min-width:701px){
- body:has(.flow-layout){height:100dvh;overflow:hidden;display:flex;flex-direction:column}
- body:has(.flow-layout)>header{width:100%;flex:0 0 auto}
- body:has(.flow-layout)>#app{flex:1;min-height:0}
- .flow-layout{height:100%;min-height:0;padding-bottom:28px}
- .flow-main,.flow-sidebar{height:100%;min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin}
- .flow-main{padding-right:10px;scrollbar-gutter:stable}
- .flow-sidebar{padding-right:6px}
-}
-
 /* Tutorial: one persistent status and a dismissible first-year time hint. */
 .action-notice{display:flex;align-items:center;flex-wrap:wrap;gap:7px 10px;width:fit-content;max-width:100%;background:#e9eddf;border:1px solid #cbd5be;border-radius:14px;padding:9px 13px;margin:0 0 12px;color:#697a5a;font-size:11px;line-height:1.5}
 .action-notice>i{width:6px;height:6px;flex-shrink:0;border-radius:50%;background:#91a77a}.action-notice.choice-needed{background:#f5e3df;border-color:#d7a198;color:#9c4f47}.action-notice.choice-needed>i{background:#c8796d}.action-notice small{font-size:9px;opacity:.8}
@@ -131,12 +120,121 @@ dialog.goal-dialog[open]{display:flex;flex-direction:column;padding:0;width:min(
 @keyframes parent-circle-right{0%{transform:translateX(54px);opacity:0}20%{opacity:1}62%{transform:translateX(-14px)}82%{transform:translateX(4px)}100%{transform:translateX(0)}}
 @media(prefers-reduced-motion:reduce){.birth-mother .parent-circle,.birth-father .parent-circle{animation:none}}
 
-/* On phones a decision is a fixed sheet, never content scrolling under the scene. */
-@media(max-width:700px){
- body:has(.decision-panel){overflow:hidden}
- .feed-choice-stack{isolation:auto}
- .feed-choice-stack::before{content:"";position:fixed;inset:0;z-index:20;background:#303c343d;backdrop-filter:blur(2px)}
- .decision-panel.flow-story{position:fixed;z-index:21;left:12px;right:12px;bottom:max(12px,env(safe-area-inset-bottom));width:auto;margin:0;max-height:calc(100dvh - 32px - env(safe-area-inset-top) - env(safe-area-inset-bottom));overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;background:var(--paper);padding:18px 18px 16px;border-radius:22px;box-shadow:0 14px 48px #26342c35;scrollbar-width:thin}
- .decision-panel .chapter-line{margin:0 0 8px;font-size:8px}.decision-panel .event-title{font-size:23px;margin:0 0 10px;line-height:1.3}.decision-panel .event-desc{font-size:12px;line-height:1.65;margin:0 0 16px}
- .decision-panel .choices{gap:10px}.decision-panel .decision-button{height:48px;min-height:48px;font-size:12px;padding:7px 14px!important}.decision-detail{padding-top:5px;font-size:10px;line-height:1.5}.decision-panel>.tiny{font-size:8px!important;margin-top:12px}.decision-panel .habit-context{margin:10px 0 14px;padding:10px 12px}
+
+/* Scene → status strip → event cards → anchored answers, like a pocket game. */
+body:has(.game-shell){--paper:#fff1d4;--ink:#272d38;--muted:#696b70;--line:#343b47;background:#232936;color:#fff4dc;height:100dvh;overflow:hidden;display:flex;flex-direction:column}
+body:has(.game-shell)>header{width:min(100%,760px);max-width:none;min-height:48px;padding:9px 18px;border:0;background:#232936;color:#fff4dc;flex:none;gap:10px}
+body:has(.game-shell) .brand{font-size:21px;letter-spacing:-1px}
+body:has(.game-shell) .version{display:none}
+body:has(.game-shell) .header-actions{gap:15px}
+body:has(.game-shell) .header-actions>span{display:none}
+body:has(.game-shell) .header-actions .icon{background:#bde7d5;border:2px solid #111923;border-radius:10px;color:#263b39;box-shadow:0 3px 0 #111923;width:30px;height:30px;font-weight:800}
+body:has(.game-shell) .header-actions .text-btn{color:#e9dfcb;font-size:10px}
+body:has(.game-shell)>#app{flex:1;min-height:0;width:100%;display:flex;flex-direction:column}
+.game-shell.flow-layout{width:min(100%,760px);max-width:760px;margin:0 auto;padding:0;display:flex;flex:1;min-height:0;gap:0;background:#272d38;border:solid #151c28;border-width:0 3px}
+.game-shell .flow-main{width:100%;min-width:0;min-height:0;height:100%;padding:0;scrollbar-gutter:auto;overflow:hidden}
+.game-shell .story-screen{display:flex;flex-direction:column}
+.game-shell .tabs{flex:none;display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin:0;padding:0 10px 8px;border:0;background:#232936}
+.game-shell .tabs button{padding:9px 5px;margin:0;border:2px solid transparent;border-radius:10px;font-size:11px;color:#b5bdc7;font-weight:700;text-align:center}
+.game-shell .tabs button.active{color:#252f37;background:#f9e8be;border-color:#111923;box-shadow:0 3px 0 #111923}
+.game-shell .live-stage{position:relative;top:auto;z-index:1;flex:none;padding:0;background:#d4e5c3;color:#293d36;box-shadow:none;border-bottom:3px solid #121c26}
+.stage-topline{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:11px 16px 6px}
+.stage-topline>div{display:grid;gap:3px;min-width:0}.stage-topline strong{font-size:17px;font-weight:800}.stage-topline small{font-size:10px;color:#5b7262}
+.game-shell .live-status{color:#455e50;font-size:9px!important;font-weight:700}
+.life-progress{display:flex;align-items:center;gap:10px;margin:3px auto 8px;width:calc(100% - 32px);max-width:430px;font-size:10px;font-weight:800}
+.age-badge{background:#fff1d4;border:2px solid #324f43;border-radius:8px;padding:4px 10px;white-space:nowrap;box-shadow:0 2px 0 #738f73}.age-road{height:9px;flex:1;border:2px solid #65826a;border-radius:99px;background:#a7be99;overflow:hidden}.age-road i{display:block;height:100%;background:#f2bb6a;min-width:6px}.next-age{color:#56715b;white-space:nowrap}
+.game-shell .live-visuals .live-scene-frame{border:0;border-radius:0;width:100%;background:#d4e5c3}
+.game-shell .live-visuals .live-pixel-scene{height:clamp(105px,19dvh,220px);width:100%;object-fit:cover;object-position:center 65%}
+.game-shell .activity-label{bottom:7px;left:12px;background:#fff2d6e8;border:1px solid #71866c;border-radius:7px;padding:4px 9px;font-size:9px;color:#4c604b}
+.game-shell .life-monitor{margin:0;padding:8px 12px;background:#384b44;border-top:3px solid #27352f;color:#fff1d4}
+.game-shell .sphere-bar-row{gap:8px;align-items:center}.game-shell .life-area-bars{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;flex:1}
+.game-shell .life-area-bar{display:grid;grid-template-columns:17px minmax(0,1fr) 18px;gap:3px;align-items:center;min-width:0;padding:0}
+.game-shell .area-icon{width:16px;height:16px;color:var(--area-color)}.game-shell .area-icon svg{width:16px;height:16px}
+.area-name{grid-column:2/4;font-size:8px;white-space:nowrap;font-weight:700;color:#f6e8ce}
+.game-shell .life-area-bar>.area-icon{grid-column:1;grid-row:1/3;align-self:center}
+.game-shell .area-track{grid-column:2;height:6px;background:#202e29;border:1px solid #1b2823;min-width:0}
+.game-shell .life-area-bar strong{grid-column:3;width:auto;font-size:8px;color:#f9e5b8;line-height:1}
+.game-shell .sphere-info{background:#f6e6bb;border:1px solid #1f3029;border-radius:8px;color:#384b44;min-width:24px;min-height:24px;padding:0}
+.game-shell .current-state-row{margin-top:7px;padding-top:6px;border-top:1px solid #64746a;gap:10px}
+.game-shell .feeling-bars{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px;flex:1;max-width:340px}
+.game-shell .temporary-state{background:#293c33;color:#fae9c3;border-color:#697b6d;padding:3px 5px;font-size:8px}
+.game-shell .time-controls{padding:6px 12px;background:#d4e5c3;border:0;gap:6px}
+.game-shell .time-controls button{background:#f6edcf;border:1px solid #7e9377;border-radius:7px;padding:6px 10px;font-size:10px;box-shadow:0 2px 0 #9caf92}
+.game-shell .time-controls #time-toggle{min-width:105px}.game-shell .time-controls .speed-controls button{padding:6px 9px;border:1px solid transparent;border-radius:7px;box-shadow:none}
+.game-shell .time-controls .speed-controls button.selected{background:#3a5145;border-color:#253c30;color:#fff0cd}.game-shell .time-controls button:disabled{opacity:1;color:#805336;background:#f6dbb4}
+.story-deck{flex:1;min-height:0;display:flex;flex-direction:column;background:#272d38}
+.story-scroll{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:12px 14px;scrollbar-width:thin;scrollbar-color:#67705f #272d38}
+.game-shell .live-feed{border:0;padding:0}.game-shell .feed-heading{color:#d8ccaf;font-size:9px;margin-bottom:10px;letter-spacing:1px}
+.game-shell .feed-heading .text-btn{color:#b7c9b5;font-size:9px}
+.game-shell .feed-scroll{max-height:none;overflow:visible;padding:0;display:grid;gap:9px}
+.game-shell .feed-row{display:block;background:#fff0cf;border:2px solid #101a26;border-radius:10px;padding:10px 13px;box-shadow:0 3px 0 #131c28;gap:0}
+.game-shell .feed-row>span{display:block;font-size:8px;color:#83765e;margin:0 0 4px;padding:0}
+.game-shell .feed-row b{font-size:8px;color:#4e735b;letter-spacing:.7px}.game-shell .feed-row p{font-size:12px;font-weight:600;color:#343d3b;line-height:1.5;margin:4px 0 0}
+.game-shell .feed-empty{color:#d4cfbc;font-size:11px}.game-shell .between-choices{padding:14px 0;color:#f1e7ce}.game-shell .between-choices p{color:#bebea9}.game-shell .between-choices h2{font:800 22px/1.3 Manrope,Arial,sans-serif}
+.game-shell .decision-panel.flow-story{position:relative;inset:auto;z-index:2;flex:none;width:100%;max-height:min(55dvh,520px);min-height:0;display:flex;flex-direction:column;margin:0;padding:0;border:0;border-top:3px solid #121b27;border-radius:0;box-shadow:0 -8px 20px #111a2433;background:#fff0d2;animation:none;color:#29333c}
+.decision-narrative{min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:12px 16px 9px;scrollbar-width:thin}
+.game-shell .decision-panel .chapter-line{margin:0 0 6px;font-size:8px;color:#8e6551;letter-spacing:1px}
+.game-shell .decision-panel .event-title{font:800 20px/1.25 Manrope,Arial,sans-serif;letter-spacing:-.5px;margin:0 0 7px}
+.game-shell .decision-panel .event-desc{font-size:12px;color:#605f56;line-height:1.5;margin:0}
+.game-shell .decision-panel .habit-context{padding:8px 10px;margin:8px 0 0;background:#e8dfc5;border:1px solid #c6bb9b}.game-shell .habit-context p{margin:0;font-size:11px;line-height:1.45}
+.game-shell .decision-narrative>.tiny{font-size:8px!important;line-height:1.4;color:#817961;margin:7px 0 0}
+.decision-actions{flex:none;padding:9px 14px max(12px,env(safe-area-inset-bottom));background:#252b36;border-top:2px solid #111b28}
+.answer-label{display:block;font-size:8px;font-weight:800;letter-spacing:1.5px;color:#c1c4b2;text-align:center;margin-bottom:7px}
+.game-shell .decision-panel .choices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;align-items:stretch}
+.game-shell .decision-option{min-width:0;display:flex;flex-direction:column;gap:5px}
+.game-shell .decision-panel .decision-button{width:100%;min-width:0;min-height:48px;flex:1;margin:0;padding:9px 11px!important;border:2px solid #121c29;border-radius:15px;background:#ef8b72;color:#202d38;box-shadow:inset 0 3px 0 #ffc4a46b,0 4px 0 #a34f4e;font-size:12px;font-weight:800;line-height:1.35;text-shadow:none;transform:none;transition:background .15s}
+.game-shell .decision-panel .decision-button:hover{background:#ffa484;border-color:#121c29;transform:none}.game-shell .decision-panel .decision-button:active{box-shadow:inset 0 2px 0 #a35c4d;transform:translateY(2px)}
+.game-shell .decision-panel .decision-option:nth-child(2) .decision-button{background:#b5d9a1;box-shadow:inset 0 3px 0 #f1ffd36b,0 4px 0 #617d59}.game-shell .decision-panel .decision-option:nth-child(3) .decision-button{background:#edcd85;box-shadow:inset 0 3px 0 #fff2be6b,0 4px 0 #9e7b49}
+.game-shell .decision-detail{padding:3px 2px 0;font-size:9px;line-height:1.35;color:#d3d5c5;text-align:center}
+.game-shell .decision-detail .effects{gap:2px 7px;justify-content:center;margin-top:3px}.game-shell .decision-detail .effects em{color:#b4d3a4}.game-shell .decision-detail .effects em.negative{color:#f2b1a0}.game-shell .decision-detail .job-metrics{color:#d3d5c5;justify-content:center}
+.game-shell .info-screen{overflow-y:auto;background:#fff1d4;color:#303d37;padding:0 18px 30px;scrollbar-width:thin}.game-shell .info-screen>.tabs{position:sticky;top:0;z-index:5;margin:0 -18px;padding:0 10px 8px}
+.game-shell .info-screen>.event-title{font:800 25px/1.3 Manrope,Arial;margin-top:23px}.game-shell .info-screen .family-panel{margin-top:22px}
+.game-shell .info-screen .forecast,.game-shell .info-screen .habits-panel{border:2px solid #c6bb9e;border-radius:12px;background:#f8e8c4;padding:16px}
+body:has(.game-shell) dialog{color:#303d37;border:3px solid #1c2730;border-radius:18px;background:#fff1d4}
+body:has(.game-shell) #toast{z-index:30}
+@media(min-width:1000px){body:has(.game-shell){background:radial-gradient(ellipse at top,#4d6355,#202834 75%)}.game-shell.flow-layout{box-shadow:0 0 80px #101a2655}}
+@media(max-width:500px){
+ body:has(.game-shell)>header{min-height:43px;padding:7px 13px}.game-shell.flow-layout{border:0}
+ .game-shell .tabs{padding:0 8px 6px}.game-shell .tabs button{padding:7px 3px;font-size:10px}
+ .stage-topline{padding:8px 13px 4px}.stage-topline strong{font-size:15px}.stage-topline small{font-size:9px}
+ .life-progress{margin:2px auto 6px;font-size:9px}.age-badge{padding:3px 8px}
+ .game-shell .live-visuals .live-pixel-scene{height:clamp(100px,18dvh,180px)}
+ .game-shell .life-monitor{padding:7px 10px}.game-shell .life-area-bars{gap:6px}.game-shell .life-area-bar{grid-template-columns:12px minmax(0,1fr) 14px;gap:2px}.game-shell .area-icon,.game-shell .area-icon svg{width:12px;height:12px}.area-name{font-size:6px}.game-shell .life-area-bar strong{font-size:7px}.game-shell .current-state-row{margin-top:5px;padding-top:5px}.game-shell .sphere-info{min-width:22px;min-height:22px}
+ .game-shell .time-controls{padding:5px 10px}.game-shell .time-controls button{font-size:9px;padding:5px 7px}.game-shell .time-controls #time-toggle{min-width:96px}.game-shell .time-controls .speed-controls button{padding:5px 7px}
+ .story-scroll{padding:10px}.game-shell .feed-row{padding:9px 11px}.game-shell .feed-row p{font-size:11px}
+ .decision-narrative{padding:10px 13px 8px}.game-shell .decision-panel .event-title{font-size:18px}.game-shell .decision-panel .event-desc{font-size:11px;line-height:1.45}
+ .game-shell .decision-panel .choices{grid-template-columns:1fr;gap:8px}
+ .game-shell .decision-option{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:12px;align-items:center}
+ .game-shell .decision-panel .decision-button{min-height:42px;padding:8px 11px!important;font-size:11px;border-radius:13px}
+ .game-shell .decision-detail{font-size:9px;line-height:1.3;text-align:left;padding:0}.game-shell .decision-detail .effects,.game-shell .decision-detail .job-metrics{justify-content:flex-start}
+ .decision-actions{padding:7px 12px max(11px,env(safe-area-inset-bottom))}.answer-label{margin-bottom:6px;font-size:7px}
+}
+@media(max-height:650px){.game-shell .live-visuals .live-pixel-scene{height:85px}.game-shell .decision-panel.flow-story{max-height:57dvh}.game-shell .current-state-row{margin-top:4px;padding-top:4px}}
+@media(prefers-reduced-motion:reduce){.game-shell .decision-panel .decision-button{transition:none}}
+.game-shell .decision-panel .decision-button{height:auto}
+.game-shell .decision-panel.flow-story{flex:0 1 auto}
+.game-shell .decision-narrative{flex:1 1 auto}
+.game-shell .life-monitor{border-radius:0;border-right:0;border-left:0;border-bottom:0}
+@media(max-width:500px){.game-shell .story-screen:has(.decision-panel) .live-pixel-scene{height:clamp(70px,14dvh,150px)}}
+@media(max-height:650px){.game-shell .story-screen:has(.decision-panel) .live-pixel-scene{height:60px}.stage-topline{padding-top:5px}.life-progress{margin-bottom:4px}}
+@media(max-width:500px) and (min-height:651px) and (max-height:740px){.game-shell .story-screen:has(.decision-panel) .live-pixel-scene{height:65px}}
+.game-shell .decision-actions{max-height:40dvh;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin}
+@media(max-height:500px) and (min-width:501px){
+ .game-shell .story-screen{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto minmax(0,1fr)}
+ .game-shell .story-screen>.tabs{grid-column:1/-1}
+ .game-shell .story-screen>.live-stage{min-height:0;overflow-y:auto;border-bottom:0;border-right:2px solid #131e29}
+ .game-shell .story-deck{height:100%;min-height:0}.game-shell .decision-panel.flow-story{max-height:100%}
+ .game-shell .decision-panel .choices{grid-template-columns:1fr}.game-shell .decision-option{display:grid;grid-template-columns:1fr 1fr;gap:9px;align-items:center}
+ .game-shell .decision-detail{text-align:left}.game-shell .decision-panel .decision-button{min-height:38px;font-size:10px;padding:5px 8px!important}
+ .game-shell .decision-narrative{padding:8px 10px}.game-shell .decision-panel .event-title{font-size:17px}.game-shell .decision-panel .event-desc{font-size:10px}
+ .game-shell .decision-actions{padding:6px 10px 9px;max-height:55dvh}
+}
+.character-summary{padding:22px 0 8px}.character-summary h2{font:800 27px/1.2 Manrope,Arial;margin:10px 0}.character-summary>p{font-size:12px;color:#687568;line-height:1.6}
+@media(max-width:500px){
+ .game-shell .life-area-bars .area-name{display:none}
+ .game-shell .life-area-bars .life-area-bar{grid-template-columns:18px minmax(0,1fr);grid-template-rows:18px 5px;gap:3px}
+ .game-shell .life-area-bars .area-icon{grid-column:1;grid-row:1;width:16px;height:16px}.game-shell .life-area-bars .area-icon svg{width:16px;height:16px}
+ .game-shell .life-area-bars .life-area-bar strong{grid-column:2;grid-row:1;font-size:10px;justify-self:end}
+ .game-shell .life-area-bars .area-track{grid-column:1/3;grid-row:2;width:100%;height:5px}
+ .game-shell .feeling-bars .area-name{font-size:8px}
 }
