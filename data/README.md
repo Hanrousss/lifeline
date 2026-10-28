@@ -17,3 +17,11 @@ Rules: `Time == 2023`, `LocTypeID == 4` (Country/Area), `Births * 1000` because 
 Probability = country/area births / sum of included country/area births. This samples **births**, not existing population or equally likely flags. Cities are absent because this dataset does not support that resolution. Country labels use Node's Russian `Intl.DisplayNames`; boundaries and labels follow the statistical source, without an independent territorial classification.
 
 The source supports only the birthplace draw in this build. Fictional names, occupations, family wealth, warmth, safety, personality, health effects, and life outcomes are not empirically calibrated to those countries. No forecast of an individual's life is claimed. Existing saves retain their original birthplace and are explicitly labelled as legacy demonstration draws.
+
+## Global same-day cohort estimate (2026-10-28)
+
+`world-life-table-2023.json` retains 101 original rows (ages 0 through 100) from the official UN WPP 2024 complete period life table, world (`LocID=900`), 2023, both sexes (`SexID=3`). The exact official download URL and retrieval date are in that file. The table's `lx` radix is 100,000; these are numbers surviving to exact age x, not a population count. Build the checked-in compact browser data with `node tools/build-survival-data.mjs`. No third-party life table or guessed mortality rate is used.
+
+The starting other-children count is round(sum of the game's 2023 birth weights / 365) - 1. This is an average hypothetical birth day, excluding the protagonist, not a count for a known date. At age x it is multiplied by lx/l0, linearly interpolating between integer ages for game months. Monthly interpolation, especially in infancy, is approximate and is disclosed in the UI.
+
+This is a synthetic period cohort under constant 2023 world mortality. It is NOT the actual future survival of the 2023 birth cohort, NOT a forecast, NOT country-specific and NOT affected by game choices. Calendar-day birth seasonality, future mortality changes and individual death are not modeled. The indicator stays separate from game health. UN data: CC BY 3.0 IGO.
