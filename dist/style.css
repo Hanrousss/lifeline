@@ -307,3 +307,13 @@ body:has(.game-shell) dialog{border:1px solid #ffffffdd;background:#f6f4ede8;col
 /* Let portraits settle before the two branches enter the clear centre corridor. */
 .family-links path{animation-delay:1.5s;stroke-linecap:round;stroke-linejoin:round}
 .family-links circle{animation-delay:1.7s}
+/* A quiet video-player control belongs to the scene, rather than the toolbar. */
+.scene-playback{position:absolute;right:12px;bottom:12px;z-index:2;display:grid;place-items:center;width:42px;height:42px;padding:0;border:1px solid #ffffffd9;border-radius:50%;background:#f6f4edbd;color:#526348;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:none}
+.scene-playback svg{width:23px;height:23px}.scene-playback:hover{background:#f6f4ede8}.scene-playback:disabled{opacity:.5;cursor:default}
+.game-shell .feed-row.event-bad{--event-accent:#af615d;--event-wash:#f8e8e4b8}
+.game-shell .feed-row.event-warning{--event-accent:#b77f43;--event-wash:#f8eedeb8}
+.game-shell .feed-row.event-good{--event-accent:#68875c;--event-wash:#eaf0e1b8}
+.game-shell .feed-row.event-memorable{--event-accent:#648ea2;--event-wash:#e7f0f4b8}
+.game-shell .feed-row[class*="event-"]{background:var(--event-wash);border-left:3px solid var(--event-accent)}
+.game-shell .feed-row[class*="event-"] b{color:var(--event-accent)}.event-tone-label{font-size:inherit;letter-spacing:0;text-transform:none;font-weight:500}
+@media(max-width:500px){.scene-playback{width:40px;height:40px;right:10px;bottom:10px}}
