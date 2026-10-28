@@ -38,3 +38,18 @@ for(let seed=0;seed<30;seed++){
  const restored=JSON.parse(JSON.stringify(s));assert.deepEqual(F.pending(restored),F.pending(s));
 }
 console.log('Passed: contextual temptation, permanent refusal, delayed consequences, no auto-use, craving recovery, separate treatment and supervised completion, peer priorities, wealth without moral labels, reputation repair, partner differences, child support, migrations and 30 complete lives.');
+
+const quit=adult(71);const qh=R.ensure(quit);qh.uses.alcohol=3;qh.urges.alcohol=40;
+assert.equal(R.recoveryHint(quit),'','Prior use alone is not a decision to quit');
+assert(R.offer(quit,'alcohol'));let qi=qh.active.options.findIndex(o=>o.action==='quit');assert(qi>=0);
+const used=qh.uses.alcohol;assert(R.resolve(quit,qi));assert.equal(qh.uses.alcohol,used);assert.equal(qh.recovery.alcohol.since,288);assert.match(R.recoveryHint(quit),/недавно/);
+const recoverySave=JSON.stringify(quit);R.recoveryHint(quit);assert.equal(JSON.stringify(quit),recoverySave,'Reading a hint must not alter saves or consume randomness');
+const restoredQuit=JSON.parse(recoverySave);assert.equal(R.recoveryHint(restoredQuit),R.recoveryHint(quit));
+quit.flow.months+=12;qh.urges.alcohol=0;assert.match(R.recoveryHint(quit),/легче/);
+qh.urges.alcohol=50;assert.match(R.recoveryHint(quit),/тяга или напряжение/);
+assert(S.offer(quit,'party'));const partyUses=qh.uses.alcohol;S.resolve(quit,0);assert.equal(qh.uses.alcohol,partyUses,'Going to a party never consumes alcohol automatically');
+qh.active=null;assert(R.offer(quit,'alcohol'));assert(R.resolve(quit,0));assert.equal(qh.recovery.alcohol,undefined);assert.equal(R.recoveryHint(quit),'');
+const never=adult(88);assert(!R.makeOffer(never,'alcohol').options.some(o=>o.action==='quit'));assert.equal(R.recoveryHint(never),'');
+const declined=adult(89);R.offer(declined,'alcohol');R.resolve(declined,1);assert.equal(R.recoveryHint(declined),'','A one-time refusal is not a recovery history');
+delete never.habits.recovery;R.ensure(never);assert.deepEqual(never.habits.recovery,{},'Old saves migrate without invented recovery dates');
+console.log('Passed: explicit alcohol refusal history, recent/longer abstinence hints, current strain, save restore, lapse reset, and no auto-use at parties.');
