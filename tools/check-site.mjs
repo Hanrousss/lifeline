@@ -21,3 +21,5 @@ assert(html.indexOf('habits-ui.js')<html.indexOf('app.js'));
 
 assert(html.indexOf('career.js')<html.indexOf('timeline.js'));
 assert(html.indexOf('career-ui.js')<html.indexOf('app.js'));
+
+assert(html.indexOf('pixel-people.js')<html.indexOf('live-scene.js'));

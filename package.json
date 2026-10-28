@@ -1,11 +1,11 @@
 {
   "name": "life-line-prototype",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "private": true,
   "description": "Browser life simulation prototype",
   "scripts": {
     "test": "node tests/engine.test.cjs && node tests/childhood.test.cjs && node tests/births.test.cjs && node tests/timeline.test.cjs && node tests/early-variants-cohort.test.cjs && node tests/habits-social.test.cjs && node tests/career.test.cjs",
-    "check": "node --check dist/app.js && node --check dist/engine.js && node --check dist/timeline.js && node --check dist/live-scene.js && node --check dist/scene.js && node --check dist/birth-data.js && node --check dist/childhood-scenes.js && node --check dist/cohort.js && node --check dist/survival-data.js && node --check dist/habits.js && node --check dist/social.js && node --check dist/habits-ui.js && node --check dist/career.js && node --check dist/career-ui.js && node tools/check-site.mjs",
+    "check": "node --check dist/app.js && node --check dist/engine.js && node --check dist/timeline.js && node --check dist/live-scene.js && node --check dist/scene.js && node --check dist/birth-data.js && node --check dist/childhood-scenes.js && node --check dist/cohort.js && node --check dist/survival-data.js && node --check dist/habits.js && node --check dist/social.js && node --check dist/habits-ui.js && node --check dist/career.js && node --check dist/career-ui.js && node --check dist/pixel-people.js && node tools/check-site.mjs",
     "build": "npm run check"
   },
   "engines": {
