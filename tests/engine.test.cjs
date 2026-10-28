@@ -3,3 +3,25 @@ function run(seed,pattern){const s=E.fresh(seed);s.started=true;s.age=6;for(let 
 for(let seed=0;seed<100;seed++)assert.deepEqual(run(seed,i=>i%3),run(seed,i=>i%3));
 let s=E.fresh(1);s.started=true;assert.equal(E.availableGoals(s).length,0);s.age=6;assert.equal(E.availableGoals(s).length,3);E.setGoal(s,E.availableGoals(s)[0].id);const saved=JSON.parse(JSON.stringify(s));E.choose(saved,0);assert.equal(saved.completed.length,1);assert.equal(saved.last.achieved,'Попробовать кружок');assert.equal(saved.goal,null);E.choose(s,1);assert.equal(s.completed.length,0);assert.equal(s.last.deferred,'Попробовать кружок');assert.equal(s.goal,null);E.setGoal(s,'step-0-0');assert.equal(s.goal,null);assert.equal(E.availableGoals(s)[0].name,'Поучиться на летнем курсе');for(let step=0;step<E.chapters.length;step++){let a=E.fresh(step);a.started=true;a.age=E.chapters[step][0];a.step=step;for(let i=0;i<3;i++){const x=JSON.parse(JSON.stringify(a));E.setGoal(x,E.availableGoals(x)[i].id);E.choose(x,i);assert(x.last.achieved);assert.equal(x.completed.length,1);}}
 const end=run(42,()=>0),snapshot=JSON.stringify(end);assert.equal(E.availableGoals(end).length,0);E.choose(end,0);assert.equal(JSON.stringify(end),snapshot);console.log('Passed: deterministic lives, age gates, 42 goal outcomes, changed plans, save restore, stale goals, ending.');
+
+// Force each surprise branch at every chapter: wording follows the event age,
+// before choose() moves the state to the next chapter. No phone is assumed.
+for(let step=0;step<E.chapters.length;step++){
+ const positive=E.fresh(42);positive.started=true;positive.step=step;positive.age=E.chapters[step][0];positive.rng=2;positive.stats.bond=30;
+ E.choose(positive,0);
+ const log=positive.last;
+ assert(log.surprise,'Forced positive surprise must happen');
+ assert.equal(log.delta.bond,(E.chapters[step][3][0].effect.bond||0)+4);
+ assert(!/написал|прислал|телефон|сообщение/.test(log.surprise),'Surprises must not assume an owned phone');
+ if(log.age<12)assert.match(log.surprise,/Близкий взрослый/);
+ else if(log.age<17)assert.match(log.surprise,/одноклассником/);
+ else assert.match(log.surprise,/давнего знакомого/);
+ if(log.age<17)assert(!/давнего|старый знакомый/.test(log.surprise));
+ const negative=E.fresh(42);negative.started=true;negative.step=step;negative.age=E.chapters[step][0];negative.rng=0;
+ E.choose(negative,0);
+ assert(negative.last.surprise,'Forced expense must happen');
+ if(negative.last.age<17)assert.match(negative.last.surprise,/В семье/);
+ else assert.match(negative.last.surprise,/запас денег/);
+ const restored=JSON.parse(JSON.stringify(positive));assert.equal(restored.last.surprise,log.surprise);
+}
+console.log('Passed: age-appropriate chapter surprises, family finances for children, no assumed phone, bond bonus preserved.');
