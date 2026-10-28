@@ -3,3 +3,13 @@ function run(seed,pattern){let s=E.fresh(seed);s.started=true;F.ensure(s);let co
 for(let i=0;i<20;i++)assert.deepEqual(run(i,n=>n%3),run(i,n=>n%3));
 let a=E.fresh(9);a.started=true;F.ensure(a);for(let i=0;i<11;i++)F.advance(a);assert(a.flow.feed.length>1);assert(!F.pending(a));F.advance(a);assert.equal(F.pending(a).kind,'early');F.resolve(a,0);assert.equal(a.age,1);F.advance(a);assert.equal(a.flow.months,13);let restore=JSON.parse(JSON.stringify(a));assert.deepEqual(F.pending(restore),F.pending(a));F.advance(restore);F.advance(a);assert.deepEqual(a,restore);
 let b=run(42,()=>1),c=run(42,()=>0);assert.notEqual(b.flow.career.job,c.flow.career.job);console.log('Passed: 40 full monthly lives, choice auto-pause, no age jumps, ordinary/news/career/delayed events, jobs, save restore, different paths.');
+
+const school=E.fresh(42);school.started=true;school.age=6;school.step=1;school.childhood.finished=true;
+F.ensure(school);school.flow.months=74;school.flow.seen=F.sideStories.filter(x=>x.month<=74).map(x=>x.month);school.rng=0;
+assert(F.advance(school));
+assert(school.flow.feed.some(e=>e.text.includes('Саша показал вам смешной рисунок.')),'School drawings are shared in person');
+const child=E.fresh(42);child.started=true;child.age=6;child.childhood.finished=true;F.ensure(child);child.flow.months=72;
+assert(F.resolve(child,1));
+assert(child.flow.queue.some(e=>e.text.includes('предложил снова провести время вместе')),'Childhood social consequences do not assume a phone');
+assert(child.flow.queue.every(e=>!/вышел на связь/.test(e.text)));
+console.log('Passed: in-person school drawings and age-appropriate delayed social events.');
