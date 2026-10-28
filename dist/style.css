@@ -22,3 +22,18 @@ dialog.goal-dialog[open]{display:flex;flex-direction:column;padding:0;width:min(
 .job-metrics{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12px;line-height:1.6;margin:10px 0;color:#6d786b}.job-metrics b{font-size:inherit!important;display:inline!important;color:#334038}.career-choice>span:nth-child(2){min-width:0}.career-actions{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:12px}.career-actions button,.career-goal button{padding:9px;border:1px solid #c1c8b5;color:#354238;background:#f7f5ed;cursor:pointer;font-size:11px}.career-actions button:disabled{opacity:.45;cursor:default}.career-goal{border-top:1px solid #dfe2d4;margin-top:16px;padding-top:14px}.career-goal>span{font-size:11px;color:#77836d}.goal-action{display:block;width:100%;margin:10px 0;text-align:left}@media(max-width:600px){.job-metrics{font-size:11px;gap:5px 10px}.career-choice{padding:18px 12px!important}}
 
 .family-avatar,.family-avatar.dad,.family-avatar.gran{background:#ede5d5;border:1px solid #d2c4ae;box-shadow:none;width:40px;height:54px;overflow:hidden}.family-avatar svg{width:38px;height:52px;display:block;image-rendering:pixelated}.pixel-portrait{border-radius:0;background:#ede5d5;width:54px;height:66px}.pixel-portrait svg{height:64px;width:48px;image-rendering:pixelated}.family-members>span{grid-template-columns:40px 1fr}@media(max-width:700px){.family-members>span{grid-template-columns:34px 1fr}.family-avatar,.family-avatar.dad,.family-avatar.gran{width:34px;height:48px}.family-avatar svg{width:32px;height:46px}}
+
+/* Quiet, self-contained constellation background for the birth screen. */
+.birth-screen{position:relative;isolation:isolate;max-width:1000px;min-height:580px;margin:20px auto 40px;padding:190px 25px 55px;overflow:hidden}
+.birth-sky{position:absolute;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none;color:#849475}
+.sky-stars circle{fill:currentColor;opacity:.35;animation:sky-twinkle var(--twinkle) ease-in-out var(--delay) infinite alternate}
+.constellation-map{opacity:0;animation:sky-constellations 24s ease-in-out var(--phase) infinite}
+.constellation-map path{stroke:currentColor;stroke-width:1;fill:none;opacity:.45;stroke-dasharray:600;animation:sky-connect 24s ease-in-out var(--phase) infinite}
+.constellation-map circle{fill:currentColor}
+.birth-screen h1,.birth-screen .lead,.birth-screen>.tiny{position:relative}
+.birth-screen .primary{width:200px;max-width:100%;min-height:50px;border-radius:999px;justify-content:center;text-align:center;padding:15px 24px;font-size:13px}
+@keyframes sky-twinkle{to{opacity:.7}}
+@keyframes sky-constellations{0%,35%,100%{opacity:0}7%,26%{opacity:.8}}
+@keyframes sky-connect{0%{stroke-dashoffset:600}18%,100%{stroke-dashoffset:0}}
+@media(max-width:700px){.birth-screen{margin:10px auto 25px;min-height:570px;padding:175px 24px 50px}.birth-sky{opacity:.75}.birth-screen .primary{width:190px}}
+@media(prefers-reduced-motion:reduce){.sky-stars circle,.constellation-map,.constellation-map path{animation:none}.constellation-map:first-of-type{opacity:.6}.constellation-map:nth-of-type(2){opacity:.6}.constellation-map path{stroke-dashoffset:0}}

@@ -1,6 +1,6 @@
 {
-  "name": "life-line-prototype",
-  "version": "0.5.1",
+  "name": "lifeline",
+  "version": "0.5.2",
   "private": true,
   "description": "Browser life simulation prototype",
   "scripts": {
