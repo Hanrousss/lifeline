@@ -1,0 +1,5 @@
+const assert=require('node:assert/strict'),B=require('../dist/birth-data.js'),C=require('../dist/cohort.js');
+assert.equal(Object.keys(C.countryTables).length,237);
+for(const origin of B.countries){const lx=C.countryTables[origin.iso3];assert(lx,origin.iso3);assert.equal(lx.length,101);assert.equal(lx[0],100000);assert.equal(C.estimate(0,origin).probability,1);let last=1;for(let age=0;age<=100;age++){const c=C.estimate(age*12,origin);assert(!c.world);assert.equal(c.probability,lx[age]/100000);assert(c.probability<=last);last=c.probability;}assert.equal(C.estimate(6,origin).probability,(lx[0]+lx[1])/200000);}
+assert(C.estimate(12).world);assert(C.estimate(12,{iso3:'UNKNOWN'}).world);assert.notEqual(C.estimate(12,B.countries.find(c=>c.iso3==='JPN')).probability,C.estimate(12,B.countries.find(c=>c.iso3==='CMR')).probability);
+console.log('Passed: all 237 birth countries have complete official survival tables, national endpoints, monthly interpolation, country differences, explicit world fallback.');

@@ -1,0 +1,11 @@
+{
+  "year": 2023,
+  "radix": 100000,
+  "sex": "Both sexes",
+  "source": "United Nations DESA, World Population Prospects 2024",
+  "sourceUrl": "https://population.un.org/wpp/assets/Excel%20Files/1_Indicator%20(Standard)/CSV_FILES/WPP2024_Life_Table_Complete_Medium_Both_1950-2023.csv.gz",
+  "retrieved": "2026-10-28",
+  "license": "CC BY 3.0 IGO",
+  "rounding": "l(x) rounded to whole survivors out of 100000; maximum error 0.0005 percentage points",
+  "countryCount": 237
+}
