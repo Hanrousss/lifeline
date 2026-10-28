@@ -121,3 +121,12 @@ dialog.goal-dialog[open]{display:flex;flex-direction:column;padding:0;width:min(
 .decision-panel.flow-story{border-color:#d7aaa1;box-shadow:0 10px 28px #a0675310}.decision-panel .chapter-line{color:#a06b61}
 .time-tutorial{display:flex;gap:12px;align-items:flex-start;padding:13px 15px;margin:10px 0 0;background:#ecefe4;border:1px solid #d5ddc8;border-radius:14px;color:#67775b}.tutorial-symbol{font-size:24px;line-height:1.1;color:#8e9f7a}.time-tutorial>div{flex:1}.time-tutorial strong{font-size:11px;font-weight:600}.time-tutorial p{font-size:10px;line-height:1.75;margin:5px 0 0}.tutorial-dismiss{flex-shrink:0;background:#f6f4ed;border:1px solid #c8d2bc;border-radius:999px;padding:7px 11px;font-size:10px;color:#647457}
 @media(max-width:700px){.action-notice{font-size:10px;padding:8px 11px;margin-bottom:9px}.time-tutorial{gap:9px;padding:11px 12px;flex-wrap:wrap}.time-tutorial>div{min-width:160px}.time-tutorial p{font-size:10px}.tutorial-dismiss{margin-left:auto}}
+
+/* Keep names stationary; the connector lives in the empty central corridor. */
+.birth-mother{animation:none;transform:translateX(36px)}.birth-father{animation:none;transform:translateX(-36px)}
+.birth-mother .parent-circle{animation:parent-circle-left 1.4s ease-in-out both}.birth-father .parent-circle{animation:parent-circle-right 1.4s ease-in-out both}
+.birth-parent>span,.birth-parent>small{max-width:100%;overflow-wrap:anywhere;text-align:center;position:relative;z-index:1;background:var(--paper)}
+.family-links{pointer-events:none;z-index:0}.birth-parent{z-index:1}
+@keyframes parent-circle-left{0%{transform:translateX(-54px);opacity:0}20%{opacity:1}62%{transform:translateX(14px)}82%{transform:translateX(-4px)}100%{transform:translateX(0)}}
+@keyframes parent-circle-right{0%{transform:translateX(54px);opacity:0}20%{opacity:1}62%{transform:translateX(-14px)}82%{transform:translateX(4px)}100%{transform:translateX(0)}}
+@media(prefers-reduced-motion:reduce){.birth-mother .parent-circle,.birth-father .parent-circle{animation:none}}
