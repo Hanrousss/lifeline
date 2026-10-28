@@ -37,3 +37,27 @@ dialog.goal-dialog[open]{display:flex;flex-direction:column;padding:0;width:min(
 @keyframes sky-connect{0%{stroke-dashoffset:600}18%,100%{stroke-dashoffset:0}}
 @media(max-width:700px){.birth-screen{margin:10px auto 25px;min-height:570px;padding:175px 24px 50px}.birth-sky{opacity:.75}.birth-screen .primary{width:190px}}
 @media(prefers-reduced-motion:reduce){.sky-stars circle,.constellation-map,.constellation-map path{animation:none}.constellation-map:first-of-type{opacity:.6}.constellation-map:nth-of-type(2){opacity:.6}.constellation-map path{stroke-dashoffset:0}}
+
+/* Decisions appear only while pending, on top of the news feed. */
+.feed-choice-stack{display:grid;isolation:isolate;margin-top:12px;align-items:start}
+.feed-under-choice,.decision-panel{grid-area:1/1;min-width:0}
+.feed-under-choice{opacity:.2;pointer-events:none;user-select:none}
+.feed-under-choice .feed-scroll{max-height:420px;overflow:hidden}
+.decision-panel.flow-story{z-index:1;position:relative;background:#f6f4edf5;border:1px solid var(--line);border-radius:24px;padding:24px 26px;box-shadow:0 12px 32px #303c3410;animation:decision-appear .22s ease-out}
+.decision-panel .chapter-line{margin:0 0 13px;font-size:8px;gap:12px;line-height:1.6}
+.decision-panel .event-title{font-size:26px;line-height:1.35;margin:0 0 12px}
+.decision-panel .event-title:focus{outline:none}
+.decision-panel .event-desc{font-size:12px;line-height:1.75;margin-bottom:20px}
+.decision-panel .choices{display:flex;flex-wrap:wrap;gap:17px 14px;align-items:flex-start}
+.decision-option{flex:1 1 180px;min-width:0;max-width:100%}
+.decision-panel .decision-button{display:flex;align-items:center;justify-content:center;width:100%;min-height:44px;padding:12px 20px!important;border:1px solid var(--ink);border-radius:999px;background:var(--ink);color:#fffdf4;font-size:12px;font-weight:600;line-height:1.5;text-align:center;white-space:normal;transition:background .15s,transform .15s}
+.decision-panel .decision-button:hover{background:#475643;border-color:#475643;transform:translateY(-1px)}
+.decision-panel .decision-button:disabled{opacity:.45;cursor:default;transform:none}
+.decision-detail{font-size:10px;line-height:1.65;color:var(--muted);padding:8px 8px 0;text-align:center;overflow-wrap:anywhere}
+.decision-detail .effects{justify-content:center;gap:3px 8px;margin-top:5px}
+.decision-detail .job-metrics{justify-content:center;font-size:10px;gap:3px 10px;margin:0}
+.decision-panel .habit-context{border-radius:12px;padding:12px 15px;margin:12px 0 20px;font-size:11px}
+.decision-panel>.tiny{margin:18px 0 0;font-size:9px!important;line-height:1.7}
+@keyframes decision-appear{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:700px){.decision-panel.flow-story{padding:20px 17px;border-radius:20px}.decision-panel .event-title{font-size:23px}.decision-option{flex-basis:100%}.decision-panel .choices{gap:13px}.decision-panel .decision-button{width:auto;min-width:180px;max-width:100%;margin:auto}.decision-detail{font-size:11px}.decision-panel .habit-context p{font-size:12px}}
+@media(prefers-reduced-motion:reduce){.decision-panel.flow-story{animation:none}.decision-panel .decision-button{transition:none}}
