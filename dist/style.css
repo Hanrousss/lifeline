@@ -103,3 +103,14 @@ dialog.goal-dialog[open]{display:flex;flex-direction:column;padding:0;width:min(
 @media(prefers-reduced-motion:reduce){.birth-mother,.birth-father{animation:none;opacity:1}.birth-mother{transform:translateX(36px)}.birth-father{transform:translateX(-36px)}.family-links path,.family-links circle,.newborn-bubble{animation:none;opacity:1;stroke-dashoffset:0}}
 
 .cohort-line>p{margin:0;font-size:11px;line-height:1.65}.cohort-line .birth-source-link{padding:2px 0 2px 8px;font-size:15px;text-decoration:none}.cohort-line{padding:10px 0}
+
+/* Desktop columns scroll independently: choosing never moves the people panel. */
+@media(min-width:701px){
+ body:has(.flow-layout){height:100dvh;overflow:hidden;display:flex;flex-direction:column}
+ body:has(.flow-layout)>header{width:100%;flex:0 0 auto}
+ body:has(.flow-layout)>#app{flex:1;min-height:0}
+ .flow-layout{height:100%;min-height:0;padding-bottom:28px}
+ .flow-main,.flow-sidebar{height:100%;min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin}
+ .flow-main{padding-right:10px;scrollbar-gutter:stable}
+ .flow-sidebar{padding-right:6px}
+}
