@@ -405,3 +405,16 @@ body:has(.game-shell){--console-safe:14px;background-color:#dfe3c8;background-im
 .scene-player #time-toggle:hover:not(:disabled),.scene-player #cycle-speed.speed-active:hover:not(:disabled){background:linear-gradient(180deg,#e462aa,#cd408f 48%,#b22c79)}
 .scene-player #time-toggle:active:not(:disabled),.scene-player #cycle-speed.speed-active:active:not(:disabled){box-shadow:inset 0 1px 3px #77195055,0 1px 0 #791b52}
 .game-shell .story-screen>.tabs{margin-top:4px;margin-bottom:0}
+
+.game-shell .story-screen>.tabs{margin-top:0;margin-bottom:10px}
+
+/* Polished chrome: reflected light bands, dark environment and a bright rolled rim. */
+.scene-player .player-action,.scene-player #time-toggle,.scene-player #cycle-speed.speed-active{
+ --chrome-white:#fff;--chrome-light:#dfe0e3;--chrome-mid:#9b9da3;--chrome-dark:#17181c;--chrome-deep:#35363d;
+ --chrome-surface:radial-gradient(ellipse at 26% 16%,var(--chrome-white) 0%,transparent 26%),radial-gradient(ellipse at 75% 82%,var(--chrome-white) 0%,transparent 19%),conic-gradient(from 24deg at 47% 54%,var(--chrome-mid) 0deg,var(--chrome-white) 47deg,var(--chrome-light) 72deg,var(--chrome-dark) 112deg,var(--chrome-deep) 150deg,var(--chrome-white) 181deg,var(--chrome-mid) 213deg,var(--chrome-light) 249deg,var(--chrome-dark) 285deg,var(--chrome-white) 326deg,var(--chrome-mid) 360deg);
+ background-image:var(--chrome-surface);border:1px solid #777980;color:#fff;box-shadow:inset 0 1px 1px #fff,inset 1px 0 1px #f4f4f4,inset -1px -2px 2px #1d1e25b3,0 2px 0 #53545a,0 4px 6px #24242f40;text-shadow:0 1px 2px #101014,0 -1px 1px #303038;
+}
+.scene-player #time-toggle,.scene-player #cycle-speed.speed-active{--chrome-white:#fff0f8;--chrome-light:#ee9ac6;--chrome-mid:#b32b77;--chrome-dark:#4d072d;--chrome-deep:#852052;border-color:#92245d}
+.scene-player .player-action svg{filter:drop-shadow(0 1px 1px #17171e) drop-shadow(0 -1px 1px #24242b)}
+.scene-player .player-action:hover:not(:disabled),.scene-player #time-toggle:hover:not(:disabled),.scene-player #cycle-speed.speed-active:hover:not(:disabled){background-image:var(--chrome-surface);filter:brightness(1.07)}
+.scene-player .player-action:active:not(:disabled),.scene-player #time-toggle:active:not(:disabled),.scene-player #cycle-speed.speed-active:active:not(:disabled){transform:translateY(2px);box-shadow:inset 0 1px 3px #16161e80,inset 1px 0 1px #fff,0 1px 0 #53545a}
