@@ -337,3 +337,5 @@ body>header,body:has(.game-shell)>header{width:100%;max-width:430px}
 .game-sky{inset-inline:0;width:min(100%,430px);margin-inline:auto}
 .game-shell .decision-panel.flow-story,dialog,body:has(.game-shell) dialog{width:min(398px,calc(100% - 32px));max-width:398px}
 .player-action{width:40px;height:40px}
+
+.year-focus{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:7px 12px 10px;font-size:10px;color:#7b8972}.year-focus select{font:inherit;color:#526647;background:#ffffff80;border:1px solid #d8dfcd;border-radius:10px;min-height:36px;max-width:65%;padding:7px 12px}.year-focus select:focus-visible{outline:2px solid #859975;outline-offset:2px}
