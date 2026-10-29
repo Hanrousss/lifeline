@@ -396,3 +396,12 @@ body:has(.game-shell){--console-safe:14px;background-color:#dfe3c8;background-im
 .game-shell .activity-label{left:14px;bottom:14px}
 
 .game-shell .story-deck>.story-scroll{display:flex;flex-direction:column;overflow:hidden}.game-shell .story-deck .live-feed{display:flex;flex-direction:column;flex:1;min-height:0}.game-shell .story-deck .feed-heading{position:static;flex:none;padding:0 0 8px}.game-shell .story-deck .feed-scroll{display:block;flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;padding:0}.game-shell .story-deck>.story-scroll:has(>.flow-story){display:block;overflow-y:auto}.game-shell .story-deck>.story-scroll:has(>.flow-story) .live-feed{height:140px}
+
+/* Gunmetal controls and the raspberry-pink action buttons from the reference. */
+.scene-player .player-action{border-color:#60665f;background:linear-gradient(180deg,#b4b9b1 0%,#92988f 12%,#777e75 52%,#686f67 100%);color:#faf9ed;box-shadow:inset 0 2px 1px #f2f4eb99,inset 0 -1px 1px #343d3455,0 3px 0 #454d44,0 5px 7px #424c382b}
+.scene-player .player-action:hover:not(:disabled){background:linear-gradient(180deg,#c0c5bc,#969d92 18%,#7b8378 60%,#6d766a)}
+.scene-player .player-action:active:not(:disabled){box-shadow:inset 0 1px 3px #303a3055,0 1px 0 #454d44}
+.scene-player #time-toggle,.scene-player #cycle-speed.speed-active{border-color:#8b205c;background:linear-gradient(180deg,#d7509b 0%,#c63789 48%,#a5246e 100%);box-shadow:inset 0 2px 2px #f6a5cf88,inset 0 -1px 1px #7d195b55,0 3px 0 #791b52,0 5px 7px #7a2d5b33}
+.scene-player #time-toggle:hover:not(:disabled),.scene-player #cycle-speed.speed-active:hover:not(:disabled){background:linear-gradient(180deg,#e462aa,#cd408f 48%,#b22c79)}
+.scene-player #time-toggle:active:not(:disabled),.scene-player #cycle-speed.speed-active:active:not(:disabled){box-shadow:inset 0 1px 3px #77195055,0 1px 0 #791b52}
+.game-shell .story-screen>.tabs{margin-top:4px;margin-bottom:0}
