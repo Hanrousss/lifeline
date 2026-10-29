@@ -449,3 +449,20 @@ dialog{max-height:calc(100dvh - max(12px,env(safe-area-inset-top,0px)) - max(12p
 .live-scene-frame>.year-focus{position:absolute;top:60px;right:14px;z-index:2;display:flex;flex-direction:column;align-items:stretch;gap:3px;width:124px;padding:0;font-size:8px;color:#5b6d50}
 .live-scene-frame>.year-focus select{width:100%;max-width:none;min-height:34px;padding:5px 7px;border-radius:8px;background:#f6f5e5cc;font-size:16px}
 @media(max-width:359px){.live-scene-frame>.top-stats{left:10px;top:10px;width:104px}.scene-tool{width:36px;height:36px}.live-scene-frame>.year-focus{right:10px;top:56px;width:118px}}
+
+/* Neutral dot-matrix pager LCD. */
+.game-shell .story-deck{border-color:#9ca298;background-color:#d0d2ce;background-image:radial-gradient(#59615616 .5px,transparent .7px);background-size:3px 3px;box-shadow:inset 0 2px 5px #454c3e33,0 1px 0 #ffffffb0}
+.game-shell .story-deck>.story-scroll{font-family:'Tiny5',ui-monospace,monospace;font-size:20px;font-weight:400;font-synthesis:none;color:#444a42;scrollbar-color:#959d91 transparent}
+.game-shell .story-deck .feed-heading,.game-shell .story-deck .feed-heading .text-btn{font-family:inherit;font-size:16px;font-weight:400;letter-spacing:0;color:#444a42;background:transparent}
+.game-shell .story-deck .feed-row,.game-shell .story-deck .feed-row[class*="event-"]{background:transparent;border-bottom-color:#a3aaa066}
+.game-shell .story-deck .feed-row p{font-family:inherit;font-size:20px;font-weight:400;line-height:1.1;color:#444a42}
+.game-shell .story-deck .feed-row b,.game-shell .story-deck .feed-row[class*="event-"] b{font-family:inherit;font-size:16px;font-weight:400;letter-spacing:0;color:#444a42}
+.game-shell .story-deck .feed-row>span{font-size:14px;color:#737b6d;line-height:1.15}
+.game-shell .story-deck .decision-return button{font-size:20px;line-height:1.1;background:#dce0d8;border-color:#969f90;border-radius:3px;color:#444a42}
+/* Safari: size to the visible viewport, and use native page scrolling as the fallback. */
+body:has(.game-shell){height:auto;min-height:var(--app-height,100svh);overflow:visible;--display-width:min(calc(100% - var(--console-safe) - var(--console-safe)),clamp(280px,calc(var(--app-height,100dvh) - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px) - 400px),402px))}
+body:has(.game-shell)>#app{flex:none;overflow:visible}
+.game-shell.flow-layout{flex:none;height:auto}
+.game-shell .flow-main{height:auto;overflow:visible}.game-shell .flow-main.story-screen{overflow:visible}
+.game-shell .live-stage{width:var(--display-width);margin-inline:auto}
+.game-shell .story-deck{width:var(--display-width);margin-inline:auto;height:180px;min-height:180px}
