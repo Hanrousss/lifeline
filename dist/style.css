@@ -325,7 +325,7 @@ dialog .dialog-controls .close{position:static;flex:none;right:auto;top:auto}
 body:has(.game-shell) .header-actions{gap:8px}.game-shell .simple-monitor{padding:11px 12px}.simple-stats{gap:14px}.simple-stat>div{font-size:9px}.game-shell .story-screen:has(.decision-panel) .live-pixel-scene{height:auto;aspect-ratio:320/112}.main-menu-view{padding:40px 24px}
 
 /* Playback sits below the scene in its own compact glass panel. */
-.scene-player{position:relative;display:flex;width:fit-content;max-width:100%;margin:8px 0;align-items:center;gap:2px;padding:5px 6px;border:1px solid #ffffffd9;border-radius:13px;background:#f6f4edb3;color:#5c7050;backdrop-filter:blur(16px) saturate(1.1);-webkit-backdrop-filter:blur(16px) saturate(1.1)}
+.scene-player{position:relative;display:flex;width:fit-content;max-width:100%;margin:8px auto;align-items:center;gap:2px;padding:5px 6px;border:1px solid #ffffffd9;border-radius:13px;background:#f6f4edb3;color:#5c7050;backdrop-filter:blur(16px) saturate(1.1);-webkit-backdrop-filter:blur(16px) saturate(1.1)}
 .player-action{display:grid;place-items:center;width:32px;height:32px;flex:none;padding:0;border:0;border-radius:8px;background:transparent;color:inherit;box-shadow:none}.player-action svg{width:19px;height:19px}.player-action:hover:not(:disabled){background:#dce5d280}.player-action:disabled{opacity:.3;cursor:default}.player-speed{min-width:25px;text-align:center;font-size:10px;color:#829073}
 @media(pointer:coarse){.player-action{width:40px;height:40px}}
 
