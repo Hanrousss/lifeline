@@ -405,3 +405,5 @@ body:has(.game-shell){--console-safe:14px;background-color:#dfe3c8;background-im
 .scene-player #time-toggle:hover:not(:disabled),.scene-player #cycle-speed.speed-active:hover:not(:disabled){background:linear-gradient(180deg,#e462aa,#cd408f 48%,#b22c79)}
 .scene-player #time-toggle:active:not(:disabled),.scene-player #cycle-speed.speed-active:active:not(:disabled){box-shadow:inset 0 1px 3px #77195055,0 1px 0 #791b52}
 .game-shell .story-screen>.tabs{margin-top:4px;margin-bottom:0}
+
+.game-shell .story-screen>.tabs{margin-top:0;margin-bottom:10px}
