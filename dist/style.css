@@ -347,3 +347,20 @@ body>header,body:has(.game-shell)>header{width:100%;max-width:430px}
 .top-stat-item{display:flex;align-items:center;gap:6px;min-width:0}.top-stat{width:44px;height:44px;flex:none;padding:7px}.top-stat-meter{flex:1;min-width:0;color:#7c8b70}.top-stat-meter strong{display:block;margin-bottom:5px;font-size:10px;font-weight:600;font-variant-numeric:tabular-nums}.top-stat-track{display:block;height:4px;border-radius:10px;overflow:hidden;background:#dce2d2}.top-stat-track i{display:block;height:100%;border-radius:inherit}
 
 .live-scene-frame>.top-stats{position:absolute;inset:6px 6px auto;z-index:2;padding:0;gap:8px}.live-scene-frame .top-stat-meter{color:#52634e;text-shadow:0 1px 2px #ffffffaa}.live-scene-frame .top-stat-track{background:#f4f4e1a6}.live-scene-frame .top-stat{border-color:#ffffffbf;background:#f6f4ed8c}
+
+/* Square playfield, a small LCD story screen, and tactile time controls. */
+.game-shell .live-visuals .live-scene-frame{aspect-ratio:1/1;border-radius:18px}
+.game-shell .live-visuals .live-scene-frame .live-pixel-scene{width:100%;height:100%;max-height:none;aspect-ratio:1/1;object-fit:contain}
+.game-shell .flow-main.story-screen{overflow-y:auto;overscroll-behavior-y:contain;scrollbar-width:thin}
+.game-shell .story-deck{flex:none;height:180px;min-height:180px;margin:12px 12px 0;border:1px solid #aab39b;border-radius:20px;background:#dce2cd;box-shadow:inset 0 2px 5px #67755b30,0 1px 0 #ffffffc9;overflow:visible}
+.game-shell .story-deck>.story-scroll{padding:12px;overflow-y:auto;border-radius:19px;scrollbar-color:#a0ae8c transparent;font-family:ui-monospace,'Courier New',monospace}
+.game-shell .story-deck .feed-scroll{gap:0}.game-shell .story-deck .feed-row{padding:9px 7px;border:0;border-bottom:1px solid #aab69b66;border-radius:0;background:transparent;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none}
+.game-shell .story-deck .feed-row[class*="event-"]{border-left:2px solid var(--event-accent);background:var(--event-wash)}
+.game-shell .story-deck .feed-row p{font-family:inherit;font-size:11px;color:#52614c}.game-shell .story-deck .feed-row>span{color:#7b896d}.game-shell .story-deck .feed-heading,.game-shell .story-deck .feed-heading .text-btn{color:#617255}
+.scene-player{flex:none;gap:8px;padding:12px 6px 16px;margin:0 auto;border:0;background:transparent;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none}
+.player-action{width:44px;height:44px;border:1px solid #62735b;border-radius:50%;background:linear-gradient(#8e9e84,#65775b);color:#f4f1df;box-shadow:inset 0 2px 2px #d8e1ca66,0 3px 0 #46533f,0 5px 7px #57644c26}
+.player-action:hover:not(:disabled){background:linear-gradient(#9aab8e,#738567)}.player-action:active:not(:disabled){transform:translateY(2px);box-shadow:inset 0 1px 3px #3c4e3c44,0 1px 0 #46533f}
+.player-action:disabled{opacity:.35}.scene-player #time-toggle{width:52px;height:52px;background:linear-gradient(#b794a6,#947186);border-color:#8f7080;box-shadow:inset 0 2px 2px #efdae466,0 3px 0 #6e5364,0 5px 7px #705c6a26}.scene-player #time-toggle:active:not(:disabled){box-shadow:inset 0 1px 3px #6e536444,0 1px 0 #6e5364}
+.game-shell .story-screen>.year-focus{flex:none;padding-bottom:16px}
+
+.game-shell .story-deck .feed-heading{position:sticky;top:0;z-index:1;margin:0 0 4px;padding:4px 0 8px;background:#dce2cd}
