@@ -204,7 +204,7 @@ body:has(.game-shell) #toast{z-index:30}
  .story-scroll{padding:10px}.game-shell .feed-row{padding:9px 11px}.game-shell .feed-row p{font-size:11px}
  .decision-narrative{padding:10px 13px 8px}.game-shell .decision-panel .event-title{font-size:18px}.game-shell .decision-panel .event-desc{font-size:11px;line-height:1.45}
  .game-shell .decision-panel .choices{grid-template-columns:1fr;gap:8px}
- .game-shell .decision-option{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:12px;align-items:center}
+ .game-shell .decision-option{display:flex;flex-direction:column;gap:6px;align-items:stretch}
  .game-shell .decision-panel .decision-button{min-height:42px;padding:8px 11px!important;font-size:11px;border-radius:13px}
  .game-shell .decision-detail{font-size:9px;line-height:1.3;text-align:left;padding:0}.game-shell .decision-detail .effects,.game-shell .decision-detail .job-metrics{justify-content:flex-start}
  .decision-actions{padding:7px 12px max(11px,env(safe-area-inset-bottom))}.answer-label{margin-bottom:6px;font-size:7px}
@@ -285,7 +285,7 @@ body:has(.game-shell) dialog{border:1px solid #ffffffdd;background:#f6f4ede8;col
  .game-shell .decision-panel.flow-story{width:calc(100% - 24px);border-radius:21px}
  .game-shell .decision-narrative{padding:19px 18px 10px}.game-shell .decision-panel .event-title{font-size:24px}
  .game-shell .decision-actions{padding:9px 18px 19px}.game-shell .decision-panel .choices{grid-template-columns:1fr;gap:12px}
- .game-shell .decision-panel .decision-option{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:13px;align-items:center}
+ .game-shell .decision-panel .decision-option{display:flex;flex-direction:column;gap:6px;align-items:stretch}
  .game-shell .decision-detail{text-align:left;font-size:10px}.game-shell .decision-detail .effects,.game-shell .decision-detail .job-metrics{justify-content:flex-start}
  .game-shell .story-screen:has(.decision-panel) .live-pixel-scene{height:clamp(120px,23dvh,200px)}
  .game-shell .live-visuals .infant-scene{height:clamp(170px,29dvh,245px)}
@@ -306,9 +306,9 @@ body:has(.game-shell) dialog{border:1px solid #ffffffdd;background:#f6f4ede8;col
 .game-shell .feed-row[class*="event-"]{background:var(--event-wash);border-left:3px solid var(--event-accent)}
 .game-shell .feed-row[class*="event-"] b{color:var(--event-accent)}.event-tone-label{font-size:inherit;letter-spacing:0;text-transform:none;font-weight:500}
 
-/* Routine choices carry only their action; contextual hints stay beside exceptions. */
-.game-shell .decision-panel .decision-option:has(>.decision-button:only-child){display:flex;flex-direction:column}
-.game-shell .decision-panel .decision-option:has(>.decision-button:only-child) .decision-button{width:100%}
+/* Full-width actions; brief contextual hints follow underneath. */
+.game-shell .decision-panel .decision-option{display:flex;flex-direction:column}
+.game-shell .decision-panel .decision-option .decision-button{width:100%}
 .game-shell .decision-detail{font-size:10px;line-height:1.4}.game-shell .compact-job{margin:0;font-size:10px}
 /* A broad, obtuse Y sits below names, leaving portraits and labels clear. */
 .parent-orbits{height:250px}.family-links{height:260px}
