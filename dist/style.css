@@ -430,3 +430,22 @@ body:has(.game-shell)>header{padding-bottom:9px}
 .scene-player{flex-shrink:0}
 dialog{max-height:calc(100dvh - max(12px,env(safe-area-inset-top,0px)) - max(12px,env(safe-area-inset-bottom,0px)))}
 @media(max-width:359px){body:has(.game-shell){--console-safe:10px}.live-scene-frame>.top-stats{left:10px;top:10px;width:124px}.scene-tools{right:10px;top:10px;gap:5px}.scene-tool{width:44px;height:44px}.scene-player{max-width:calc(100% - 20px);gap:3px}}
+
+/* Centered transport with a separate flattened speed key. */
+.scene-player{display:grid;grid-template-columns:minmax(34px,1fr) 32px 32px 52px 32px 32px minmax(34px,1fr);column-gap:4px;align-items:center;justify-items:center;width:calc(100% - var(--console-safe) - var(--console-safe));max-width:360px;padding:10px 0 14px}
+.scene-player .player-action{grid-row:1;width:32px;height:32px;min-width:0;min-height:0}.scene-player .player-action svg{width:15px;height:15px}
+.scene-player #previous-event{grid-column:2}.scene-player #slower-time{grid-column:3}.scene-player #time-toggle{grid-column:4;width:52px;height:52px}.scene-player #time-toggle svg{width:21px;height:21px}.scene-player #faster-time{grid-column:5}.scene-player #next-event{grid-column:6}
+.scene-player #cycle-speed{grid-column:1;width:40px;height:24px;min-width:0;border-radius:999px;font-size:10px}
+/* Compact, optically centered needs badges and bars. */
+.live-scene-frame>.top-stats{width:112px;gap:4px;left:14px;top:14px}
+.live-scene-frame .top-stat-item{height:32px}
+.live-scene-frame .top-stat{width:40px;height:40px;min-height:0;left:-4px;top:-4px}
+.live-scene-frame .top-stat::before{inset:9px}
+.live-scene-frame .top-stat svg{width:16px;height:16px}
+.live-scene-frame .top-stat-meter{width:calc(100% - 16px);margin-left:16px;padding-top:0}
+.live-scene-frame .top-stat-meter strong{top:-12px;right:4px;font-size:8px;line-height:10px}
+.live-scene-frame .top-stat-track{height:10px}
+.scene-tool{position:relative;width:36px;height:36px;padding:5px}.scene-tool svg{width:22px;height:22px}.scene-tool::after{content:"";position:absolute;inset:-4px}
+.live-scene-frame>.year-focus{position:absolute;top:60px;right:14px;z-index:2;display:flex;flex-direction:column;align-items:stretch;gap:3px;width:124px;padding:0;font-size:8px;color:#5b6d50}
+.live-scene-frame>.year-focus select{width:100%;max-width:none;min-height:34px;padding:5px 7px;border-radius:8px;background:#f6f5e5cc;font-size:16px}
+@media(max-width:359px){.live-scene-frame>.top-stats{left:10px;top:10px;width:104px}.scene-tool{width:36px;height:36px}.live-scene-frame>.year-focus{right:10px;top:56px;width:118px}}
