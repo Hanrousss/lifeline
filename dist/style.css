@@ -379,3 +379,20 @@ body:has(.game-shell)>header{order:2;flex:none}
 .live-scene-frame .top-stat-meter strong{font-family:ui-monospace,'Courier New',monospace;font-size:11px;color:#4f5847}
 
 .scene-player{gap:6px;padding-inline:3px}.scene-player .player-speed{min-width:44px;font-size:11px;font-weight:600;color:#f4f1df}.decision-return button{width:100%;min-height:40px;padding:8px 10px;border:1px solid #a0ad91;border-radius:6px;background:#e8eddc;color:#526448;font:inherit;cursor:pointer}.decision-return button:hover{background:#f3f6e9}
+
+/* A matte molded-plastic shell with consistent safe space around its displays. */
+body:has(.game-shell){--console-safe:14px;background-color:#dfe3c8;background-image:radial-gradient(ellipse at 20% 0%,#fbfde69c,transparent 65%),radial-gradient(#6b765b0a .5px,transparent .7px),linear-gradient(115deg,#e8ebd2,#d6ddbc);background-size:auto,3px 3px,auto;box-shadow:inset 2px 0 2px #ffffed88,inset -2px 0 3px #87956d33}
+.game-sky{background:none}.game-sky .birth-sky{opacity:.12}
+.game-shell .flow-main.story-screen{padding-block:var(--console-safe)}
+.game-shell .live-stage{margin-inline:var(--console-safe)}.game-shell .story-deck{margin-inline:var(--console-safe)}
+.game-shell .story-screen>.tabs{margin-inline:var(--console-safe)}.game-shell .story-screen>.year-focus{padding-inline:var(--console-safe)}
+.live-scene-frame>.top-stats{inset:14px auto auto 14px;display:flex;flex-direction:column;width:100px;gap:6px}
+.top-stat-item{width:100%}.live-scene-frame .top-stat-meter{min-width:0}
+.scene-tools{position:absolute;top:14px;right:14px;z-index:2;display:flex;gap:8px}
+.scene-tool{display:grid;place-items:center;width:44px;height:44px;flex:none;padding:7px;border:2px solid #fffbed;border-radius:2px;background:#f3f1decc;box-shadow:2px 2px 0 #8b947e66;color:#454b37}
+.scene-tool svg{width:28px;height:28px;image-rendering:pixelated}.scene-tool:hover{background:#fffbed}.scene-tool:active{transform:translate(1px,1px);box-shadow:1px 1px 0 #8b947e66}
+.scene-player{gap:4px;padding:10px 0 14px;max-width:calc(100% - 28px)}
+.settings-speed{display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:12px;margin:20px 0}.settings-speed select{font:inherit;min-height:40px;min-width:80px;border:1px solid #c2cdb4;border-radius:8px;background:#f7f7e9;color:#526448;padding:8px}
+.game-shell .activity-label{left:14px;bottom:14px}
+
+.game-shell .story-deck>.story-scroll{display:flex;flex-direction:column;overflow:hidden}.game-shell .story-deck .live-feed{display:flex;flex-direction:column;flex:1;min-height:0}.game-shell .story-deck .feed-heading{position:static;flex:none;padding:0 0 8px}.game-shell .story-deck .feed-scroll{display:block;flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;padding:0}.game-shell .story-deck>.story-scroll:has(>.flow-story){display:block;overflow-y:auto}.game-shell .story-deck>.story-scroll:has(>.flow-story) .live-feed{height:140px}
