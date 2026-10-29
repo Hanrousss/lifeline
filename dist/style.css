@@ -460,7 +460,7 @@ dialog{max-height:calc(100dvh - max(12px,env(safe-area-inset-top,0px)) - max(12p
 .game-shell .story-deck .feed-row>span{font-size:14px;color:#737b6d;line-height:1.15}
 .game-shell .story-deck .decision-return button{font-size:20px;line-height:1.1;background:#dce0d8;border-color:#969f90;border-radius:3px;color:#444a42}
 /* Safari: size to the visible viewport, and use native page scrolling as the fallback. */
-body:has(.game-shell){height:auto;min-height:var(--app-height,100svh);overflow:visible;--display-width:min(calc(100% - var(--console-safe) - var(--console-safe)),clamp(280px,calc(var(--app-height,100dvh) - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px) - 400px),402px))}
+body:has(.game-shell){height:auto;min-height:var(--app-height,100svh);overflow:visible;--display-width:min(calc(100% - var(--console-safe) - var(--console-safe)),clamp(280px,calc(var(--app-height,100dvh) - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px) - 350px),402px))}
 body:has(.game-shell)>#app{flex:none;overflow:visible}
 .game-shell.flow-layout{flex:none;height:auto}
 .game-shell .flow-main{height:auto;overflow:visible}.game-shell .flow-main.story-screen{overflow:visible}
@@ -503,3 +503,7 @@ html[data-theme="dark"] .live-scene-frame>.top-stats{background:#253326eb;border
 .live-scene-frame .top-stat-item{height:38px}.need-name{font-size:9px}.live-scene-frame .top-stat-meter strong{font-size:9px}
 
 .live-scene-frame .top-stat{top:-3px}
+
+body>header,body:has(.game-shell)>header{display:none}.menu-brand{margin-top:28px;text-align:center;font:800 21px/1.2 Manrope,Arial,sans-serif;letter-spacing:-1px;color:#566451}html[data-theme="dark"] .menu-brand{color:#dce6d7}
+
+.game-menu-dialog #close-game-menu{position:sticky;top:8px;z-index:3;display:block;margin:-12px -10px -18px auto;right:auto}
