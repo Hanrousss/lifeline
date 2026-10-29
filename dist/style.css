@@ -493,3 +493,13 @@ html[data-theme="dark"] .live-scene-frame>.top-stats{background:#253326eb;border
 .need-name{font-size:10px}.live-scene-frame .top-stat-meter strong{font-size:10px}
 
 .game-shell .story-deck .feed-row[class*="event-"] b{font-family:inherit;font-size:9px;font-weight:600;line-height:1.4}
+
+/* Give the badges their own lane: meters never pass under an icon. */
+.live-scene-frame .top-stat-item{gap:0}
+.live-scene-frame .top-stat{left:-4px}
+.live-scene-frame .top-stat-meter{width:calc(100% - 36px);margin-left:36px}
+.need-name{left:0}.live-scene-frame .top-stat-meter strong{right:0}
+
+.live-scene-frame .top-stat-item{height:38px}.need-name{font-size:9px}.live-scene-frame .top-stat-meter strong{font-size:9px}
+
+.live-scene-frame .top-stat{top:-3px}
