@@ -527,3 +527,25 @@ html[data-theme="dark"] .live-scene-frame .top-stat-track strong{color:#263c2a}
 .live-scene-frame>.year-focus{right:var(--scene-safe)}
 .game-shell .live-scene-frame>.activity-label{left:var(--scene-safe);bottom:var(--scene-safe)}
 @media(max-width:359px){.live-scene-frame{--scene-safe:10px}}
+
+/* Scene menus live in the navigation; yearly focus shares the needs-panel surface. */
+.game-shell .tabs{grid-template-columns:repeat(4,minmax(0,1fr)) 36px;gap:2px;align-items:center}
+.game-shell .tabs button{min-width:0;padding-inline:2px}
+.game-shell .tabs .tabs-menu{display:grid;place-items:center;justify-self:end;width:36px;height:36px;padding:7px;border:1px solid #ffffffbb;border-radius:12px;background:#f6f5e3db;color:#53664d}
+.tabs-menu svg{width:20px;height:20px}
+.live-scene-frame>.year-focus{top:var(--scene-safe);right:var(--scene-safe);width:112px;min-height:52px;gap:4px;padding:8px;border:1px solid #ffffffbb;border-radius:12px;background:#f6f5e3db;color:#44543c;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+.live-scene-frame>.year-focus>span:first-child{font:500 9px/12px Manrope,Arial,sans-serif}
+.focus-selected{display:flex;align-items:center;justify-content:space-between;gap:4px;font:600 11px/16px Manrope,Arial,sans-serif;min-width:0}
+.focus-selected svg{width:14px;height:14px;flex:none}
+.live-scene-frame>.year-focus select{position:absolute;inset:0;width:100%;height:100%;max-width:none;min-height:44px;padding:0;margin:0;opacity:0;font-size:16px;cursor:pointer}
+.live-scene-frame>.year-focus:focus-within{outline:2px solid #859975;outline-offset:2px}
+html[data-theme="dark"] .live-scene-frame>.year-focus,html[data-theme="dark"] .game-shell .tabs .tabs-menu{background:#253326eb;border-color:#85977780;color:#f0f4e7}
+@media(max-width:359px){.game-shell .tabs button{font-size:10px}.game-shell .tabs .tabs-menu{font-size:inherit}}
+/* Equal inner breathing room on all four sides of the needs group. */
+.live-scene-frame>.top-stats{gap:8px}
+.live-scene-frame .top-stat-item{height:30px}
+.live-scene-frame .top-stat{top:-7px}
+.live-scene-frame .top-stat-meter{display:flex;flex-direction:column;justify-content:flex-start;gap:3px;height:30px;padding:0}
+.live-scene-frame .top-stat-meter .need-name{position:static;display:block;flex:none;height:12px;line-height:12px}
+.live-scene-frame .top-stat-track{flex:none}
+.live-scene-frame .top-stat-cash strong{height:15px;line-height:15px}
