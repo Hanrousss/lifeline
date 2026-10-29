@@ -4,3 +4,10 @@ assert(s.ended);assert.equal(s.age,76);assert.equal(choices,20);assert(s.flow.fe
 for(let i=0;i<20;i++){assert.deepEqual(run(i,0),run(i,0));run(i,1);}
 const old=E.fresh(5);F.begin(old);old.flow.simple=true;old.childhood.finished=true;old.age=24;old.step=3;old.flow.months=288;old.flow.relationshipSeen=true;old.flow.career.active={kind:'career',title:'Old saved offer'};old.habits.active={kind:'habit',title:'Old saved habit'};old.flow.queue=[{due:289,text:'Old queued event',effect:{money:-50}}];const pending=JSON.stringify({career:old.flow.career.active,habit:old.habits.active,queue:old.flow.queue});F.advanceYear(old);assert.equal(JSON.stringify({career:old.flow.career.active,habit:old.habits.active,queue:old.flow.queue}),pending,'Dormant systems remain in old saves without running');
 console.log('Passed: 60 complete simple lives, 20 key choices, fewer than 75 records, yearly steps stop for choices, deterministic replay, optional relationship and dormant saved systems.');
+
+const jump=E.fresh(101);F.begin(jump);jump.flow.simple=true;
+assert(F.advanceToEvent(jump));assert.equal(jump.age,1);assert.equal(F.pending(jump).kind,'early');
+const blocked=JSON.stringify(jump);assert.equal(F.advanceToEvent(jump),false);assert.equal(JSON.stringify(jump),blocked);
+const between=E.fresh(102);F.begin(between);between.flow.simple=true;between.flow.months=84;between.age=7;between.childhood.finished=true;between.step=1;between.flow.relationshipSeen=true;
+const beforeEvents=between.flow.feed.length;assert(F.advanceToEvent(between));assert.equal(between.age,9);assert(between.flow.feed.length>beforeEvents);assert.equal(F.pending(between),null);
+console.log('Passed: skip stops at the next recorded event or pending choice and never resolves a choice automatically.');
