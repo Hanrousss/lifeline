@@ -320,9 +320,9 @@ dialog .dialog-controls .close{position:static;flex:none;right:auto;top:auto}
 .main-menu-view h1{font-size:52px;margin:18px 0 20px}.main-menu-view>p{font-size:12px;color:var(--muted);margin-bottom:28px}.main-menu-view .primary{justify-content:center}.main-menu-view .birth-sky{opacity:.6}
 .simple-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}.simple-stat>div{display:flex;justify-content:space-between;gap:8px;align-items:center;font-size:10px;color:#7c8b70;margin-bottom:7px}.simple-stat strong{font-weight:500;font-size:11px}
 .simple-track{height:4px;background:#dce2d2;display:block;border-radius:10px;overflow:hidden}.simple-track i{height:100%;display:block;border-radius:10px}.game-shell .simple-monitor{padding:13px 16px}
-.game-shell .live-visuals .live-pixel-scene{height:auto;aspect-ratio:320/112;max-height:230px;object-fit:contain;image-rendering:pixelated}
+.game-shell .live-visuals .live-pixel-scene{height:auto;aspect-ratio:320/152;max-height:230px;object-fit:contain;image-rendering:pixelated}
 .parent-orbits{height:232px}.family-links{height:242px}
-body:has(.game-shell) .header-actions{gap:8px}.game-shell .simple-monitor{padding:11px 12px}.simple-stats{gap:14px}.simple-stat>div{font-size:9px}.game-shell .story-screen:has(.decision-panel) .live-pixel-scene{height:auto;aspect-ratio:320/112}.main-menu-view{padding:40px 24px}
+body:has(.game-shell) .header-actions{gap:8px}.game-shell .simple-monitor{padding:11px 12px}.simple-stats{gap:14px}.simple-stat>div{font-size:9px}.game-shell .story-screen:has(.decision-panel) .live-pixel-scene{height:auto;aspect-ratio:320/152}.main-menu-view{padding:40px 24px}
 
 /* Playback sits below the scene in its own compact glass panel. */
 .scene-player{position:relative;display:flex;width:fit-content;max-width:100%;margin:8px auto;align-items:center;gap:2px;padding:5px 6px;border:1px solid #ffffffd9;border-radius:13px;background:#f6f4edb3;color:#5c7050;backdrop-filter:blur(16px) saturate(1.1);-webkit-backdrop-filter:blur(16px) saturate(1.1)}
@@ -345,3 +345,5 @@ body>header,body:has(.game-shell)>header{width:100%;max-width:430px}
 .top-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;flex:none;padding:4px 10px 10px}.top-stat{display:flex;align-items:center;justify-content:center;gap:9px;min-width:0;min-height:44px;padding:7px 10px;border:1px solid #ffffffd9;border-radius:13px;background:#ffffff70;color:#64755b;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}.top-stat svg{width:27px;height:27px;flex:none}.top-stat strong{font-size:14px;font-weight:600;font-variant-numeric:tabular-nums}.top-stat:hover{background:#ffffffb0}.stat-detail-value{font-size:28px;font-weight:600}.stat-detail-value span{font-size:12px;color:var(--muted)}
 
 .top-stat-item{display:flex;align-items:center;gap:6px;min-width:0}.top-stat{width:44px;height:44px;flex:none;padding:7px}.top-stat-meter{flex:1;min-width:0;color:#7c8b70}.top-stat-meter strong{display:block;margin-bottom:5px;font-size:10px;font-weight:600;font-variant-numeric:tabular-nums}.top-stat-track{display:block;height:4px;border-radius:10px;overflow:hidden;background:#dce2d2}.top-stat-track i{display:block;height:100%;border-radius:inherit}
+
+.live-scene-frame>.top-stats{position:absolute;inset:6px 6px auto;z-index:2;padding:0;gap:8px}.live-scene-frame .top-stat-meter{color:#52634e;text-shadow:0 1px 2px #ffffffaa}.live-scene-frame .top-stat-track{background:#f4f4e1a6}.live-scene-frame .top-stat{border-color:#ffffffbf;background:#f6f4ed8c}
