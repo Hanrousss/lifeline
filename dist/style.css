@@ -143,7 +143,7 @@ body:has(.game-shell)>#app{flex:1;min-height:0;width:100%;display:flex;flex-dire
 .game-shell .live-status{color:#455e50;font-size:9px!important;font-weight:700}
 .life-progress{display:flex;align-items:center;gap:10px;margin:3px auto 8px;width:calc(100% - 32px);max-width:430px;font-size:10px;font-weight:800}
 .age-badge{background:#fff1d4;border:2px solid #324f43;border-radius:8px;padding:4px 10px;white-space:nowrap;box-shadow:0 2px 0 #738f73}.age-road{height:9px;flex:1;border:2px solid #65826a;border-radius:99px;background:#a7be99;overflow:hidden}.age-road i{display:block;height:100%;background:#f2bb6a;min-width:6px}.next-age{color:#56715b;white-space:nowrap}
-.game-shell .live-visuals .live-scene-frame{border:0;border-radius:0;width:100%;background:#d4e5c3}
+.game-shell .live-visuals .live-scene-frame{border:0;border-radius:18px;width:100%;background:#d4e5c3}
 .game-shell .live-visuals .live-pixel-scene{height:clamp(105px,19dvh,220px);width:100%;object-fit:cover;object-position:center 65%}
 .game-shell .activity-label{bottom:7px;left:12px;background:#fff2d6e8;border:1px solid #71866c;border-radius:7px;padding:4px 9px;font-size:9px;color:#4c604b}
 .game-shell .life-monitor{margin:0;padding:8px 12px;background:#384b44;border-top:3px solid #27352f;color:#fff1d4}
