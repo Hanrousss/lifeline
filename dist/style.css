@@ -407,3 +407,26 @@ body:has(.game-shell){--console-safe:14px;background-color:#dfe3c8;background-im
 .game-shell .story-screen>.tabs{margin-top:4px;margin-bottom:0}
 
 .game-shell .story-screen>.tabs{margin-top:0;margin-bottom:10px}
+
+/* Small pixel badges at the leading edge of the existing colored need bars. */
+.live-scene-frame>.top-stats{width:136px;gap:0}
+.live-scene-frame .top-stat-item{position:relative;height:44px;gap:0;align-items:center}
+.live-scene-frame .top-stat{position:absolute;left:0;top:0;width:44px;height:44px;min-height:44px;padding:0;border:0;border-radius:50%;background:transparent;box-shadow:none}
+.live-scene-frame .top-stat[data-stat="money"]{border:0;background:transparent;box-shadow:none}
+.live-scene-frame .top-stat::before{content:"";position:absolute;inset:8px;border:1px solid #c8d2ba;border-radius:50%;background:#f4f4e2ed}
+.live-scene-frame .top-stat svg{position:relative;width:20px;height:20px;z-index:1}
+.live-scene-frame .top-stat:hover{background:transparent}.live-scene-frame .top-stat:hover::before{background:#fffde9}
+.live-scene-frame .top-stat-meter{position:relative;width:calc(100% - 25px);margin-left:25px;flex:none;padding-top:9px;text-shadow:none}
+.live-scene-frame .top-stat-meter strong{position:absolute;top:-3px;right:5px;margin:0;font-size:9px;line-height:11px}
+.live-scene-frame .top-stat-track{height:13px;border:1px solid #bdcbb0;border-radius:999px;background:#eef2e1db;overflow:hidden}
+.live-scene-frame .top-stat-track i{border-radius:inherit;box-shadow:inset 0 1px 0 #ffffff55}
+/* Keep iOS typography stable and respect the notch/home-indicator in standalone use. */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body:has(.game-shell){padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body:has(.game-shell)>#app{min-width:0;overflow:hidden}
+body:has(.game-shell)>header{padding-bottom:9px}
+.year-focus select,.settings-speed select,.trial-label select{font-size:16px}
+.game-shell .live-stage,.game-shell .story-deck,.game-shell .tabs{min-width:0}
+.scene-player{flex-shrink:0}
+dialog{max-height:calc(100dvh - max(12px,env(safe-area-inset-top,0px)) - max(12px,env(safe-area-inset-bottom,0px)))}
+@media(max-width:359px){body:has(.game-shell){--console-safe:10px}.live-scene-frame>.top-stats{left:10px;top:10px;width:124px}.scene-tools{right:10px;top:10px;gap:5px}.scene-tool{width:44px;height:44px}.scene-player{max-width:calc(100% - 20px);gap:3px}}
