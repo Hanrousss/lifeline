@@ -2,7 +2,7 @@
 // Original procedural pixels: everyday clothes, large heads and compact bodies.
 const skins=[['#f2c6a2','#dba080','#e3a493'],['#e9ad83','#c78261','#cc866f'],['#ca885d','#a36549','#ad6658'],['#9e6345','#7d4938','#914d45'],['#794d3c','#5b362e','#713c36']];
 const hairs=[['#503b35','#765044','#a67250'],['#49372f','#714e35','#a47746'],['#8b5835','#be8548','#e4b36c'],['#352f35','#51434b','#78606a']];
-const clothes=[['#267f85','#1e5e68','#75b9af'],['#ca726d','#994f58','#e8a18b'],['#c59a45','#94703b','#e8c270'],['#4c6588','#364963','#8a9cbb']];
+const clothes=[['#00847E','#105666','#77C7B4'],['#D3968C','#AA6464','#FFC0C0'],['#B9C255','#839958','#EDE986'],['#80AEE8','#5798D7','#E6F1FA']];
 function actor(s,{x=0,floor=44,role='self',child=false}={}){
  const seed=s.seed>>>0,skin=skins[seed%skins.length],old=role==='gran'||role==='self'&&s.age>=64;
  const hair=old?['#80746b','#b3a797','#d8ccb6']:hairs[(seed+(role==='dad'?1:role==='mom'?2:0))%hairs.length];
@@ -26,8 +26,8 @@ function actor(s,{x=0,floor=44,role='self',child=false}={}){
  r(cx+3,bodyY+2,2,bodyH-2,cloth[1]);r(cx-3,bodyY+2,2,Math.max(2,bodyH-4),cloth[2]);
  r(cx-7,bodyY+2,2,4,cloth[0]);r(cx+5,bodyY+2,2,4,cloth[1]);
  r(cx-7,bodyY+6,2,3,skin[0]);r(cx+5,bodyY+6,2,3,skin[1]);
- r(cx-4,legsY,8,2,'#4c4f65');r(cx-4,legsY+2,3,legH-2,'#4c4f65');r(cx+2,legsY+2,2,legH-2,'#383e54');
- r(cx-5,floor-2,4,2,'#3d3542');r(cx+1,floor-2,4,2,'#3d3542');
+ r(cx-4,legsY,8,2,'#484360');r(cx-4,legsY+2,3,legH-2,'#484360');r(cx+2,legsY+2,2,legH-2,'#302F4A');
+ r(cx-5,floor-2,4,2,'#5B0015');r(cx+1,floor-2,4,2,'#5B0015');
  return svg;
 }
 function portrait(s,role='self'){return `<svg viewBox="-7 -1 31 48" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges" aria-hidden="true" focusable="false">${actor(s,{x:0,floor:45,role,child:role==='self'&&s.age<17})}</svg>`;}
