@@ -19,13 +19,13 @@ function cozySceneBackdrop(s,outdoor){
   for(let i=0;i<46;i++){const x=(i*47+(s.seed%17))%320,y=93+(i*7)%18;if(x>102&&x<205)continue;r(x,y,3,1,i%3?'#a7c888':'#e6e5a8');if(i%4===0){r(x,y-3,1,4,'#83ad82');r(x-1,y-4,3,2,i%8?'#f1b3c6':'#fcf0c6');}}
   art+='</g>';
  }else{
-  art+='<g data-scene-layer="room-depth">';r(0,0,320,112,'#eee7d8');r(0,0,320,7,'#d8c7bf');r(0,7,320,2,'#faf1de');r(0,9,320,61,'#eee5d9');r(0,69,320,17,'#e2d8cc');r(0,69,320,2,'#f8edde');r(0,84,320,4,'#bba290');r(0,87,320,25,'#d1b69e');
+  art+='<g data-scene-layer="room-depth">';r(0,0,320,112,'#eee7d8');r(0,-40,320,7,'#d8c7bf');r(0,-33,320,2,'#faf1de');r(0,-31,320,100,'#eee5d9');r(0,69,320,17,'#e2d8cc');r(0,69,320,2,'#f8edde');r(0,84,320,4,'#bba290');r(0,87,320,25,'#d1b69e');
   for(let i=0;i<8;i++){r(i*42,90+(i%2)*6,1,9,'#bca18d');r(i*42+12,104,1,8,'#bca18d');}r(0,99,320,1,'#c2a78f');r(0,111,320,1,'#b9a18c');
   for(let i=0;i<15;i++){const x=75+(i%10)*20,y=19+Math.floor(i/10)*17;r(x,y,1,3,'#dfd5cb');r(x-1,y+1,3,1,'#dfd5cb');}
   // Window recess, distant garden, curtains and a stepped patch of sunlight.
   r(10,16,49,47,'#d4c4b6');r(13,18,44,42,'#b69e8f');r(16,21,38,34,'#b1dce3');r(16,21,38,9,'#9bcfdc');r(21,26,14,3,'#eef4e9');r(25,23,8,3,'#eef4e9');r(17,44,36,11,'#c0d5a8');r(39,35,9,20,'#a7c5a0');r(36,40,17,8,'#a7c5a0');r(33,21,3,35,'#faf1d9');r(16,37,38,2,'#faf1d9');r(9,58,52,4,'#c5ad95');r(9,58,52,1,'#f4e6cc');
   r(6,16,7,37,'#c1b9d1');r(7,17,2,32,'#ded6e1');r(13,16,5,10,'#c1b9d1');r(54,16,7,38,'#b2a6c1');r(56,17,2,31,'#d6cbdd');r(6,14,56,2,'#a99389');
-  poly('20,63 52,63 96,95 43,95','#e9d6af');poly('25,64 32,64 63,91 51,91','#f0e1c2');
+  art+='<g class="window-sunlight" opacity="0.15">';poly('20,63 52,63 96,95 43,95','#e9d6af');poly('25,64 32,64 63,91 51,91','#f0e1c2');art+='</g>';
   // Framed prints, a bookcase, and plants frame the central action.
   r(238,17,25,22,'#c0a98d');r(240,19,21,18,'#f9f0d9');r(242,21,17,8,'#c3d6d3');poly('242,33 249,25 254,31 259,27 259,35 242,35','#a4bbaa');r(247,23,3,3,'#ead6a5');
   r(280,20,25,57,'#baa38e');r(283,23,19,50,'#d5c3a8');r(282,43,21,3,'#ac9483');r(282,62,21,3,'#ac9483');
@@ -38,7 +38,7 @@ function cozySceneBackdrop(s,outdoor){
 }
 
 function renderLiveScene(s){const F=LifeFlow,flow=F.ensure(s),kind=F.activeScene(s),pending=F.pending(s);let a='';const r=(x,y,w,h,c)=>a+=`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${c}"/>`;const sprite=(x,y,shirt,child=false,pose='stand',extra='')=>{const role=shirt==='#ce8575'?'self':shirt==='#8696a7'||shirt==='#8697a4'?'dad':s.age>=6&&s.age<17?'friend':'mom';r(x-4,y+(child?34:40),22,3,outdoor?'#83ab8b':'#b7a498');a+=`<g class="pixel-actor ${pose==='walk'?'actor-walk':'actor-idle'} ${extra}">${PixelPeople.actor(s,{x,floor:y+(child?36:42),role,child})}</g>`;};
-const outdoor=kind==='park';a+=cozySceneBackdrop(s,outdoor);
+const outdoor=kind==='park';r(0,-40,320,40,outdoor?'#8ccddd':'#eee5d9');a+=cozySceneBackdrop(s,outdoor);
 if(kind==='school'){r(83,14,134,35,'#86705a');r(86,17,128,29,'#56786b');r(99,26,40,2,'#d6ddbe');r(99,33,25,2,'#d6ddbe');r(164,25,12,12,'#e1c68f');r(178,27,23,2,'#d6ddbe');[[68,73],[201,73]].forEach(([x,y])=>{r(x,y,42,4,'#927159');r(x+3,y+4,3,12,'#927159');r(x+36,y+4,3,12,'#927159');});sprite(225,43,'#809b92',false);sprite(126,s.age<17?52:45,'#ce8575',s.age<17);sprite(159,52,'#9a9c78',true);}
 else if(kind==='work'){r(90,18,48,32,'#455b69');r(94,22,40,24,'#b1d3d6');r(97,25,16,2,'#e9f3e5');r(97,30,27,1,'#8fb4bc');r(97,34,20,1,'#8fb4bc');r(117,38,12,5,'#c7ded4');r(112,50,4,7,'#455b69');r(82,64,93,5,'#8e7058');r(86,69,4,19,'#8e7058');r(167,69,4,19,'#8e7058');r(96,58,48,4,'#eee5d0');r(146,58,7,6,'#c3b4cc');r(149,55,1,3,'#859c88');r(231,55,20,30,'#719386');sprite(185,45,'#ce8575');sprite(242,45,'#8697a4');}
 else if(kind==='draw'||kind==='read'){r(112,69,98,5,'#8c6f58');r(116,74,4,14,'#8c6f58');r(202,74,4,14,'#8c6f58');r(128,60,30,9,'#fff0cc');r(130,62,26,1,kind==='draw'?'#b18489':'#8b9f8f');r(140,60,2,9,'#beaa85');r(184,42,3,27,'#b38468');r(178,39,15,4,'#d6b17e');r(175,43,21,3,'#d6b17e');sprite(156,s.age<17?52:45,'#ce8575',s.age<17);if(s.age<6)sprite(88,45,'#819b8b');}
@@ -48,4 +48,4 @@ else if(kind==='repair'){r(119,74,67,4,'#8a705b');r(122,78,4,10,'#8a705b');r(179
 else if(kind==='park'){sprite(118,s.age<17?52:45,'#ce8575',s.age<17,'walk');sprite(172,s.age<6?45:s.age<17?52:45,'#819b8b',s.age>=6&&s.age<17,'walk','actor-companion');}
 else{r(74,68,63,17,'#397e80');r(77,61,57,12,'#65a29b');r(75,84,5,4,'#816c56');r(130,84,5,4,'#816c56');r(94,63,17,10,'#e0bd9d');r(96,65,13,1,'#f1d7b7');r(79,77,52,1,'#81b9b0');r(78,84,55,2,'#568e8b');r(208,75,24,4,'#8e7359');r(211,79,3,9,'#8e7359');r(226,79,3,9,'#8e7359');r(217,66,6,9,'#d8ad7a');if(s.age>=1)sprite(166,s.age<17?52:45,'#ce8575',s.age<17);if(s.age<6)sprite(244,45,'#819b8b');}
 if(s.age<1){a+='<g class="scene-cradle">';r(153,76,37,6,'#8e715a');r(153,66,3,16,'#8e715a');r(187,66,3,16,'#8e715a');r(156,72,31,5,'#9eb6a6');r(163,68,8,5,PixelPeople.skin(s));r(160,72,22,4,'#eed5ae');r(156,82,3,6,'#8e715a');r(184,82,3,6,'#8e715a');a+='</g>';}
-if(kind==='sleep')r(0,0,320,112,'#54678533');return `<svg class="live-pixel-scene" data-perspective="overview" preserveAspectRatio="xMidYMid meet" viewBox="0 0 320 112" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges" role="img" aria-label="Пиксельная сцена: ${F.names[kind]||'Дома'}">${a}</svg>`;}
+if(kind==='sleep')r(0,0,320,112,'#54678533');return `<svg class="live-pixel-scene" data-perspective="overview" preserveAspectRatio="xMidYMid meet" viewBox="0 -40 320 152" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges" role="img" aria-label="Пиксельная сцена: ${F.names[kind]||'Дома'}">${a}</svg>`;}
