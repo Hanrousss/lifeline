@@ -51,7 +51,8 @@ if(f.simple){if(f.months%36===0&&!pending(s)){if(f.months%72===0)worldNews(s);el
 if(f.months%12===6&&s.age>=6&&s.age<17){s.stats.skill+=1;}
 if(!f.simple)for(const event of K.tick(s))add(s,event.type,event.text,event.scene);if(!f.simple)for(const event of R.tick(s))add(s,event.type,event.text,event.scene);if(!f.simple)for(const event of S.tick(s))add(s,event.type,event.text,event.scene);clamp(s);return true;}
 function advanceYear(s){let moved=false;for(let i=0;i<12;i++){if(!advance(s))break;moved=true;}return moved;}
+function advanceToEvent(s){const f=ensure(s),count=f.feed.length;let moved=false;for(let i=0;i<1200&&!s.ended&&!pending(s);i++){if(!advance(s))break;moved=true;if(f.feed.length>count||pending(s))break;}return moved;}
 function activeScene(s){const p=pending(s),f=ensure(s);return p?p.scene:(!f.simple&&K.activity(s)||f.activity);}
 function occupation(s,who='self'){ensure(s);if(who==='self')return s.age<1?'Первые месяцы':s.age<6?'Дошкольница':s.flow.simple?(s.age<17?'Школьница':'Взрослая жизнь'):s.flow.career.job;const person=s.family[who];if(!person)return '';if(who==='mother'&&s.flow.parentsRetired)return 'На пенсии · '+person.job;return person.job;}
-root.LifeFlow={advanceYear,begin,ensure,pending,resolve,advance,add,activeScene,names,occupation,sideStories};if(typeof module!=='undefined')module.exports=root.LifeFlow;
+root.LifeFlow={advanceToEvent,advanceYear,begin,ensure,pending,resolve,advance,add,activeScene,names,occupation,sideStories};if(typeof module!=='undefined')module.exports=root.LifeFlow;
 })(typeof window!=='undefined'?window:globalThis);
