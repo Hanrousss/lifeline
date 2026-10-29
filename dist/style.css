@@ -466,3 +466,30 @@ body:has(.game-shell)>#app{flex:none;overflow:visible}
 .game-shell .flow-main{height:auto;overflow:visible}.game-shell .flow-main.story-screen{overflow:visible}
 .game-shell .live-stage{width:var(--display-width);margin-inline:auto}
 .game-shell .story-deck{width:var(--display-width);margin-inline:auto;height:180px;min-height:180px}
+
+/* Readable needs: named bars, larger badges and solid contrast against scenery. */
+.live-scene-frame>.top-stats{width:136px;gap:4px;padding:4px;border:1px solid #ffffffbb;border-radius:12px;background:#f6f5e3db;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+.live-scene-frame .top-stat-item{height:40px}.live-scene-frame .top-stat{width:44px;height:44px;left:-4px;top:-2px}.live-scene-frame .top-stat::before{inset:8px}.live-scene-frame .top-stat svg{width:20px;height:20px}
+.live-scene-frame .top-stat-meter{width:calc(100% - 18px);margin-left:18px}.live-scene-frame .top-stat-track{height:12px;background:#e8edda;border-color:#a5b698}
+.need-name{position:absolute;left:14px;top:-14px;font:500 9px/12px Manrope,Arial,sans-serif;color:#44543c}.live-scene-frame .top-stat-meter strong{top:-14px;right:2px;font-size:9px;line-height:12px;color:#35462d}
+.live-scene-frame>.year-focus{width:112px}
+/* Keep the gray pager, restore the earlier restrained readable typography. */
+.game-shell .story-deck>.story-scroll{font-family:ui-monospace,'Courier New',monospace;font-size:11px;font-synthesis:auto}
+.game-shell .story-deck .feed-heading,.game-shell .story-deck .feed-heading .text-btn{font-family:inherit;font-size:10px;font-weight:400;line-height:1.5}
+.game-shell .story-deck .feed-row p{font-family:inherit;font-size:11px;font-weight:400;line-height:1.5}.game-shell .story-deck .feed-row b{font-family:inherit;font-size:9px;font-weight:600;line-height:1.4}.game-shell .story-deck .feed-row>span{font-size:9px;line-height:1.4}.game-shell .story-deck .decision-return button{font-size:11px;line-height:1.5}
+/* A Sims-like pause menu stays over the current game. */
+dialog.game-menu-dialog,body:has(.game-shell) dialog.game-menu-dialog{width:min(360px,calc(100% - 32px));padding:28px 24px 30px;border:1px solid #ffffffeb;border-radius:18px;background:#fafcf7f2;box-shadow:0 15px 50px #14223940;backdrop-filter:blur(18px);color:#315e88}
+dialog.game-menu-dialog::backdrop{background:#1a243b88;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.game-menu-dialog h2{margin:0 0 26px;text-align:center;font:600 25px/1.3 Manrope,Arial,sans-serif;color:#315e88}.game-menu-dialog .close{border-color:#c7d0d6;background:#fff;color:#315e88}
+.game-menu-options{display:grid;gap:16px}.game-menu-options button{width:100%;min-height:44px;padding:11px 12px;border:1px solid #e1e5e4;border-radius:999px;background:linear-gradient(#fff,#e9edeb);box-shadow:0 3px 0 #9ea9aa,0 4px 5px #596b7420;color:#315e88;font:600 13px/1.4 Manrope,Arial,sans-serif}.game-menu-options button:hover{background:linear-gradient(#fff,#e0e9ef)}.game-menu-options button:active{transform:translateY(2px);box-shadow:0 1px 0 #9ea9aa}
+html[data-theme="dark"] body{--paper:#252e29;--ink:#e1e7df;--muted:#b4beb0;--line:#53614f;background:#252e29;color:#e1e7df}
+html[data-theme="dark"] body:has(.game-shell){--paper:#252e29;--ink:#e1e7df;--muted:#b4beb0;background-color:#27312a;background-image:radial-gradient(ellipse at 20% 0%,#53654a44,transparent 65%),radial-gradient(#b9c9ab0a .5px,transparent .7px),linear-gradient(115deg,#303b32,#222c25);box-shadow:inset 2px 0 2px #6e7d5f33,inset -2px 0 3px #101b1844}
+html[data-theme="dark"] .game-shell .tabs button{color:#bac6b5}html[data-theme="dark"] .game-shell .tabs button.active{background:#5c6e514d;border-color:#8d9d8080;color:#edf2e8}
+html[data-theme="dark"] body>header{color:#e0e7dc}html[data-theme="dark"] body .header-actions .text-btn{color:#d0d9c8}html[data-theme="dark"] body .header-actions .icon{background:#5e705444;color:#d3dfcb}
+html[data-theme="dark"] body dialog{background:#303b32;color:#e1e7df;border-color:#6f8067}html[data-theme="dark"] .dialog-controls{background:#303b32}
+html[data-theme="dark"] dialog.game-menu-dialog{background:#2b3540f5;border-color:#647487;color:#d0e5ff}html[data-theme="dark"] .game-menu-dialog h2{color:#d0e5ff}html[data-theme="dark"] .game-menu-options button{background:linear-gradient(#556775,#3e4d5a);border-color:#73828d;color:#eef6ff;box-shadow:0 3px 0 #18252e}html[data-theme="dark"] .game-menu-dialog .close{background:#4a5b6a;color:#edf4ff}
+html[data-theme="dark"] .live-scene-frame>.top-stats{background:#253326eb;border-color:#85977780}html[data-theme="dark"] .need-name,html[data-theme="dark"] .live-scene-frame .top-stat-meter strong{color:#f0f4e7}
+
+.need-name{font-size:10px}.live-scene-frame .top-stat-meter strong{font-size:10px}
+
+.game-shell .story-deck .feed-row[class*="event-"] b{font-family:inherit;font-size:9px;font-weight:600;line-height:1.4}
