@@ -364,3 +364,16 @@ body>header,body:has(.game-shell)>header{width:100%;max-width:430px}
 .game-shell .story-screen>.year-focus{flex:none;padding-bottom:16px}
 
 .game-shell .story-deck .feed-heading{position:sticky;top:0;z-index:1;margin:0 0 4px;padding:4px 0 8px;background:#dce2cd}
+
+/* Scene first: the controls and navigation live beneath both displays. */
+body:has(.game-shell)>header{order:2;flex:none}
+.game-shell .live-stage{margin:0 12px;border:0;border-radius:18px;background:transparent}
+.game-shell .story-screen>.tabs{flex:none;margin:0 12px 10px;padding:0}
+.game-shell .story-screen>.decision-reminder{margin-top:8px}
+.lcd-identity{display:flex;justify-content:space-between;gap:12px;margin:0 0 8px;padding-bottom:6px;border-bottom:1px solid #aab69b66;font-size:10px;color:#52614c}.lcd-identity strong{font-weight:600}
+.live-scene-frame .top-stat{border:0;border-radius:0;background:transparent;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none}
+.live-scene-frame .top-stat svg{width:32px;height:32px;image-rendering:pixelated;shape-rendering:crispEdges}
+.live-scene-frame .top-stat[data-stat="money"]{border:2px solid #fffced;background:#f6f4ed80;box-shadow:2px 2px 0 #a5ac9880}
+.live-scene-frame .top-stat:hover{background:#fffced55}
+.live-scene-frame .top-stat-track,.live-scene-frame .top-stat-track i{border-radius:0}
+.live-scene-frame .top-stat-meter strong{font-family:ui-monospace,'Courier New',monospace;font-size:11px;color:#4f5847}
