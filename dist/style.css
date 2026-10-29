@@ -339,3 +339,5 @@ body>header,body:has(.game-shell)>header{width:100%;max-width:430px}
 .player-action{width:40px;height:40px}
 
 .year-focus{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:7px 12px 10px;font-size:10px;color:#7b8972}.year-focus select{font:inherit;color:#526647;background:#ffffff80;border:1px solid #d8dfcd;border-radius:10px;min-height:36px;max-width:65%;padding:7px 12px}.year-focus select:focus-visible{outline:2px solid #859975;outline-offset:2px}
+
+.defer-decision{display:block;width:100%;min-height:40px;margin-top:12px;padding:9px 12px;border:1px solid #d8dfcd;border-radius:12px;background:transparent;color:#748268;font-size:11px}.defer-decision:hover{background:#ffffff66}.decision-reminder{display:flex;flex:none;align-items:center;justify-content:space-between;gap:10px;padding:8px 12px;margin:0 8px 8px;border:1px solid #ffffffcc;border-radius:12px;background:#ffffff70;color:#7b8972;font-size:9px}.decision-reminder span{min-width:0}.decision-reminder button{flex:none;min-height:36px;border:1px solid #c5d1b8;border-radius:10px;padding:7px 10px;background:#e3e9dcb3;color:#5c704d;font-size:10px}
