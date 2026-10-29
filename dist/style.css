@@ -518,3 +518,12 @@ html[data-theme="dark"] .live-scene-frame .top-stat-track strong{color:#263c2a}
 .simulation-actions,.simulation-groups{display:grid;gap:12px}.simulation-actions button{width:100%;margin:0}.simulation-actions small{display:block;margin:5px 3px;color:var(--muted);font-size:11px;line-height:1.5}.simulation-actions button:disabled{opacity:.55}.simulation-groups{grid-template-columns:1fr 1fr;margin:18px 0}.simulation-summary{display:grid;gap:8px;margin:18px 0}.simulation-summary>span{display:flex;justify-content:space-between;gap:12px;font-size:12px}.finance-details{font-size:12px;line-height:1.6}.finance-details>div{display:flex;justify-content:space-between;gap:16px;padding:7px 0;border-bottom:1px solid var(--line)}.finance-details dd{margin:0;text-align:right;white-space:nowrap}html[data-theme="dark"] .live-scene-frame .top-stat-cash strong{color:#f0f4e7}
 
 #toast{display:none;width:max-content;max-width:calc(100% - 32px);padding:10px 14px;border:1px solid var(--line);border-radius:14px;background:var(--paper);box-shadow:0 4px 18px #303c3426;color:var(--ink);font:12px/1.5 Manrope,Arial,sans-serif;pointer-events:none;bottom:max(18px,env(safe-area-inset-bottom,0px))}#toast.show{display:block}
+
+/* One safe zone for scene controls, and balanced padding inside the status group. */
+.live-scene-frame{--scene-safe:14px}
+.live-scene-frame>.top-stats{left:var(--scene-safe);top:var(--scene-safe);padding:8px}
+.live-scene-frame .top-stat{left:-8px}
+.live-scene-frame>.scene-tools{top:var(--scene-safe);right:calc(var(--scene-safe) + 2px)}
+.live-scene-frame>.year-focus{right:var(--scene-safe)}
+.game-shell .live-scene-frame>.activity-label{left:var(--scene-safe);bottom:var(--scene-safe)}
+@media(max-width:359px){.live-scene-frame{--scene-safe:10px}}
