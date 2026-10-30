@@ -632,3 +632,11 @@ html[data-theme="dark"] .scene-life-strip{background:#2d3d50f2;border-color:#829
 .live-scene-frame .scene-finance-summary{display:grid;gap:3px;width:100%;min-width:0;margin:0;padding:5px 0 0;border:0;border-top:1px solid #71826533;border-radius:0;background:transparent;color:#40523e;text-align:left;font:9px/12px Manrope,Arial,sans-serif}
 .scene-finance-row{display:flex;align-items:baseline;justify-content:space-between;gap:4px;min-width:0}.scene-finance-row>span{flex:none;font-size:8px;white-space:nowrap}.scene-finance-row b{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:9px;font-weight:700;font-variant-numeric:tabular-nums}.scene-finance-row.finance-debt b{color:#a34f5a}
 html[data-theme="dark"] .live-scene-frame .scene-finance-summary{color:#e2ecf7;border-top-color:#a0b5d040}html[data-theme="dark"] .scene-finance-row.finance-debt b{color:#f2a4ad}
+
+/* View tags are inset into the rounded lower display, with a green active state. */
+.game-shell .story-deck>.deck-view-tabs{flex:none;align-items:center;gap:6px;min-width:0;padding:10px 12px 6px;background:transparent;border:0}
+.game-shell .deck-view-tabs button{flex:0 1 auto;min-width:0;max-width:100%;margin:0;padding:5px 12px;border:1px solid #9da89570;border-radius:999px;background:#dce0d65c;color:#52614a;font:500 11px/15px Manrope,Arial,sans-serif;white-space:nowrap;box-shadow:none}
+.game-shell .deck-view-tabs button[aria-pressed="true"]{background:#b9cba8;border-color:#809970;color:#354e2b;font-weight:600;box-shadow:inset 0 1px 1px #ffffff60}
+.game-shell .deck-view-tabs button:hover{border-color:#7c936b}
+html[data-theme="dark"] .game-shell .deck-view-tabs button{background:#b3c0c544;border-color:#7e959b70;color:#3c5360}html[data-theme="dark"] .game-shell .deck-view-tabs button[aria-pressed="true"]{background:#b9cba8;border-color:#809970;color:#354e2b}
+@media(max-width:359px){.game-shell .story-deck>.deck-view-tabs{padding:9px 10px 5px;gap:5px}.game-shell .deck-view-tabs button{padding-inline:10px}}
