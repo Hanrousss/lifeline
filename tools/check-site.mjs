@@ -1,7 +1,9 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
-const root=path.resolve('dist'),html=fs.readFileSync(path.join(root,'index.html'),'utf8');
+const root=path.resolve('dist'),pageHtml=fs.readFileSync(path.join(root,'index.html'),'utf8');
+// The ordered modules are delivered as one generated browser bundle.
+const modules=JSON.parse(fs.readFileSync('tools/game-scripts.json','utf8'));assert(pageHtml.includes('src="game.js?'));const html=pageHtml+modules.map(name=>'<script src="'+name+'"></script>').join('');
 const links=[...html.matchAll(/(?:src|href)="([^"]+)"/g)].map(m=>m[1]);
 for(const url of links){if(/^(?:https?:|data:|#)/.test(url)||url==='./')continue;assert(!url.startsWith('/'),'Use a relative path for project Pages: '+url);const file=path.resolve(root,url.split(/[?#]/)[0]);assert(file.startsWith(root+path.sep));assert(fs.existsSync(file),'Missing asset: '+url);}
 for(const name of ['birth-data.js','childhood-scenes.js','engine.js','survival-data.js','cohort.js','habits.js','social.js','career.js','life-decisions.js','timeline.js','live-scene.js','career-ui.js','habits-ui.js','app.js'])assert(new RegExp('src="'+name.replaceAll('.', '\\.')+'(?:\\?[^"]*)?"').test(html));

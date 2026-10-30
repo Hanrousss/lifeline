@@ -1,5 +1,5 @@
 {
-  "source": "1in8b.life 0.8.63 beta \u2014 Russian published client",
+  "source": "1in8b.life 0.8.63 beta — Russian published client",
   "copiedDate": "2026-10-27",
   "permission": "User confirmed author permission on 2026-10-29",
   "sha256": "b414d862c71a765a613b7a1f7773d0ac69814c7b78f66b09c7548aba08d9b2be",
@@ -21,5 +21,6 @@
     "core-ru-13.b64",
     "core-ru-14.b64",
     "core-ru-15.b64"
-  ]
+  ],
+  "compressed": "engine-b414d862c71a.bin"
 }
