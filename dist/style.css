@@ -558,6 +558,16 @@ html[data-theme="dark"] .live-scene-frame>.year-focus,html[data-theme="dark"] .g
 .scene-player #cycle-music.music-blue{border-color:#486a89;background:linear-gradient(#bad1e0,#83a6c6 18%,#5d83a6 72%,#4b6e91);box-shadow:inset 0 2px 1px #e0f0ff99,inset 0 -1px 1px #304c6b55,0 3px 0 #385470,0 5px 7px #424c382b}
 .scene-player #cycle-music.music-lilac{border-color:#79618e;background:linear-gradient(#d3c3df,#b39acb 18%,#9378ac 72%,#7c6295);box-shadow:inset 0 2px 1px #f0e2ff99,inset 0 -1px 1px #4f3a6455,0 3px 0 #604a75,0 5px 7px #424c382b}
 
+/* Modular PNG scene: full square composition; never inherit pixel-art sampling. */
+.modular-scene{position:absolute;inset:0;overflow:hidden}
+.modular-scene canvas{display:block;width:100%;height:100%;image-rendering:auto;visibility:hidden;cursor:pointer}
+.art-load-status{position:absolute;bottom:8px;right:8px;background:#fff9e8;padding:5px 8px;font:11px system-ui;color:#554638}
+.legacy-scene{position:absolute;inset:0}.legacy-scene[hidden],.modular-scene[hidden],.art-load-status[hidden]{display:none}
+.game-menu-options .art-editor-link{display:block;text-align:center;padding:14px 10px;color:inherit;font:inherit;text-decoration:none;border-top:1px solid #a5ae9955}
+
+.art-profile-control{position:absolute;z-index:3;bottom:8px;right:8px;max-width:60%;display:flex;align-items:center;gap:5px;background:#fff9e8ed;border-radius:8px;padding:5px 7px;color:#584d3e;font:10px system-ui}
+.art-profile-control select{max-width:135px;min-width:0;padding:4px;border:1px solid #c1b7a3;background:#fffcf4;border-radius:5px;font:inherit;color:inherit}
+
 /* Rounded body-colour rim straddles the scene boundary, with shaded inner/outer edges. */
 .live-scene-frame{isolation:isolate}
 .live-visuals{position:relative;isolation:isolate;--scene-rim-width:clamp(8px,2.5vw,11px);--scene-rim-body:#dfe3c8;--scene-rim-edge:#94a17e;--scene-rim-light:#f3f5df;--scene-rim-shadow:#8b9a76}
@@ -565,6 +575,11 @@ html[data-theme="dark"] .live-scene-frame>.year-focus,html[data-theme="dark"] .g
 .live-visuals::before{inset:calc(var(--scene-rim-width)/2);border-radius:calc(18px - var(--scene-rim-width)/2);box-shadow:0 0 2px 1px var(--scene-rim-edge)}
 .live-visuals::after{inset:calc(var(--scene-rim-width)/-2);padding:var(--scene-rim-width);border-radius:calc(18px + var(--scene-rim-width)/2);background:var(--scene-rim-body);box-shadow:inset 0 0 2px 1px var(--scene-rim-edge),inset 0 4px 4px -2px var(--scene-rim-light),inset 0 -4px 4px -2px var(--scene-rim-shadow);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
 html[data-theme="dark"] .live-visuals{--scene-rim-body:#303b32;--scene-rim-edge:#18251c;--scene-rim-light:#53654a;--scene-rim-shadow:#17251b}
+
+.art-profile-control{flex-wrap:wrap;justify-content:flex-end}.art-profile-control>label{display:flex;align-items:center;gap:4px}.scene-dog-toggle input{margin:0}
+
+/* Keep the graphics-test controls off the floor and away from paws/feet. */
+.art-profile-control{position:static;max-width:none;width:100%;box-sizing:border-box;margin:6px 0 0;justify-content:space-between;padding:6px 9px}
 
 /* Cool blue-gray console, with restrained screen and tactile-key backlighting. */
 html[data-theme="dark"] body{--paper:#2b3748;--ink:#e7eef7;--muted:#b3bfd0;--line:#596b80;background:#2b3748;color:#e7eef7}
@@ -586,3 +601,17 @@ html[data-theme="dark"] .game-shell .story-deck .feed-row>span{color:#5d7388}
 html[data-theme="dark"] .scene-player .player-action{position:relative}
 html[data-theme="dark"] .scene-player .player-action:not(:disabled):not(.music-off)::after{content:"";position:absolute;inset:-1px;border:1px solid #afd6ff45;border-radius:inherit;box-shadow:0 0 6px #92bfff38;pointer-events:none}
 html[data-theme="dark"] .scene-player #time-toggle:not(:disabled)::after,html[data-theme="dark"] .scene-player #cycle-speed.speed-active:not(:disabled)::after{border-color:#ffb7dd55;box-shadow:0 0 8px #f070bb45}
+
+/* Temporary graphics laboratory replaces only the lower history display. */
+.game-shell .story-deck{display:flex;flex-direction:column}.deck-view-tabs{display:flex;gap:4px;padding:5px 8px 0;flex:none}.deck-view-tabs button{flex:1;border:1px solid #a6b197;border-radius:6px 6px 2px 2px;padding:5px 6px;background:#e7ecdc;color:#53614e;font:11px system-ui;cursor:pointer}.deck-view-tabs button[aria-pressed="true"]{background:#c9d5b9;border-color:#7c8e6b;font-weight:600}
+.game-shell .story-deck>.story-scroll{min-height:0;flex:1;overflow:auto;padding:8px 10px}.game-shell .story-deck.graphics-deck{height:230px;min-height:230px}.graphics-lab{font:11px/1.4 system-ui;color:#354b39}.lab-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px 9px}.graphics-lab label{display:flex;flex-direction:column;gap:3px;min-width:0}.graphics-lab select{width:100%;min-width:0;max-width:100%;height:29px;font:11px system-ui;border:1px solid #a4b197;border-radius:5px;background:#f5f7ed;color:#354b39;padding:3px 4px}.graphics-lab input[type="range"]{width:100%;margin:3px 0}.graphics-lab .lab-check{display:flex;flex-direction:row;align-items:center;gap:5px}.graphics-lab details{margin-top:8px;padding-top:5px;border-top:1px solid #a3af953d}.graphics-lab summary{cursor:pointer;padding:4px 0;font-weight:600}.graphics-lab details[open] summary{margin-bottom:5px}.graphics-lab .lab-note{font-size:10px;opacity:.8;margin:8px 0 0}.lab-error{color:#9c493e;margin:4px 0}.graphics-lab input[type="checkbox"]{margin:0}
+
+/* The same family identities are used in birth circles and the character screen. */
+.family-art-avatar{position:relative;display:block;width:100%;height:100%;overflow:hidden;border-radius:inherit}
+.family-art-avatar canvas{display:block;width:100%;height:100%;object-fit:contain;image-rendering:auto}
+.family-art-avatar canvas[hidden],.family-art-status[hidden]{display:none}
+.family-art-status{position:absolute;inset:0;display:grid;place-items:center;font:600 24px Manrope,Arial,sans-serif;color:#657661}
+.parent-circle .family-art-avatar{border-radius:50%}.newborn-circle .family-art-avatar{width:100%;height:100%;padding:5px}
+.family-avatar .family-art-avatar{min-width:34px;min-height:34px}
+
+.newborn-placeholder{display:grid;place-items:center;width:100%;height:100%;padding:15%;color:#89977e}.newborn-placeholder svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}

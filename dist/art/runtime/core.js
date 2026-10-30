@@ -1,0 +1,47 @@
+(function(root){
+'use strict';
+const VERSION=1;
+const DOG_BREEDS={prototype:'Прежняя собака',cavalier:'Кавалер кинг чарльз спаниель',spitz:'Шпиц',dachshund:'Такса',german_shepherd:'Немецкая овчарка',papillon:'Папильон',pug:'Мопс',medium_poodle:'Средний пудель'};
+const DOG_POSES={standing:'Стоит',sitting:'Сидит',lying:'Лежит',sleeping:'Спит',playing:'Играет'};
+const DOG_AGES=['puppy','adult','senior'];
+const MOUTHS=['smile','soft','neutral','sad'];
+const PROFILES=['adult_f','adult_m','elder_f','child'];
+const LABELS={adult_f:'Взрослая девушка',adult_m:'Взрослый мужчина',elder_f:'Пожилая родственница',child:'Ребёнок 6–12 лет'};
+function expressionFor(happiness,energy){
+ const bounded=value=>Number.isFinite(value)?Math.max(0,Math.min(100,value)):100;
+ const remaining=bounded(energy),score=(bounded(happiness)+remaining)/2;
+ const averageIndex=score>=75?0:score>=50?1:score>=25?2:3;
+ // A tired eye shape cannot be paired with a smile. Keep the agreed average,
+ // but cap the visible mouth to neutral for stages 2/3 and sad for stage 4.
+ const fatigueFloor=remaining<25?3:remaining<75?2:0;
+ return {score,mouth:MOUTHS[Math.max(averageIndex,fatigueFloor)]};
+}
+function resolveExpression(actor){return actor.mouthMode==='auto'?{...actor,mouth:expressionFor(actor.happiness,100-actor.fatigue*100).mouth}:actor;}
+function availableHairStyles(profile){return ['adult_f','elder_f'].includes(profile)?['short','bob']:['short','bob','none'];}
+function playerHairStyle(profile,style){return availableHairStyles(profile).includes(style)?style:'bob';}
+function petDefinition(manifest,breed='prototype'){return breed==='prototype'?manifest.pets.dog:manifest.pets.dog.breeds?.[breed];}
+function petEntry(manifest,state){const breed=state.dogBreed||'prototype',pet=petDefinition(manifest,breed),entry=pet?.ages?.[state.dogAge||'adult']?.poses?.[state.dogPose||'standing'];if(!entry)throw Error('Нет рисунка для породы, возраста или позы собаки');return {pet,entry};}
+function petGeometry(manifest,age='adult',pose='standing',breed='prototype'){const p=petDefinition(manifest,breed),anchor=p.ages?.[age]?.poses?.[pose]?.footAnchor||p.footAnchor,scale=p.scale||manifest.pets.dog.scale,position=manifest.pets.dog.footPosition;return {x:position[0]-anchor[0]*scale,y:position[1]-anchor[1]*scale,scale,footY:position[1]};}
+function dogAgeFromMonths(months){return months<12?'puppy':months<96?'adult':'senior';}
+function gameMonths(s){return Number.isFinite(s.flow?.months)?Math.max(0,s.flow.months):Math.max(0,(Number(s.age)||0)*12);}
+function dogClockFor(stage,month){return {anchorGameMonth:month,ageAtAnchorMonths:stage==='puppy'?0:stage==='senior'?96:12};}
+function dogAgeAt(clock,month){const months=clock.ageAtAnchorMonths+Math.max(0,month-clock.anchorGameMonth);return {months,stage:dogAgeFromMonths(months)};}
+function petStateAt(config,month){return config.dogClock?{...config,dogAge:dogAgeAt(config.dogClock,month).stage}:config;}
+const copy=x=>JSON.parse(JSON.stringify(x));
+function pointInPolygon(point,polygon){let inside=false;for(let i=0,j=polygon.length-1;i<polygon.length;j=i++){const a=polygon[i],b=polygon[j];if(((a[1]>point[1])!==(b[1]>point[1]))&&point[0]<(b[0]-a[0])*(point[1]-a[1])/(b[1]-a[1])+a[0])inside=!inside;}return inside;}
+function isWalkable(point,scene){return point.every(Number.isFinite)&&scene.walkableAreas.some(p=>pointInPolygon(point,p))&&!(scene.obstacles||[]).some(p=>pointInPolygon(point,p));}
+function defaultState(){return {version:VERSION,activeId:'adult_f',showAll:false,dogVisible:true,dogBreed:'cavalier',dogClock:null,dogAge:'adult',dogPose:'standing',dogColor:0,actors:Object.fromEntries(PROFILES.map((id,i)=>[id,{id:'pilot_'+id,profile:id,label:LABELS[id],skin:i===2?2:1,hairColor:i===2?3:0,hairStyle:i===1||i===3?'short':'bob',head:'standing',mouth:'smile',mouthMode:'auto',happiness:100,top:i%4,bottom:0,fatigue:0,pose:'standing',seatId:null,position:[[164,278],[258,279],[198,265],[276,282]][i]}])),houseSeed:173,houseRooms:null};}
+function visibleIds(state){return state.showAll?PROFILES:[state.activeId];}
+function sit(state,id,slotId,manifest){const next=copy(state),actor=next.actors[id],slot=manifest.scene.slots.find(s=>s.id===slotId);if(!actor||!slot)return {ok:false,error:'Место не найдено.'};if(!slot.accepts.includes(manifest.profiles[id].bodyFamily))return {ok:false,error:'Для этого тела нет совместимой посадки.'};const occupied=visibleIds(next).some(other=>other!==id&&next.actors[other].pose==='sitting'&&next.actors[other].seatId===slotId);if(occupied)return {ok:false,error:'Это место уже занято.'};actor.pose='sitting';actor.seatId=slotId;return {ok:true,state:next};}
+function move(state,id,point,manifest){if(!isWalkable(point,manifest.scene))return {ok:false,error:'Здесь нет свободного пола. Выберите участок перед мебелью.'};const next=copy(state);next.actors[id].pose='standing';next.actors[id].seatId=null;next.actors[id].position=point.map(n=>Math.round(n*10)/10);return {ok:true,state:next};}
+function showAll(state,manifest){const next=copy(state);next.showAll=true;const taken=new Set();for(const id of PROFILES){const a=next.actors[id];if(a.pose==='sitting'){if(taken.has(a.seatId)){a.pose='standing';a.seatId=null;}else taken.add(a.seatId);}}return next;}
+function rng(seed){let a=seed>>>0;return ()=>{a=(a+0x6D2B79F5)>>>0;let t=Math.imul(a^(a>>>15),1|a);t^=t+Math.imul(t^(t>>>7),61|t);return ((t^(t>>>14))>>>0)/4294967296;};}
+function roomOptions(catalog,kind,group){return catalog.filter(x=>x.room===kind&&x.compatibilityGroup===group);}
+function mixRooms(seed,catalog,group){const random=rng(seed);const rooms={};for(const kind of ['kitchen','bedroom','bathroom']){const options=roomOptions(catalog,kind,group);if(!options.length)throw new Error('Нет совместимого варианта: '+kind);rooms[kind]=options[Math.floor(random()*options.length)].id;}return {seed:seed>>>0,compatibilityGroup:group,rooms};}
+function countMixes(catalog,group){return ['kitchen','bedroom','bathroom'].reduce((n,kind)=>n*roomOptions(catalog,kind,group).length,1);}
+function validateState(input,manifest){if(!input||input.version!==VERSION)throw new Error('Неподдерживаемая версия сохранения пилота.');const base=defaultState();if(!PROFILES.includes(input.activeId))throw new Error('Неизвестный персонаж.');base.activeId=input.activeId;base.showAll=Boolean(input.showAll);base.dogVisible=Boolean(input.dogVisible);if(input.dogAge!==undefined&&!DOG_AGES.includes(input.dogAge))throw new Error('Неизвестный возраст собаки.');base.dogAge=input.dogAge||'adult';base.dogBreed=Object.hasOwn(DOG_BREEDS,input.dogBreed)?input.dogBreed:'prototype';base.dogPose=Object.hasOwn(DOG_POSES,input.dogPose)?input.dogPose:'standing';if(base.dogBreed==='prototype'&&!['standing','sitting'].includes(base.dogPose))base.dogPose='standing';const clock=input.dogClock;base.dogClock=clock&&Number.isFinite(clock.anchorGameMonth)&&clock.anchorGameMonth>=0&&Number.isFinite(clock.ageAtAnchorMonths)&&clock.ageAtAnchorMonths>=0?{anchorGameMonth:clock.anchorGameMonth,ageAtAnchorMonths:clock.ageAtAnchorMonths}:null;base.dogColor=Number.isInteger(input.dogColor)&&input.dogColor>=0&&input.dogColor<3?input.dogColor:0;
+for(const id of PROFILES){const a=input.actors?.[id];if(a?.mouthMode!==undefined&&!['auto','manual'].includes(a.mouthMode))throw new Error('Неизвестный режим эмоций.');if(a?.happiness!==undefined&&(!Number.isFinite(a.happiness)||a.happiness<0||a.happiness>100))throw new Error('Неверное значение счастья.');if(a?.mouth!==undefined&&!MOUTHS.includes(a.mouth))throw new Error('Неизвестный вариант рта.');if(!a||a.profile!==id)throw new Error('Неверная размерная группа: '+id);for(const [key,max] of Object.entries({skin:5,hairColor:5,top:4,bottom:3})){if(!Number.isInteger(a[key])||a[key]<0||a[key]>=max)throw new Error('Неверная палитра '+key);}if(!['short','bob','none'].includes(a.hairStyle)||!['standing','sitting'].includes(a.head)||!['standing','sitting'].includes(a.pose))throw new Error('Неизвестный слой или поза.');if(!Number.isFinite(a.fatigue)||a.fatigue<0||a.fatigue>1)throw new Error('Неверное состояние усталости.');if(!Array.isArray(a.position)||a.position.length!==2||!isWalkable(a.position,manifest.scene))throw new Error('Точка вне доступного пола.');if(a.pose==='sitting'&&!manifest.scene.slots.some(s=>s.id===a.seatId&&s.accepts.includes(manifest.profiles[id].bodyFamily)))throw new Error('Нет совместимого места.');base.actors[id]={...base.actors[id],...copy(a),mouth:a.mouth||'smile',mouthMode:a.mouthMode||'manual',happiness:a.happiness??100,hairStyle:playerHairStyle(id,a.hairStyle),id:'pilot_'+id,label:LABELS[id]};}
+base.houseSeed=Number.isInteger(input.houseSeed)?input.houseSeed>>>0:173;base.houseRooms=input.houseRooms&&typeof input.houseRooms==='object'?copy(input.houseRooms):null;
+if(base.showAll){const taken=new Set();for(const id of PROFILES){const a=base.actors[id];if(a.pose==='sitting'){if(taken.has(a.seatId))throw new Error('Два человека занимают одно место.');taken.add(a.seatId);}}}return base;}
+const api={DOG_BREEDS,DOG_POSES,petDefinition,petEntry,gameMonths,dogClockFor,dogAgeAt,dogAgeFromMonths,petStateAt,DOG_AGES,expressionFor,resolveExpression,VERSION,MOUTHS,PROFILES,LABELS,availableHairStyles,playerHairStyle,petGeometry,copy,defaultState,visibleIds,pointInPolygon,isWalkable,sit,move,showAll,rng,mixRooms,countMixes,validateState};root.LifelineAssetCore=api;if(typeof module!=='undefined')module.exports=api;
+})(typeof window!=='undefined'?window:globalThis);
