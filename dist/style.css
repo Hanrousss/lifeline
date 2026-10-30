@@ -627,3 +627,8 @@ html[data-theme="dark"] .scene-player #time-toggle:not(:disabled)::after,html[da
 @keyframes age-label{0%,100%{opacity:0}15%,80%{opacity:1}}
 html[data-theme="dark"] .scene-life-strip{background:#2d3d50f2;border-color:#829ab850;color:#e6eef6}html[data-theme="dark"] .scene-age-track{background:#17293d}html[data-theme="dark"] .scene-age-track i{background:linear-gradient(90deg,#6e9ab4,#9dc3d0)}html[data-theme="dark"] .scene-age-next b{color:#acd0dc}html[data-theme="dark"] .age-celebration-label{background:#2d3d50ed;color:#e6eef6;border-color:#829ab880}
 @media(prefers-reduced-motion:reduce){.scene-age-track i{transition:none}.age-celebration-label{animation:none}.age-confetti{display:none}}
+
+/* Essential finance figures remain visible below the cash balance. */
+.live-scene-frame .scene-finance-summary{display:grid;gap:3px;width:100%;min-width:0;margin:0;padding:5px 0 0;border:0;border-top:1px solid #71826533;border-radius:0;background:transparent;color:#40523e;text-align:left;font:9px/12px Manrope,Arial,sans-serif}
+.scene-finance-row{display:flex;align-items:baseline;justify-content:space-between;gap:4px;min-width:0}.scene-finance-row>span{flex:none;font-size:8px;white-space:nowrap}.scene-finance-row b{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:9px;font-weight:700;font-variant-numeric:tabular-nums}.scene-finance-row.finance-debt b{color:#a34f5a}
+html[data-theme="dark"] .live-scene-frame .scene-finance-summary{color:#e2ecf7;border-top-color:#a0b5d040}html[data-theme="dark"] .scene-finance-row.finance-debt b{color:#f2a4ad}
