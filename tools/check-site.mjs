@@ -27,3 +27,7 @@ assert(html.indexOf('pixel-people.js')<html.indexOf('live-scene.js'));
 assert(html.indexOf('life-decisions.js')<html.indexOf('timeline.js'));
 
 assert(html.indexOf('preferences.js')<html.indexOf('app.js'));
+
+// The PNG integration shares the same validated core and renderer with its editor.
+for(const name of ['art/runtime/core.js','art/runtime/renderer.js','modular-scene.js']){assert(html.includes('src="'+name));assert(html.indexOf(name)<html.indexOf('src="app.js'));}
+assert(html.indexOf('art/runtime/core.js')<html.indexOf('art/runtime/renderer.js'));

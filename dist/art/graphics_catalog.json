@@ -1,0 +1,1218 @@
+{
+  "houses": [
+    {
+      "id": "modest_01",
+      "label": "Скромный дом 1",
+      "rooms": [
+        {
+          "id": "modest_01_exterior",
+          "kind": "exterior",
+          "label": "Фасад",
+          "background": "assets/housing/modest_01/exterior.png",
+          "personScale": 0.32,
+          "petScale": 0.32,
+          "personAnchor": [
+            185,
+            282
+          ],
+          "petAnchor": [
+            222,
+            303
+          ],
+          "walkableAreas": [
+            [
+              [
+                140,
+                260
+              ],
+              [
+                278,
+                260
+              ],
+              [
+                278,
+                286
+              ],
+              [
+                140,
+                286
+              ]
+            ]
+          ],
+          "obstacles": [],
+          "slots": [],
+          "petLane": [
+            [
+              136,
+              296
+            ],
+            [
+              290,
+              296
+            ],
+            [
+              290,
+              310
+            ],
+            [
+              136,
+              310
+            ]
+          ],
+          "registrationStatus": "temporary foreground lanes; furniture interaction only for pilot sofa"
+        },
+        {
+          "id": "pilot_living_room",
+          "kind": "living_room",
+          "label": "Гостиная",
+          "background": "assets/scenes/pilot_living_room/background.png",
+          "personScale": 1,
+          "petScale": 1,
+          "personAnchor": [
+            185,
+            282
+          ],
+          "petAnchor": [
+            222,
+            303
+          ],
+          "walkableAreas": [
+            [
+              [
+                140,
+                250
+              ],
+              [
+                280,
+                250
+              ],
+              [
+                280,
+                286
+              ],
+              [
+                140,
+                286
+              ]
+            ]
+          ],
+          "obstacles": [
+            [
+              [
+                0,
+                207
+              ],
+              [
+                126,
+                207
+              ],
+              [
+                126,
+                286
+              ],
+              [
+                0,
+                286
+              ]
+            ]
+          ],
+          "slots": [
+            {
+              "id": "sofa_left",
+              "type": "seat",
+              "position": [
+                151,
+                205
+              ],
+              "accepts": [
+                "adult_f_standard_v1",
+                "adult_m_standard_v1",
+                "elder_f_standard_v1",
+                "child_standard_v1"
+              ]
+            },
+            {
+              "id": "sofa_right",
+              "type": "seat",
+              "position": [
+                231,
+                205
+              ],
+              "accepts": [
+                "adult_f_standard_v1",
+                "adult_m_standard_v1",
+                "elder_f_standard_v1",
+                "child_standard_v1"
+              ]
+            }
+          ],
+          "petLane": [
+            [
+              136,
+              296
+            ],
+            [
+              290,
+              296
+            ],
+            [
+              290,
+              310
+            ],
+            [
+              136,
+              310
+            ]
+          ],
+          "registrationStatus": "temporary foreground lanes; furniture interaction only for pilot sofa"
+        },
+        {
+          "id": "modest_01_kitchen",
+          "kind": "kitchen",
+          "label": "Кухня",
+          "background": "assets/room_variants/modest_01/kitchen.png",
+          "personScale": 1,
+          "petScale": 1,
+          "personAnchor": [
+            185,
+            282
+          ],
+          "petAnchor": [
+            222,
+            303
+          ],
+          "walkableAreas": [
+            [
+              [
+                140,
+                260
+              ],
+              [
+                278,
+                260
+              ],
+              [
+                278,
+                286
+              ],
+              [
+                140,
+                286
+              ]
+            ]
+          ],
+          "obstacles": [],
+          "slots": [],
+          "petLane": [
+            [
+              136,
+              296
+            ],
+            [
+              290,
+              296
+            ],
+            [
+              290,
+              310
+            ],
+            [
+              136,
+              310
+            ]
+          ],
+          "registrationStatus": "temporary foreground lanes; furniture interaction only for pilot sofa"
+        },
+        {
+          "id": "modest_01_bedroom",
+          "kind": "bedroom",
+          "label": "Спальня",
+          "background": "assets/room_variants/modest_01/bedroom.png",
+          "personScale": 1,
+          "petScale": 1,
+          "personAnchor": [
+            185,
+            282
+          ],
+          "petAnchor": [
+            222,
+            303
+          ],
+          "walkableAreas": [
+            [
+              [
+                140,
+                260
+              ],
+              [
+                278,
+                260
+              ],
+              [
+                278,
+                286
+              ],
+              [
+                140,
+                286
+              ]
+            ]
+          ],
+          "obstacles": [],
+          "slots": [],
+          "petLane": [
+            [
+              136,
+              296
+            ],
+            [
+              290,
+              296
+            ],
+            [
+              290,
+              310
+            ],
+            [
+              136,
+              310
+            ]
+          ],
+          "registrationStatus": "temporary foreground lanes; furniture interaction only for pilot sofa"
+        },
+        {
+          "id": "modest_01_bathroom",
+          "kind": "bathroom",
+          "label": "Ванная",
+          "background": "assets/room_variants/modest_01/bathroom.png",
+          "personScale": 1,
+          "petScale": 1,
+          "personAnchor": [
+            185,
+            282
+          ],
+          "petAnchor": [
+            222,
+            303
+          ],
+          "walkableAreas": [
+            [
+              [
+                140,
+                260
+              ],
+              [
+                278,
+                260
+              ],
+              [
+                278,
+                286
+              ],
+              [
+                140,
+                286
+              ]
+            ]
+          ],
+          "obstacles": [],
+          "slots": [],
+          "petLane": [
+            [
+              136,
+              296
+            ],
+            [
+              290,
+              296
+            ],
+            [
+              290,
+              310
+            ],
+            [
+              136,
+              310
+            ]
+          ],
+          "registrationStatus": "temporary foreground lanes; furniture interaction only for pilot sofa"
+        }
+      ]
+    },
+    {
+      "id": "village_low_02",
+      "label": "Скромный дом 2",
+      "rooms": [
+        {
+          "id": "village_low_02_exterior",
+          "kind": "exterior",
+          "label": "Фасад",
+          "background": "assets/housing/village_low_02/exterior.png",
+          "personScale": 0.32,
+          "petScale": 0.32,
+          "personAnchor": [
+            185,
+            282
+          ],
+          "petAnchor": [
+            222,
+            303
+          ],
+          "walkableAreas": [
+            [
+              [
+                140,
+                260
+              ],
+              [
+                278,
+                260
+              ],
+              [
+                278,
+                286
+              ],
+              [
+                140,
+                286
+              ]
+            ]
+          ],
+          "obstacles": [],
+          "slots": [],
+          "petLane": [
+            [
+              136,
+              296
+            ],
+            [
+              290,
+              296
+            ],
+            [
+              290,
+              310
+            ],
+            [
+              136,
+              310
+            ]
+          ],
+          "registrationStatus": "temporary foreground lanes; furniture interaction only for pilot sofa"
+        },
+        {
+          "id": "village_low_02_living_room",
+          "kind": "living_room",
+          "label": "Гостиная",
+          "background": "assets/housing/village_low_02/living_room.png",
+          "personScale": 1,
+          "petScale": 1,
+          "personAnchor": [
+            185,
+            282
+          ],
+          "petAnchor": [
+            222,
+            303
+          ],
+          "walkableAreas": [
+            [
+              [
+                140,
+                260
+              ],
+              [
+                278,
+                260
+              ],
+              [
+                278,
+                286
+              ],
+              [
+                140,
+                286
+              ]
+            ]
+          ],
+          "obstacles": [],
+          "slots": [],
+          "petLane": [
+            [
+              136,
+              296
+            ],
+            [
+              290,
+              296
+            ],
+            [
+              290,
+              310
+            ],
+            [
+              136,
+              310
+            ]
+          ],
+          "registrationStatus": "temporary foreground lanes; furniture interaction only for pilot sofa"
+        },
+        {
+          "id": "village_low_02_kitchen",
+          "kind": "kitchen",
+          "label": "Кухня",
+          "background": "assets/room_variants/village_low_02/kitchen.png",
+          "personScale": 1,
+          "petScale": 1,
+          "personAnchor": [
+            185,
+            282
+          ],
+          "petAnchor": [
+            222,
+            303
+          ],
+          "walkableAreas": [
+            [
+              [
+                140,
+                260
+              ],
+              [
+                278,
+                260
+              ],
+              [
+                278,
+                286
+              ],
+              [
+                140,
+                286
+              ]
+            ]
+          ],
+          "obstacles": [],
+          "slots": [],
+          "petLane": [
+            [
+              136,
+              296
+            ],
+            [
+              290,
+              296
+            ],
+            [
+              290,
+              310
+            ],
+            [
+              136,
+              310
+            ]
+          ],
+          "registrationStatus": "temporary foreground lanes; furniture interaction only for pilot sofa"
+        },
+        {
+          "id": "village_low_02_bedroom",
+          "kind": "bedroom",
+          "label": "Спальня",
+          "background": "assets/room_variants/village_low_02/bedroom.png",
+          "personScale": 1,
+          "petScale": 1,
+          "personAnchor": [
+            185,
+            282
+          ],
+          "petAnchor": [
+            222,
+            303
+          ],
+          "walkableAreas": [
+            [
+              [
+                140,
+                260
+              ],
+              [
+                278,
+                260
+              ],
+              [
+                278,
+                286
+              ],
+              [
+                140,
+                286
+              ]
+            ]
+          ],
+          "obstacles": [],
+          "slots": [],
+          "petLane": [
+            [
+              136,
+              296
+            ],
+            [
+              290,
+              296
+            ],
+            [
+              290,
+              310
+            ],
+            [
+              136,
+              310
+            ]
+          ],
+          "registrationStatus": "temporary foreground lanes; furniture interaction only for pilot sofa"
+        },
+        {
+          "id": "village_low_02_bathroom",
+          "kind": "bathroom",
+          "label": "Ванная",
+          "background": "assets/room_variants/village_low_02/bathroom.png",
+          "personScale": 1,
+          "petScale": 1,
+          "personAnchor": [
+            185,
+            282
+          ],
+          "petAnchor": [
+            222,
+            303
+          ],
+          "walkableAreas": [
+            [
+              [
+                140,
+                260
+              ],
+              [
+                278,
+                260
+              ],
+              [
+                278,
+                286
+              ],
+              [
+                140,
+                286
+              ]
+            ]
+          ],
+          "obstacles": [],
+          "slots": [],
+          "petLane": [
+            [
+              136,
+              296
+            ],
+            [
+              290,
+              296
+            ],
+            [
+              290,
+              310
+            ],
+            [
+              136,
+              310
+            ]
+          ],
+          "registrationStatus": "temporary foreground lanes; furniture interaction only for pilot sofa"
+        }
+      ]
+    },
+    {
+      "id": "village_middle_01",
+      "label": "Средний дом",
+      "rooms": [
+        {
+          "id": "village_middle_01_exterior",
+          "kind": "exterior",
+          "label": "Фасад",
+          "background": "assets/housing/village_middle_01/exterior.png",
+          "personScale": 0.32,
+          "petScale": 0.32,
+          "personAnchor": [
+            185,
+            282
+          ],
+          "petAnchor": [
+            222,
+            303
+          ],
+          "walkableAreas": [
+            [
+              [
+                140,
+                260
+              ],
+              [
+                278,
+                260
+              ],
+              [
+                278,
+                286
+              ],
+              [
+                140,
+                286
+              ]
+            ]
+          ],
+          "obstacles": [],
+          "slots": [],
+          "petLane": [
+            [
+              136,
+              296
+            ],
+            [
+              290,
+              296
+            ],
+            [
+              290,
+              310
+            ],
+            [
+              136,
+              310
+            ]
+          ],
+          "registrationStatus": "temporary foreground lanes; furniture interaction only for pilot sofa"
+        },
+        {
+          "id": "village_middle_01_living_room",
+          "kind": "living_room",
+          "label": "Гостиная",
+          "background": "assets/housing/village_middle_01/living_room.png",
+          "personScale": 1,
+          "petScale": 1,
+          "personAnchor": [
+            185,
+            282
+          ],
+          "petAnchor": [
+            222,
+            303
+          ],
+          "walkableAreas": [
+            [
+              [
+                140,
+                260
+              ],
+              [
+                278,
+                260
+              ],
+              [
+                278,
+                286
+              ],
+              [
+                140,
+                286
+              ]
+            ]
+          ],
+          "obstacles": [],
+          "slots": [],
+          "petLane": [
+            [
+              136,
+              296
+            ],
+            [
+              290,
+              296
+            ],
+            [
+              290,
+              310
+            ],
+            [
+              136,
+              310
+            ]
+          ],
+          "registrationStatus": "temporary foreground lanes; furniture interaction only for pilot sofa"
+        },
+        {
+          "id": "village_middle_01_kitchen",
+          "kind": "kitchen",
+          "label": "Кухня",
+          "background": "assets/housing/village_middle_01/kitchen.png",
+          "personScale": 1,
+          "petScale": 1,
+          "personAnchor": [
+            185,
+            282
+          ],
+          "petAnchor": [
+            222,
+            303
+          ],
+          "walkableAreas": [
+            [
+              [
+                140,
+                260
+              ],
+              [
+                278,
+                260
+              ],
+              [
+                278,
+                286
+              ],
+              [
+                140,
+                286
+              ]
+            ]
+          ],
+          "obstacles": [],
+          "slots": [],
+          "petLane": [
+            [
+              136,
+              296
+            ],
+            [
+              290,
+              296
+            ],
+            [
+              290,
+              310
+            ],
+            [
+              136,
+              310
+            ]
+          ],
+          "registrationStatus": "temporary foreground lanes; furniture interaction only for pilot sofa"
+        },
+        {
+          "id": "village_middle_01_bedroom",
+          "kind": "bedroom",
+          "label": "Спальня",
+          "background": "assets/housing/village_middle_01/bedroom.png",
+          "personScale": 1,
+          "petScale": 1,
+          "personAnchor": [
+            185,
+            282
+          ],
+          "petAnchor": [
+            222,
+            303
+          ],
+          "walkableAreas": [
+            [
+              [
+                140,
+                260
+              ],
+              [
+                278,
+                260
+              ],
+              [
+                278,
+                286
+              ],
+              [
+                140,
+                286
+              ]
+            ]
+          ],
+          "obstacles": [],
+          "slots": [],
+          "petLane": [
+            [
+              136,
+              296
+            ],
+            [
+              290,
+              296
+            ],
+            [
+              290,
+              310
+            ],
+            [
+              136,
+              310
+            ]
+          ],
+          "registrationStatus": "temporary foreground lanes; furniture interaction only for pilot sofa"
+        },
+        {
+          "id": "village_middle_01_bathroom",
+          "kind": "bathroom",
+          "label": "Ванная",
+          "background": "assets/housing/village_middle_01/bathroom.png",
+          "personScale": 1,
+          "petScale": 1,
+          "personAnchor": [
+            185,
+            282
+          ],
+          "petAnchor": [
+            222,
+            303
+          ],
+          "walkableAreas": [
+            [
+              [
+                140,
+                260
+              ],
+              [
+                278,
+                260
+              ],
+              [
+                278,
+                286
+              ],
+              [
+                140,
+                286
+              ]
+            ]
+          ],
+          "obstacles": [],
+          "slots": [],
+          "petLane": [
+            [
+              136,
+              296
+            ],
+            [
+              290,
+              296
+            ],
+            [
+              290,
+              310
+            ],
+            [
+              136,
+              310
+            ]
+          ],
+          "registrationStatus": "temporary foreground lanes; furniture interaction only for pilot sofa"
+        }
+      ]
+    },
+    {
+      "id": "village_high_01",
+      "label": "Богатый дом",
+      "rooms": [
+        {
+          "id": "village_high_01_exterior",
+          "kind": "exterior",
+          "label": "Фасад",
+          "background": "assets/housing/village_high_01/exterior.png",
+          "personScale": 0.32,
+          "petScale": 0.32,
+          "personAnchor": [
+            185,
+            282
+          ],
+          "petAnchor": [
+            222,
+            303
+          ],
+          "walkableAreas": [
+            [
+              [
+                140,
+                260
+              ],
+              [
+                278,
+                260
+              ],
+              [
+                278,
+                286
+              ],
+              [
+                140,
+                286
+              ]
+            ]
+          ],
+          "obstacles": [],
+          "slots": [],
+          "petLane": [
+            [
+              136,
+              296
+            ],
+            [
+              290,
+              296
+            ],
+            [
+              290,
+              310
+            ],
+            [
+              136,
+              310
+            ]
+          ],
+          "registrationStatus": "temporary foreground lanes; furniture interaction only for pilot sofa"
+        },
+        {
+          "id": "village_high_01_living_room",
+          "kind": "living_room",
+          "label": "Гостиная",
+          "background": "assets/housing/village_high_01/living_room.png",
+          "personScale": 1,
+          "petScale": 1,
+          "personAnchor": [
+            185,
+            282
+          ],
+          "petAnchor": [
+            222,
+            303
+          ],
+          "walkableAreas": [
+            [
+              [
+                140,
+                260
+              ],
+              [
+                278,
+                260
+              ],
+              [
+                278,
+                286
+              ],
+              [
+                140,
+                286
+              ]
+            ]
+          ],
+          "obstacles": [],
+          "slots": [],
+          "petLane": [
+            [
+              136,
+              296
+            ],
+            [
+              290,
+              296
+            ],
+            [
+              290,
+              310
+            ],
+            [
+              136,
+              310
+            ]
+          ],
+          "registrationStatus": "temporary foreground lanes; furniture interaction only for pilot sofa"
+        },
+        {
+          "id": "village_high_01_kitchen",
+          "kind": "kitchen",
+          "label": "Кухня",
+          "background": "assets/housing/village_high_01/kitchen.png",
+          "personScale": 1,
+          "petScale": 1,
+          "personAnchor": [
+            185,
+            282
+          ],
+          "petAnchor": [
+            222,
+            303
+          ],
+          "walkableAreas": [
+            [
+              [
+                140,
+                260
+              ],
+              [
+                278,
+                260
+              ],
+              [
+                278,
+                286
+              ],
+              [
+                140,
+                286
+              ]
+            ]
+          ],
+          "obstacles": [],
+          "slots": [],
+          "petLane": [
+            [
+              136,
+              296
+            ],
+            [
+              290,
+              296
+            ],
+            [
+              290,
+              310
+            ],
+            [
+              136,
+              310
+            ]
+          ],
+          "registrationStatus": "temporary foreground lanes; furniture interaction only for pilot sofa"
+        },
+        {
+          "id": "village_high_01_bedroom",
+          "kind": "bedroom",
+          "label": "Спальня",
+          "background": "assets/housing/village_high_01/bedroom.png",
+          "personScale": 1,
+          "petScale": 1,
+          "personAnchor": [
+            185,
+            282
+          ],
+          "petAnchor": [
+            222,
+            303
+          ],
+          "walkableAreas": [
+            [
+              [
+                140,
+                260
+              ],
+              [
+                278,
+                260
+              ],
+              [
+                278,
+                286
+              ],
+              [
+                140,
+                286
+              ]
+            ]
+          ],
+          "obstacles": [],
+          "slots": [],
+          "petLane": [
+            [
+              136,
+              296
+            ],
+            [
+              290,
+              296
+            ],
+            [
+              290,
+              310
+            ],
+            [
+              136,
+              310
+            ]
+          ],
+          "registrationStatus": "temporary foreground lanes; furniture interaction only for pilot sofa"
+        },
+        {
+          "id": "village_high_01_bathroom",
+          "kind": "bathroom",
+          "label": "Ванная",
+          "background": "assets/housing/village_high_01/bathroom.png",
+          "personScale": 1,
+          "petScale": 1,
+          "personAnchor": [
+            185,
+            282
+          ],
+          "petAnchor": [
+            222,
+            303
+          ],
+          "walkableAreas": [
+            [
+              [
+                140,
+                260
+              ],
+              [
+                278,
+                260
+              ],
+              [
+                278,
+                286
+              ],
+              [
+                140,
+                286
+              ]
+            ]
+          ],
+          "obstacles": [],
+          "slots": [],
+          "petLane": [
+            [
+              136,
+              296
+            ],
+            [
+              290,
+              296
+            ],
+            [
+              290,
+              310
+            ],
+            [
+              136,
+              310
+            ]
+          ],
+          "registrationStatus": "temporary foreground lanes; furniture interaction only for pilot sofa"
+        }
+      ]
+    }
+  ],
+  "defaultHouse": "modest_01",
+  "defaultRoom": "living_room"
+}

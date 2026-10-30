@@ -1,0 +1,56 @@
+[
+  {
+    "id": "modest_01_kitchen",
+    "room": "kitchen",
+    "compatibilityGroup": "village_low_pilot",
+    "path": "assets/room_variants/modest_01/kitchen.png",
+    "label": "Кухня · Дом 1",
+    "status": "draft",
+    "notes": "Existing artwork used to demonstrate stable room selection. Per-room navigation not included."
+  },
+  {
+    "id": "modest_01_bedroom",
+    "room": "bedroom",
+    "compatibilityGroup": "village_low_pilot",
+    "path": "assets/room_variants/modest_01/bedroom.png",
+    "label": "Спальня · Дом 1",
+    "status": "draft",
+    "notes": "Existing artwork used to demonstrate stable room selection. Per-room navigation not included."
+  },
+  {
+    "id": "modest_01_bathroom",
+    "room": "bathroom",
+    "compatibilityGroup": "village_low_pilot",
+    "path": "assets/room_variants/modest_01/bathroom.png",
+    "label": "Ванная · Дом 1",
+    "status": "draft",
+    "notes": "Existing artwork used to demonstrate stable room selection. Per-room navigation not included."
+  },
+  {
+    "id": "village_low_02_kitchen",
+    "room": "kitchen",
+    "compatibilityGroup": "village_low_pilot",
+    "path": "assets/room_variants/village_low_02/kitchen.png",
+    "label": "Кухня · Дом 2",
+    "status": "draft",
+    "notes": "Existing artwork used to demonstrate stable room selection. Per-room navigation not included."
+  },
+  {
+    "id": "village_low_02_bedroom",
+    "room": "bedroom",
+    "compatibilityGroup": "village_low_pilot",
+    "path": "assets/room_variants/village_low_02/bedroom.png",
+    "label": "Спальня · Дом 2",
+    "status": "draft",
+    "notes": "Existing artwork used to demonstrate stable room selection. Per-room navigation not included."
+  },
+  {
+    "id": "village_low_02_bathroom",
+    "room": "bathroom",
+    "compatibilityGroup": "village_low_pilot",
+    "path": "assets/room_variants/village_low_02/bathroom.png",
+    "label": "Ванная · Дом 2",
+    "status": "draft",
+    "notes": "Existing artwork used to demonstrate stable room selection. Per-room navigation not included."
+  }
+]

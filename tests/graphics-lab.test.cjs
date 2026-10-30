@@ -1,0 +1,10 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
+const C=require('../dist/art/runtime/core.js'),L=require('../dist/graphics-lab.js'),A=require('../dist/modular-scene.js'),catalog=require('../dist/art/graphics_catalog.json'),manifest=require('../dist/art/manifest.json');
+const life={seed:123,age:26,origin:{sex:'female'},stats:{joy:70,energy:80}},before=JSON.stringify(life);
+assert.equal(catalog.houses.length,4);assert.equal(catalog.houses.reduce((n,h)=>n+h.rooms.length,0),20);
+for(const h of catalog.houses)for(const r of h.rooms){assert(fs.existsSync(path.join(__dirname,'../dist/art',r.background)));assert.equal(L.chooseScene(catalog,{house:h.id,room:r.kind}).id,r.id);const humanMax=Math.max(...r.walkableAreas.flat().map(p=>p[1]));const petMin=Math.min(...r.petLane.map(p=>p[1]));assert(humanMax<petMin,'movement lanes must be separate');assert(C.pointInPolygon(r.petAnchor,r.petLane));if(r.kind==='exterior')assert(r.personScale<.5);}
+assert.equal(L.chooseScene(catalog,{house:'missing',room:'missing'}).id,'pilot_living_room');
+const memory=new Map();global.localStorage={getItem:k=>memory.get(k)||null,setItem:(k,v)=>memory.set(k,v)};
+assert.equal(L.preferences(life).animal,'none');memory.set('lifeline-graphics-lab-v1:123',JSON.stringify({house:'village_middle_01',room:'bedroom',profile:'child',animal:'dog',positions:{}}));assert.equal(L.profile(life),'child');assert(L.animalVisible(life));
+const scene=catalog.houses[2].rooms.find(r=>r.kind==='bedroom');assert.deepEqual(L.positionFor(life,scene,'child',[276,282]),scene.personAnchor);assert(!L.move(life,scene,'child',[0,0],manifest));assert(L.move(life,scene,'child',[180,280],manifest));assert.deepEqual(L.positionFor(life,scene,'child',[276,282]),[180,280]);assert(!memory.has('lifeline-test-v1'));assert.equal(JSON.stringify(life),before);assert(C.validateState(JSON.parse(memory.get(A.storageKey(life))),manifest));
+console.log('PASS: four houses / twenty scenes, separated human/pet lanes, exterior scale, per-room positions and test-only persistence.');
