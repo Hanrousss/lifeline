@@ -9,14 +9,14 @@ const PROFILES=['adult_f','adult_m','elder_f','child'];
 const LABELS={adult_f:'Взрослая девушка',adult_m:'Взрослый мужчина',elder_f:'Пожилая родственница',child:'Ребёнок 6–12 лет'};
 function expressionFor(happiness,energy){
  const bounded=value=>Number.isFinite(value)?Math.max(0,Math.min(100,value)):100;
- const remaining=bounded(energy),score=(bounded(happiness)+remaining)/2;
- const averageIndex=score>=75?0:score>=50?1:score>=25?2:3;
- // A tired eye shape cannot be paired with a smile. Keep the agreed average,
- // but cap the visible mouth to neutral for stages 2/3 and sad for stage 4.
- const fatigueFloor=remaining<25?3:remaining<75?2:0;
- return {score,mouth:MOUTHS[Math.max(averageIndex,fatigueFloor)]};
+ // Both inputs describe well-being: energy is 100 minus fatigue in percent.
+ // The worse input determines the complete face; a good input cannot cancel it.
+ const score=Math.min(bounded(happiness),bounded(energy));
+ const eyeTier=score>=75?0:score>=50?1:score>=25?2:3;
+ // Retain the rule against smiling mouths with tired/distressed eyelids.
+ return {score,eyeTier,mouth:eyeTier===0?'smile':eyeTier===3?'sad':'neutral'};
 }
-function resolveExpression(actor){return actor.mouthMode==='auto'?{...actor,mouth:expressionFor(actor.happiness,100-actor.fatigue*100).mouth}:actor;}
+function resolveExpression(actor){if(actor.mouthMode!=='auto')return actor;const emotion=expressionFor(actor.happiness,100-actor.fatigue*100);return {...actor,mouth:emotion.mouth,eyeTier:emotion.eyeTier,emotionScore:emotion.score};}
 function availableHairStyles(profile){return ['adult_f','elder_f'].includes(profile)?['short','bob']:['short','bob','none'];}
 function playerHairStyle(profile,style){return availableHairStyles(profile).includes(style)?style:'bob';}
 function petDefinition(manifest,breed='prototype'){return breed==='prototype'?manifest.pets.dog:manifest.pets.dog.breeds?.[breed];}

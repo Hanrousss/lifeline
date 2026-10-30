@@ -39,11 +39,13 @@ for(const [id,profile] of Object.entries(m.profiles))for(const [face,head] of Ob
 }
 console.log('PASS: mouthless bases + 32 registered mouth PNGs, all four expressions, legacy appearance migration and invalid-expression rejection.');
 
-for(const [happiness,energy,mouth,score] of [[100,100,'smile',100],[80,20,'sad',50],[50,100,'smile',75],[49.99,100,'soft',74.995],[0,100,'soft',50],[0,99.98,'neutral',49.99],[0,50,'neutral',25],[0,49.98,'sad',24.99],[0,0,'sad',0]]){
- const expression=C.expressionFor(happiness,energy);assert.equal(expression.mouth,mouth);assert(Math.abs(expression.score-score)<1e-8);
+for(const [happiness,energy,mouth,score,tier] of [[100,100,'smile',100,0],[80,20,'sad',20,3],[50,100,'neutral',50,1],[49.99,100,'neutral',49.99,2],[0,100,'sad',0,3],[100,75,'smile',75,0],[100,74.99,'neutral',74.99,1],[100,25,'neutral',25,2],[100,24.99,'sad',24.99,3]]){
+ const e=C.expressionFor(happiness,energy);assert.equal(e.mouth,mouth);assert.equal(e.eyeTier,tier);assert(Math.abs(e.score-score)<1e-8);
 }
-const actor=C.defaultState().actors.adult_f;actor.mouthMode='auto';actor.happiness=80;actor.fatigue=.8;const snapshot=JSON.stringify(actor);assert.equal(C.resolveExpression(actor).mouth,'sad');assert.equal(JSON.stringify(actor),snapshot);actor.mouthMode='manual';actor.mouth='sad';assert.equal(C.resolveExpression(actor).mouth,'sad');
-console.log('PASS: average happiness/energy expression, exact 25/50/75 boundaries, exhaustion conversion, manual override and read-only resolution.');
+for(let happiness=0;happiness<=100;happiness+=5)for(let energy=0;energy<=100;energy+=5){const e=C.expressionFor(happiness,energy);assert.deepEqual(e,C.expressionFor(energy,happiness),'equal influence of both inputs');assert.equal(e.score,Math.min(happiness,energy));assert.deepEqual(e,C.expressionFor(e.score,100));}
+const actor=C.defaultState().actors.adult_f;actor.mouthMode='auto';actor.happiness=80;actor.fatigue=.8;const snapshot=JSON.stringify(actor);assert.equal(C.resolveExpression(actor).mouth,'sad');assert.equal(C.resolveExpression(actor).eyeTier,3);assert.equal(JSON.stringify(actor),snapshot);actor.mouthMode='manual';actor.mouth='soft';assert.equal(C.resolveExpression(actor),actor);assert.equal(C.resolveExpression(actor).mouth,'soft');
+const happyLow=C.resolveExpression({...actor,mouthMode:'auto',happiness:30,fatigue:0}),fatigueHigh=C.resolveExpression({...actor,mouthMode:'auto',happiness:100,fatigue:.7});assert.equal(happyLow.mouth,fatigueHigh.mouth);assert.equal(happyLow.eyeTier,fatigueHigh.eyeTier);assert.equal(happyLow.fatigue,0,'presentation must not rewrite physical fatigue');
+console.log('PASS: worst-input emotion, symmetric influence, exact boundaries, shared eye/mouth tiers, inverse fatigue scale, manual override and read-only resolution.');
 
 const legacyDog=C.defaultState();delete legacyDog.dogAge;assert.equal(C.validateState(legacyDog,m).dogAge,'adult');
 for(const age of C.DOG_AGES){const state=C.defaultState();state.dogAge=age;assert.equal(C.validateState(state,m).dogAge,age);for(const pose of ['standing','sitting']){const entry=m.pets.dog.ages[age].poses[pose];assert.deepEqual(entry.footAnchor,[160,246]);for(const file of Object.values(entry.layers))assert(fs.existsSync(path.join(__dirname,'../dist/art',file)));assert(entry.layers.collar);assert.equal(C.petGeometry(m,age,pose).footY,m.pets.dog.footPosition[1]);}}
@@ -52,5 +54,5 @@ for(const pose of ['standing','sitting'])assert(m.pets.dog.ages.puppy.poses[pose
 console.log('PASS: three dog ages, both poses, mandatory collar layers, age scale, legacy migration and visual-only scene toggle.');
 
 for(const happiness of [0,25,50,80,100])for(const energy of [0,20,24.99,25,49.99,50,74.99]){const mouth=C.expressionFor(happiness,energy).mouth;assert(!['smile','soft'].includes(mouth),'tired lids must never smile');if(energy<25)assert.equal(mouth,'sad');}
-assert.equal(C.expressionFor(100,75).mouth,'smile');assert.equal(C.expressionFor(100,50).mouth,'neutral');assert.equal(C.expressionFor(100,25).mouth,'neutral');assert.equal(C.expressionFor(80,20).score,50);
-console.log('PASS: tired-eye stages 2/3 cannot smile; stage 4 is sad; average score remains unchanged.');
+assert.equal(C.expressionFor(100,75).mouth,'smile');assert.equal(C.expressionFor(100,50).mouth,'neutral');assert.equal(C.expressionFor(100,25).mouth,'neutral');assert.equal(C.expressionFor(80,20).score,20);
+console.log('PASS: tired-eye stages 2/3 cannot smile; stage 4 is sad; worst-input score is used for the complete face.');
