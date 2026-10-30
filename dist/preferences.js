@@ -23,7 +23,24 @@ async function start(){if(!prefs.music||document.hidden||timer)return;const Audi
  }catch{if(token===generation)await stop();}}
 async function toggleMusic(){prefs.music=!prefs.music;persist();if(prefs.music)await start();else await stop();return prefs.music;}
 async function cycleMusic(){const next=prefs.music?prefs.musicTrack+1:0;stop(false);if(next>=tracks.length)prefs.music=false;else{prefs.music=true;prefs.musicTrack=next;}persist();if(prefs.music)await start();else await stop();return {...prefs};}
+
+async function playClick(){
+ if(!prefs.music||document.hidden)return false;
+ const Audio=root.AudioContext||root.webkitAudioContext;if(!Audio)return false;
+ const token=generation;
+ try{if(!context)context=new Audio();await context.resume();if(token!==generation||!prefs.music||document.hidden)return false;
+  const now=context.currentTime;
+  for(const [frequency,volume,duration,type]of [[620,.045,.045,'triangle'],[170,.026,.035,'sine']]){
+   const voice=context.createOscillator(),gain=context.createGain();voice.type=type;voice.frequency.value=frequency;
+   gain.gain.setValueAtTime(0,now);gain.gain.linearRampToValueAtTime(volume,now+.002);gain.gain.linearRampToValueAtTime(0,now+duration);
+   voice.connect(gain);gain.connect(context.destination);voices.push(voice);
+   voice.onended=()=>{voice.disconnect();gain.disconnect();voices=voices.filter(v=>v!==voice);};voice.start(now);voice.stop(now+duration+.005);
+  }return true;
+ }catch{return false;}
+}
+
 function toggleTheme(){prefs.dark=!prefs.dark;applyTheme();persist();return prefs.dark;}
 applyTheme();document.addEventListener('pointerdown',()=>{if(prefs.music)start();},{passive:true});document.addEventListener('visibilitychange',()=>{if(document.hidden)stop();else if(prefs.music&&context)start();});
-root.LifePreferences={get:()=>({...prefs}),tracks:()=>tracks.map(({id,name,color})=>({id,name,color})),toggleMusic,cycleMusic,toggleTheme,audioState:()=>context?.state||'idle'};
+document.addEventListener('click',event=>{const button=event.target?.closest?.('.scene-player .player-action');if(button&&!button.disabled&&!button.closest('[inert]'))playClick();});
+root.LifePreferences={get:()=>({...prefs}),tracks:()=>tracks.map(({id,name,color})=>({id,name,color})),toggleMusic,cycleMusic,toggleTheme,playClick,audioState:()=>context?.state||'idle'};
 })(window);
