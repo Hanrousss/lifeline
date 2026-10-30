@@ -565,3 +565,24 @@ html[data-theme="dark"] .live-scene-frame>.year-focus,html[data-theme="dark"] .g
 .live-visuals::before{inset:calc(var(--scene-rim-width)/2);border-radius:calc(18px - var(--scene-rim-width)/2);box-shadow:0 0 2px 1px var(--scene-rim-edge)}
 .live-visuals::after{inset:calc(var(--scene-rim-width)/-2);padding:var(--scene-rim-width);border-radius:calc(18px + var(--scene-rim-width)/2);background:var(--scene-rim-body);box-shadow:inset 0 0 2px 1px var(--scene-rim-edge),inset 0 4px 4px -2px var(--scene-rim-light),inset 0 -4px 4px -2px var(--scene-rim-shadow);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
 html[data-theme="dark"] .live-visuals{--scene-rim-body:#303b32;--scene-rim-edge:#18251c;--scene-rim-light:#53654a;--scene-rim-shadow:#17251b}
+
+/* Cool blue-gray console, with restrained screen and tactile-key backlighting. */
+html[data-theme="dark"] body{--paper:#2b3748;--ink:#e7eef7;--muted:#b3bfd0;--line:#596b80;background:#2b3748;color:#e7eef7}
+html[data-theme="dark"] body:has(.game-shell){--paper:#2b3748;--ink:#e7eef7;--muted:#b3bfd0;--line:#596b80;background-color:#2b3748;background-image:radial-gradient(ellipse at 20% 0%,#728eae33,transparent 65%),radial-gradient(#c2d6ec0d .5px,transparent .7px),linear-gradient(115deg,#3a485a,#253243);box-shadow:inset 2px 0 2px #9fb9d333,inset -2px 0 3px #10203466}
+html[data-theme="dark"] .game-shell .tabs button{color:#b8c8dd}
+html[data-theme="dark"] .game-shell .tabs button.active{background:#7f9fc344;border-color:#9cb7db80;color:#edf4ff}
+html[data-theme="dark"] body>header,html[data-theme="dark"] .menu-brand{color:#d5e3f4}
+html[data-theme="dark"] body .header-actions .text-btn{color:#c9d8eb}
+html[data-theme="dark"] body .header-actions .icon{background:#7189a344;color:#d5e3f4}
+html[data-theme="dark"] body dialog,html[data-theme="dark"] .dialog-controls{background:#303e50;color:#e7eef7;border-color:#7c93b1}
+html[data-theme="dark"] .live-scene-frame>.top-stats,html[data-theme="dark"] .live-scene-frame>.year-focus,html[data-theme="dark"] .game-shell .tabs .tabs-menu{background:#2c3c50ed;border-color:#849ab980;color:#edf4ff}
+html[data-theme="dark"] .need-name,html[data-theme="dark"] .live-scene-frame .top-stat-cash strong{color:#edf4ff}
+html[data-theme="dark"] .live-scene-frame .top-stat-track strong{color:#273b4d}
+html[data-theme="dark"] .live-visuals{--scene-rim-body:#344252;--scene-rim-edge:#1b293a;--scene-rim-light:#657b94;--scene-rim-shadow:#19283a;border-radius:18px;box-shadow:0 0 2px #bdd9f34d,0 0 18px #8caecc29}
+html[data-theme="dark"] .game-shell .story-deck{border-color:#8399b0;background-color:#c2ccd5;background-image:radial-gradient(#40546916 .5px,transparent .7px);box-shadow:inset 0 2px 5px #0b192844,0 0 1px #cee3fb99,0 0 14px #80b7e02b}
+html[data-theme="dark"] .game-shell .story-deck>.story-scroll{color:#34485b;scrollbar-color:#8799ac transparent}
+html[data-theme="dark"] .game-shell .story-deck .feed-row p,html[data-theme="dark"] .game-shell .story-deck .feed-row b,html[data-theme="dark"] .game-shell .story-deck .feed-heading,html[data-theme="dark"] .game-shell .story-deck .feed-heading .text-btn{color:#34485b}
+html[data-theme="dark"] .game-shell .story-deck .feed-row>span{color:#5d7388}
+html[data-theme="dark"] .scene-player .player-action{position:relative}
+html[data-theme="dark"] .scene-player .player-action:not(:disabled):not(.music-off)::after{content:"";position:absolute;inset:-1px;border:1px solid #afd6ff45;border-radius:inherit;box-shadow:0 0 6px #92bfff38;pointer-events:none}
+html[data-theme="dark"] .scene-player #time-toggle:not(:disabled)::after,html[data-theme="dark"] .scene-player #cycle-speed.speed-active:not(:disabled)::after{border-color:#ffb7dd55;box-shadow:0 0 8px #f070bb45}
