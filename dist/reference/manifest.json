@@ -1,0 +1,25 @@
+{
+  "source": "1in8b.life 0.8.63 beta \u2014 Russian published client",
+  "copiedDate": "2026-10-27",
+  "permission": "User confirmed author permission on 2026-10-29",
+  "sha256": "b414d862c71a765a613b7a1f7773d0ac69814c7b78f66b09c7548aba08d9b2be",
+  "encoding": "gzip+base64",
+  "parts": [
+    "core-ru-00.b64",
+    "core-ru-01.b64",
+    "core-ru-02.b64",
+    "core-ru-03.b64",
+    "core-ru-04.b64",
+    "core-ru-05.b64",
+    "core-ru-06.b64",
+    "core-ru-07.b64",
+    "core-ru-08.b64",
+    "core-ru-09.b64",
+    "core-ru-10.b64",
+    "core-ru-11.b64",
+    "core-ru-12.b64",
+    "core-ru-13.b64",
+    "core-ru-14.b64",
+    "core-ru-15.b64"
+  ]
+}
