@@ -43,6 +43,7 @@ async function mountPanel(host,s){
       else if(key==='fatigue'){actor.fatigue=value/100;actor.mouthMode='auto';}
       else if(key==='happiness'){actor.happiness=value;actor.mouthMode='auto';}
       else actor[key]=['skin','hairColor','top','bottom'].includes(key)?Number(value):value;
+      if(['fatigue','happiness'].includes(key)){p.emotionFromGame=false;savePreferences(s,p);const linked=panel.querySelector('[data-lab="emotionFromGame"]'),expression=panel.querySelector('[data-lab="expression"]');if(linked)linked.checked=false;if(expression){expression.disabled=false;expression.value='auto';}}
       saveConfig(s,cfg,manifest);A.mount(host,s,'home');
       if(input.type==='range'){const out=panel.querySelector('[data-lab-out="'+key+'"]');if(out)out.textContent=Math.round(value)+'%';}
       else refresh();
