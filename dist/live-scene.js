@@ -11,7 +11,7 @@ function renderLiveScene(s){
  const table=(x,y,w)=>{r(x,y,w,5,C.woodDark);r(x,y,w,2,C.woodLight);r(x+4,y+5,5,23,C.wood);r(x+w-9,y+5,5,23,C.wood);};
  const picture=(x,y,w,h)=>{r(x,y,w,h,C.wood);r(x+3,y+3,w-6,h-6,C.ivory);r(x+6,y+6,w-12,h-12,C.sky);p(`${x+6},${y+h-7} ${x+w*.4},${y+13} ${x+w*.6},${y+h*.6} ${x+w-7},${y+14} ${x+w-7},${y+h-7}`,C.moss);r(x+w-17,y+10,5,5,C.lemon);};
  const shelf=(x,y,w,h)=>{r(x,y,w,h,C.woodDark);r(x+4,y+4,w-8,h-8,C.woodLight);for(let row=0;row<Math.max(1,Math.floor((h-4)/24));row++){const floor=y+23+row*24;r(x+3,floor,w-6,4,C.wood);for(let i=0;i<5;i++)book(x+7+i*6,floor-13-(i%2)*4,4,13+(i%2)*4,[C.teal,C.rose,C.blueberry,C.pistachio,C.bordeaux][(i+row)%5]);}};
- const sprite=(x,role='self',child=false,walking=false)=>{r(x-4,277,23,3,outdoor?'#718F49':'#B39168');a+=`<g class="pixel-actor ${walking?'actor-walk':'actor-idle'}">${PixelPeople.actor(s,{x,floor:278,role,child})}</g>`;};
+ const sprite=(x,role='self',child=false,walking=false)=>{if(s.reference&&((role==='mom'&&s.family.mother.alive===false)||(role==='dad'&&s.family.father.alive===false)))return;r(x-4,277,23,3,outdoor?'#718F49':'#B39168');a+=`<g class="pixel-actor ${walking?'actor-walk':'actor-idle'}">${PixelPeople.actor(s,{x,floor:278,role,child})}</g>`;};
  group('background');
  if(outdoor){
   r(0,0,320,320,C.sky);r(0,112,320,70,'#A8CDEB');r(0,182,320,38,C.frost);cloud(16,58);cloud(188,110);cloud(263,166);r(245,78,17,17,C.lemon);r(249,74,9,4,C.lemon);
