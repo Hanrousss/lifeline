@@ -714,3 +714,29 @@ html:not([data-theme="dark"]) dialog.game-menu-dialog,html:not([data-theme="dark
 .decision-detail-warning{color:#b54049!important;font-weight:600}.moment-photo{margin:12px auto;width:min(200px,65%);padding:7px;background:#fffdf3;box-shadow:0 2px 8px #292e3120;transform:rotate(-1deg)}.moment-photo canvas{display:block;width:100%;height:auto}.saved-moment-photo{display:inline-block;vertical-align:top;width:140px;margin:8px;padding:7px;background:#fffdf3}.saved-moment-photo img{display:block;width:100%;height:auto}.saved-moment-photo figcaption{font:12px/1.4 Manrope,Arial,sans-serif;padding:6px 0 2px;color:#485348}
 
 .certificate-dialog{width:min(520px,calc(100% - 24px));background:#f2efe5}.life-certificate{padding:8px 4px;border:1px solid #a5af9866;border-radius:12px;text-align:center}.life-certificate h2{font:400 26px/1.15 Georgia,serif;margin:14px 0 18px}.life-certificate h3{font:500 24px/1.2 Georgia,serif;margin:12px 0}.certificate-lifespan{font-size:12px;line-height:1.7}.life-certificate dl{margin:22px 12px;text-align:left}.life-certificate dl>div{padding:10px 0;border-top:1px solid #a5af9850;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:12px}.life-certificate dt{font-size:11px;color:#77816e}.life-certificate dd{margin:0;font-size:12px;line-height:1.5}.certificate-hardship{text-align:left;padding:8px 12px;font-size:12px;line-height:1.5}.certificate-hardship small{display:block;color:#77816e}.life-certificate button{max-width:90%;margin:8px auto;display:block;width:90%}
+/* Pager material for menus and decision panels; gameplay screen is deliberately scoped out. */
+:root{--menu-lcd:#d0d2ce;--menu-ink:#444a42;--menu-border:#9ca298;--menu-paper:#dce0d8;--menu-active:#b9cba8}
+body dialog,body:has(.game-shell) dialog,html:not([data-theme="dark"]) body dialog.game-menu-dialog,html:not([data-theme="dark"]) body:has(.game-shell) dialog.game-menu-dialog,.game-shell .decision-panel.flow-story{background-color:var(--menu-lcd);background-image:radial-gradient(#59615616 .5px,transparent .7px);background-size:3px 3px;border:1px solid var(--menu-border);border-radius:20px;color:var(--menu-ink);box-shadow:inset 0 2px 5px #454c3e33,0 1px 0 #ffffffb0,0 12px 32px #252b2530;backdrop-filter:none}
+body dialog h2,body dialog h3,body dialog h4,.game-shell .decision-panel .event-title{font-family:ui-monospace,'Courier New',monospace;color:var(--menu-ink);font-weight:600;letter-spacing:0}
+body dialog h2,.game-shell .decision-panel .event-title{font-size:23px;line-height:1.25}
+body dialog p,body dialog label,body dialog small,body dialog dd,body dialog dt,.game-shell .decision-panel .event-desc,.game-shell .decision-panel .decision-detail{font-family:ui-monospace,'Courier New',monospace;color:var(--menu-ink)}
+body dialog p,.game-shell .decision-panel .event-desc{font-size:13px;line-height:1.65}
+body dialog button:not(.menu-brand),body dialog .game-menu-options button,.game-shell .decision-panel .decision-button,.game-shell .decision-panel #defer-decision,.game-shell .story-deck :is(.secondary,.primary){background:var(--menu-paper);border:1px solid #969f90;border-radius:7px;box-shadow:inset 0 1px 0 #ffffff66;color:var(--menu-ink);font-family:ui-monospace,'Courier New',monospace;font-size:13px;font-weight:400}
+body dialog button.primary,.game-shell .decision-panel .decision-button[aria-pressed="true"],body dialog button[aria-pressed="true"]{background:var(--menu-active);border-color:#879c78}
+body dialog button:hover:not(:disabled),.game-shell .decision-panel .decision-button:hover:not(:disabled){background:#c4d0b8;border-color:#879c78}
+body dialog .dialog-controls{background:var(--menu-lcd)}
+body dialog button:disabled,.game-shell .decision-panel .decision-button:disabled{opacity:.5}
+body dialog .menu-brand{color:var(--menu-ink)}
+body dialog input:not([type="radio"]):not([type="range"]):not([type="checkbox"]),body dialog textarea,body dialog select,.game-shell .decision-panel input:not([type="radio"]):not([type="checkbox"]),.game-shell .decision-panel textarea{background:#e1e4dc;border:1px solid #969f90;border-radius:6px;color:var(--menu-ink);font-family:ui-monospace,'Courier New',monospace}
+body dialog .life-certificate{border-color:#9ca298;background:transparent}.game-shell .decision-panel .decision-detail-warning,body dialog .decision-detail-warning{color:#ad3540!important}
+body dialog .close,.game-shell .decision-panel .close{border-radius:50%!important}
+html[data-theme="dark"] body dialog,html[data-theme="dark"] .game-shell .decision-panel.flow-story{--menu-lcd:#bac3cc;--menu-ink:#344451;--menu-border:#8193a3;--menu-paper:#cdd5d9;--menu-active:#b9cba8;background-color:var(--menu-lcd);color:var(--menu-ink)}
+/* Equal 10px space above and below the transport buttons; grow the pager upward by 16px. */
+.game-shell .scene-player{padding-bottom:10px}
+.game-shell .story-deck:has(.lcd-nav){margin-top:0;height:226px;min-height:226px}
+.game-shell .story-deck.graphics-deck{height:266px;min-height:266px}
+/* Override the old glossy menu rules at the same component specificity. */
+body dialog.game-menu-dialog h2,body dialog.game-menu-dialog .menu-brand{font-family:ui-monospace,'Courier New',monospace;color:var(--menu-ink);font-weight:600}
+body dialog.game-menu-dialog .game-menu-options button,html[data-theme="dark"] body dialog.game-menu-dialog .game-menu-options button{background:var(--menu-paper);border:1px solid #969f90;border-radius:7px;box-shadow:inset 0 1px 0 #ffffff66;color:var(--menu-ink);font:400 13px/1.5 ui-monospace,'Courier New',monospace}
+body dialog.game-menu-dialog .game-menu-options button:hover,html[data-theme="dark"] body dialog.game-menu-dialog .game-menu-options button:hover{background:#c4d0b8;border-color:#879c78}
+body dialog.game-menu-dialog .close,html[data-theme="dark"] body dialog.game-menu-dialog .close{background:var(--menu-paper);color:var(--menu-ink);border:1px solid #969f90;box-shadow:none}
