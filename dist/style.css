@@ -678,3 +678,5 @@ html[data-theme="dark"] .scene-finance-corner,html[data-theme="dark"] .live-scen
 .scene-life-identity>.scene-life-location{display:flex;align-items:center;gap:5px;flex:0 1 auto;min-width:0;max-width:52%;font-size:9px}.scene-life-country{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.scene-life-location time{flex:none;white-space:nowrap;font-variant-numeric:tabular-nums}
 
 .priorities-dropdown{max-height:clamp(120px,45vw,220px);overflow-y:auto;overscroll-behavior:contain}.priorities-dropdown button>b{display:block;font:inherit}.priorities-dropdown button>small{display:block;margin-top:2px;font:400 9px/12px Manrope,Arial,sans-serif;opacity:.8}
+
+.game-menu-dialog button.menu-brand{display:block;width:100%;min-height:44px;padding:8px;border:0;background:transparent;box-shadow:none;cursor:pointer;touch-action:manipulation}.game-menu-dialog button.menu-brand:focus-visible{outline:2px solid #8ba478;outline-offset:2px;border-radius:8px}
