@@ -32,19 +32,27 @@ function capsuleReturn(c,now){if(!c.answers)return {title:'Письмо из п�
 }
 function capture(){return {kids:S.fam.kids.length,marriages:S.fam.marriages||0};}
 function observe(before){const m=state();if(S.phase!=='life')return;
- if(before&&(S.fam.marriages||0)>before.marriages)enqueue('lifeline-wedding-'+S.fam.marriages,{title:'День свадьбы',body:'Этот день останется частью вашей общей истории.',q:'Что хочется сохранить в памяти об этом дне?',note:{max:600,placeholder:'Несколько слов для вашей истории (необязательно)'},choices:[{k:'write',label:'Сохранить запись'},{k:'skip',label:'Продолжить без записи'}]});
+ if(before&&(S.fam.marriages||0)>before.marriages)enqueue('lifeline-wedding-'+S.fam.marriages,{title:'День свадьбы',body:'Этот день останется частью вашей общей истории.',photo:true,note:{max:60,placeholder:'Название снимка'},choices:[{k:'write',label:'Сохранить снимок'},{k:'skip',label:'Продолжить'}]});
  const babies=before?S.fam.kids.slice(before.kids).filter(k=>k.alive&&!k.sk&&k.bornAt===S.age):[];
- if(babies.length)enqueue('lifeline-birth-'+before.kids+'-'+S.age,{title:'Рождение ребёнка',body:babies.length>1?'В вашей семье родились малыши. Начинается новая глава.':'В вашей семье родился ребёнок. Начинается новая глава.',q:'Что вы чувствуете в этот момент?',note:{max:600,placeholder:'Несколько слов для вашей истории (необязательно)'},choices:[{k:'write',label:'Сохранить запись'},{k:'skip',label:'Продолжить без записи'}]});
+ if(babies.length)enqueue('lifeline-birth-'+before.kids+'-'+S.age,{title:'Рождение ребёнка',body:babies.length>1?'В вашей семье родились малыши. Начинается новая глава.':'В вашей семье родился ребёнок. Начинается новая глава.',photo:true,note:{max:60,placeholder:'Название снимка'},choices:[{k:'write',label:'Сохранить снимок'},{k:'skip',label:'Продолжить'}]});
  if(m.capsule?.status==='buried'&&clock()+1e-8>=m.capsule.dueAt){m.capsule.status='ready';const now='Сейчас вам '+S.age+' лет. '+(JOBS[S.job]?.n||S.job||'')+'. '+C().ko+'. '+(S.fam.married?'Вы в браке. ':'')+'Детей: '+S.fam.kids.filter(k=>k.alive).length+'.';m.capsule.actual=now;enqueue('lifeline-capsule-open',capsuleReturn(m.capsule,now));}
  promote();
 }
-function settle(){if(S.pending?.id==='reflect'){choose('skip');}const m=state();if(m.active?.id==='lifeline-capsule-bury'&&!m.active.view.quiz){m.capsule.country=S.cur;m.capsule.questions=capsuleQuestions();m.active.view=capsuleInvitation();}observe();}
+function settle(){if(S.pending?.id==='reflect'){choose('skip');}const m=state();for(const item of [m.active,...m.queue].filter(Boolean))if(/^lifeline-(birth|wedding)-/.test(item.id)){delete item.view.q;item.view.photo=true;item.view.note={max:60,placeholder:'Название снимка'};item.view.choices=[{k:'write',label:'Сохранить снимок'},{k:'skip',label:'Продолжить'}];}if(m.active?.id==='lifeline-capsule-bury'&&!m.active.view.quiz){m.capsule.country=S.cur;m.capsule.questions=capsuleQuestions();m.active.view=capsuleInvitation();}observe();}
 function resolve(key,extra){const m=state(),item=m.active;if(!item)return false;if(!item.view.choices.some(c=>c.k===key))throw new Error('Unavailable choice');const value=String(extra||'').trim().slice(0,2000);
  if(item.id==='lifeline-capsule-bury'){if(key==='bury'){let answers;try{answers=JSON.parse(value);}catch{}if(!answers||!m.capsule.questions.every(q=>q.options.some(o=>o.id===answers[q.id])))throw new Error('Ответьте на все вопросы или выберите «Не участвовать».');Object.assign(m.capsule,{status:'buried',answers,dueAt:m.capsule.at+10});log('Вы закопали школьную капсулу с пятью прогнозами о будущем.','note');}else{m.capsule.status='declined';log('В последний день школы вы решили не участвовать в капсуле времени.','note');}}
  else if(item.id==='lifeline-capsule-open'&&m.capsule.comparison){const r=m.capsule.comparison,previous=S.st.h;S.st.h=Math.max(0,Math.min(100,S.st.h+r.effect));Object.assign(m.capsule,{status:'opened',openedAt:clock(),verdict:r.verdict,result:{label:r.label,happiness:S.st.h-previous,effect:r.effect}});log('Вы открыли школьную капсулу. '+r.label+'. Совпало '+r.matched+' из '+r.total+' прогнозов. '+r.rows.map(row=>row.title+' Ожидание: '+row.expected+'; сейчас: '+row.actual+'.').join(' '),r.effect<0?'bad':'warm');}
  else if(item.id==='lifeline-capsule-open'){const verdict={yes:'Всё сбылось',partly:'Частично сбылось',different:'Пока что жизнь сложилась иначе'}[key];const effect={yes:6,partly:3,different:-3}[key],label={yes:'Мечта сбылась',partly:'На полпути',different:'Другой путь'}[key],previous=S.st.h;S.st.h=Math.max(0,Math.min(100,S.st.h+effect));Object.assign(m.capsule,{status:'opened',openedAt:clock(),verdict:key,result:{label,happiness:S.st.h-previous,effect}});log('Вы открыли школьную капсулу времени. Ваше письмо: «'+m.capsule.text+'» '+m.capsule.actual+' Ваш итог: '+verdict+'. Статус: '+label+' ('+(effect>0?'+':'')+effect+' счастья).',effect>0?'warm':'bad');}
- else if(key==='write')journal(item.view.title,value);
+ else if(key==='write')journal(item.view.title,item.view.photo?value.slice(0,60):value);
  m.active=null;promote();return true;
+}
+function pregnancyPolicy(){const code=ABL_C[S.cur];return {allowed:code===1||code===2,reason:code===5?'В вашей стране запрещено':code===3||code===4?'Недоступно без медицинских оснований':code===6?'Доступность зависит от региона':'Нет данных о доступности',fact:code?ablFact(S.cur):''};}
+function householdShare(){const partner=S.fam.partner,together=!!(S.fam.married&&partner?.alive!==false&&partner&&!partner.divorced&&!ptAway()&&S.job!=='prison'),saving=together&&S.income>0&&partner.inc>0?Math.max(0,Math.min(incomeAt(C(),.5)*.3*.4*.5,S.income*.1,partner.inc*.1)):0;return {together,saving,partnerIncome:together?Math.max(0,partner.inc||0):0};}
+function installPregnancyAndBudget(){
+ const build=DEC.datepreg.build,apply=DEC.datepreg.apply;
+ DEC.datepreg.build=function(...args){const view=build.apply(this,args),policy=pregnancyPolicy();view.choices.push({k:'lifeline-abortion',label:S.sex==='F'?'Прервать беременность':'Обсудить прерывание беременности',sub:policy.allowed?'':policy.reason,dis:!policy.allowed,warning:!policy.allowed});view.fact=[view.fact,policy.fact].filter(Boolean).join(' ');return view;};
+ DEC.datepreg.apply=function(key,...args){if(key!=='lifeline-abortion')return apply.call(this,key,...args);if(!pregnancyPolicy().allowed)throw Error('Этот выбор недоступен в вашей стране');S.stats.lifelineAbortions=(S.stats.lifelineAbortions||0)+1;return {t:S.sex==='F'?'Вы решили прервать беременность.':'Вы вместе обсудили ситуацию и приняли решение прервать беременность.',k:'note'};};
+ const original=finances;finances=function(...args){const result=original.apply(this,args),share=householdShare();S.lifelineHousehold=share;if(share.saving>0&&S.phase==='life'){S.money+=share.saving;book('Экономия на общих бытовых расходах',share.saving);}return result;};
 }
 function installDating(){
  const build=DEC.partner.build,apply=DEC.partner.apply;
@@ -68,6 +76,6 @@ function installDating(){
   return {t:'Вы и '+name+' решили остаться друзьями.',k:'warm'};
  };
 }
-function install(){installDating();HOOK.noPause=()=>true;reflectQuiet=()=>{};const original=graduate;graduate=function(...args){const school=S?.school,result=original(...args);if(['usec','voc'].includes(school)&&S.flags.justGrad===school)graduation();return result;};}
-root.LifelineMoments={install,settle,capture,observe,pending:()=>state().active,resolve};
+function install(){installDating();installPregnancyAndBudget();HOOK.noPause=()=>true;reflectQuiet=()=>{};const original=graduate;graduate=function(...args){const school=S?.school,result=original(...args);if(['usec','voc'].includes(school)&&S.flags.justGrad===school)graduation();return result;};}
+root.LifelineMoments={pregnancyPolicy,householdShare,install,settle,capture,observe,pending:()=>state().active,resolve};
 })(self);

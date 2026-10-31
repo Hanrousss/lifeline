@@ -47,6 +47,15 @@ for(let i=0;i<20&&directions.size<2;i++){
  directions.add(moments.inspect('S.flags.cand.lifelineOffer'));
 }
 assert.equal(directions.size,2,'Both initiators appear');
+// Unplanned pregnancy exposes a country-gated choice and never creates a child after termination.
+for(const [country,allowed] of [['CAN',true],['PHL',false],['BRA',false],['USA',false]]){
+ await moments.call('new',{seed:'pregnancy-'+country,country,sex:'F'});await moments.call('begin');
+ moments.inspect("S.age=22;S.pending=null;S.school=null;S.fam.dating={name:{full:'Алекс',g:'Алекс'},age:23,since:20,sex:'M',q:3};S.pending={id:'datepreg',p:{},view:DEC.datepreg.build()};");
+ const pregnancy=await moments.call('snapshot'),choice=pregnancy.pending.choices.find(c=>c.key==='lifeline-abortion');assert(choice);assert.equal(!choice.disabled,allowed);if(!allowed){assert(choice.warning);if(country==='PHL')assert.equal(choice.hint,'В вашей стране запрещено');await assert.rejects(moments.call('choose',{key:'lifeline-abortion'}),/Unavailable choice/);}else{const result=await moments.call('choose',{key:'lifeline-abortion'});assert.equal(result.raw.fam.kids.length,pregnancy.raw.fam.kids.length);assert.equal(result.raw.stats.lifelineAbortions,1);assert(result.raw.fam.dating);}
+}
+await moments.call('new',{seed:'shared-home',country:'CAN',sex:'F'});await moments.call('begin');moments.inspect("S.age=30;S.income=30000;S.fam.married=true;S.fam.partner={alive:true,inc:30000};");const together=moments.inspect('LifelineMoments.householdShare()');assert(together.together);assert(together.saving>0&&together.saving<=3000);moments.inspect('S.fam.partner.inc=0');assert.equal(moments.inspect('LifelineMoments.householdShare().saving'),0);moments.inspect('S.fam.married=false');assert.equal(moments.inspect('LifelineMoments.householdShare().saving'),0);
+await moments.call('new',{seed:'actual-household',country:'CAN',sex:'F'});await moments.call('begin');moments.inspect("S.age=30;S.focusW={};S.job='clerk';S.jobY=5;S.school=null;DEC.partner.build({});marry(false);S.fam.partner.inc=30000;S.income=30000;finances();");assert(moments.inspect('S.lifelineHousehold.saving')>0,'Actual annual finances apply shared-expense savings');
+console.log('Pregnancy access, disabled-choice enforcement, no unwanted birth and bounded shared-household savings verified.');
 console.log('Dating consent, both initiators, refusal, saved friendship and deferred choice verified.');
 console.log('Milestone notes, old reflection removal, capsule invitation/refusal, exact ten-year return, saved letters and single-use happiness statuses verified.');
 assert(e.calls.every(p=>manifest.parts.includes(p)||p===manifest.compressed||['manifest.json','countries-extra.json'].includes(p)));console.log('Reference engine: checksum, 237 countries, choices, pending pause, reload determinism and six complete lives verified.');})().catch(e=>{console.error(e);process.exit(1)});

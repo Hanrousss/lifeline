@@ -2,7 +2,7 @@
 'use strict';
 const C=root.LifelineHumanV12,PREFIX='lifeline-human-v12:';let ready;
 const storageKey=s=>PREFIX+(Number(s.seed)>>>0);
-function load(){if(!ready)ready=fetch('art/people-v12/manifest.json?v=13').then(r=>{if(!r.ok)throw Error('Новый набор людей не загружен');return r.json();}).then(manifest=>({manifest,art:C.create(manifest,'art/people-v12/')})).catch(e=>{ready=null;throw e;});return ready;}
+function load(){if(!ready)ready=fetch('art/people-v12/game-manifest.json?v=14').then(r=>{if(!r.ok)throw Error('Новый набор людей не загружен');return r.json();}).then(manifest=>({manifest,art:C.create(manifest,'art/people-v12/')})).catch(e=>{ready=null;throw e;});return ready;}
 function saved(s,storage=root.localStorage){try{return JSON.parse(storage.getItem(storageKey(s))||'null');}catch{return null;}}
 function character(s,legacy,manifest,override=null,storage=root.localStorage){
  let months=root.LifelineAssetCore?root.LifelineAssetCore.gameMonths(s):Math.max(0,Number(s.age)||0)*12,sex=s.origin?.sex==='male'?'male':'female';
