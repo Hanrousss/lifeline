@@ -7,6 +7,7 @@ assert.equal(A.storageKey(life),'lifeline-art-v1:42');assert.equal(A.editorUrl(l
 const cfg=C.defaultState();cfg.actors.adult_f.hairStyle='none';cfg.actors.adult_f.top=3;
 assert.equal(A.settings(life,m,{getItem:()=>JSON.stringify(cfg)}).actors.adult_f.hairStyle,'bob');assert.equal(A.settings(life,m,{getItem:()=>JSON.stringify(cfg)}).actors.adult_f.top,3);assert.deepEqual(A.settings(life,m,{getItem:()=>'{bad'}),C.defaultState());
 for(const file of m.files){assert(fs.existsSync(path.join(__dirname,'../dist/art',file.path)),file.path);}
+const catalog=require('../dist/art/graphics_catalog.json'),backgrounds=new Set(catalog.houses.flatMap(h=>h.rooms.map(r=>r.background)));backgrounds.add(m.scene.background);let sourceBytes=0,optimizedBytes=0;for(const asset of backgrounds){const source=path.join(__dirname,'../dist/art',asset),optimized=source.replace(/\.png$/,'.webp'),bytes=fs.readFileSync(optimized);assert.equal(bytes.toString('ascii',0,4),'RIFF');assert.equal(bytes.toString('ascii',8,12),'WEBP');sourceBytes+=fs.statSync(source).size;optimizedBytes+=bytes.length;}assert(optimizedBytes<sourceBytes*.25,'Room downloads should be substantially smaller');
 const original=JSON.stringify(life),writes=[],draws=[];let block=false;
 global.localStorage={getItem:()=>JSON.stringify(C.defaultState()),setItem:(k,v)=>writes.push([k,JSON.parse(v)])};
 global.fetch=async()=>({ok:true,json:async()=>m});
@@ -14,14 +15,14 @@ global.LifelinePngRenderer={create:()=>({image:async()=>{if(block)throw Error('u
 const canvas={style:{},getContext:()=>({setTransform(){},clearRect(){},drawImage(...args){draws.push(args);}}),getBoundingClientRect:()=>({left:0,top:0,width:320,height:320})};
 const status={hidden:false},fallback={hidden:false},node={isConnected:true,parentElement:{querySelector:()=>fallback},querySelector:s=>s==='canvas'?canvas:status},host={querySelector:()=>node};
 (async()=>{
- await A.mount(host,life,'home');assert.equal(draws.length,2);assert(status.hidden);assert.equal(writes.length,0);assert.equal(JSON.stringify(life),original);
+ await A.mount(host,life,'home');assert.equal(draws.length,3);assert(status.hidden);assert.equal(writes.length,0);assert.equal(JSON.stringify(life),original);
  canvas.onclick({clientX:0,clientY:0});assert.equal(writes.length,0,'blocked floor must not save');
  // Same valid foreground used by the art editor; only the appearance key is written.
  const point=m.scene.walkableAreas[0].reduce((p,q)=>[p[0]+q[0]/m.scene.walkableAreas[0].length,p[1]+q[1]/m.scene.walkableAreas[0].length],[0,0]);
  if(C.isWalkable(point,m.scene)){canvas.onclick({clientX:point[0],clientY:point[1]});assert.equal(writes[0][0],A.storageKey(life));}
  await new Promise(resolve=>setImmediate(resolve));block=true;await A.mount(host,life,'home');assert.equal(canvas.style.visibility,'hidden');assert.equal(status.hidden,false);assert(status.textContent.includes('PNG'));assert.equal(JSON.stringify(life),original);block=false;await A.mount(host,life,'home');assert.equal(canvas.style.visibility,'visible');
  A.selectProfile('child');assert.equal(A.displayProfileFor(life),'child');A.selectProfile('unknown');assert.equal(A.displayProfileFor(life),'child');assert.equal(JSON.stringify(life),original);
- const beforeDogDraws=draws.length;A.selectDog(true);await A.mount(host,life,'home');assert.equal(draws.length-beforeDogDraws,3);A.selectDog(false);assert.equal(JSON.stringify(life),original);
+ const beforeDogDraws=draws.length;A.selectDog(true);await A.mount(host,life,'home');assert.equal(draws.length-beforeDogDraws,4);A.selectDog(false);assert.equal(JSON.stringify(life),original);
  console.log('PASS: game art ages/contexts, separate appearance saves, all PNG paths, render/state isolation, floor interaction and PNG failure notice and recovery.');
 })().catch(e=>{console.error(e);process.exitCode=1;});
 
