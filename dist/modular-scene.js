@@ -18,7 +18,8 @@ function profileFor(s){
 function storageKey(s){return KEY_PREFIX+(s.seed>>>0);}
 function editorUrl(s){return BASE+'index.html?life='+(s.seed>>>0)+'&profile='+displayProfileFor(s)+'&month='+root.LifelineAssetCore.gameMonths(s)+'&sex='+(s.origin?.sex==='male'?'male':'female');}
 function supported(s,kind){return HOME_KINDS.has(kind);}
-function markup(s,kind){return supported(s,kind)?'<div class="modular-scene" data-art-style="modular-png"><canvas width="960" height="960" aria-label="Домашняя сцена с персонажем. Нажмите на свободный пол, чтобы переставить его."></canvas><span class="art-load-status" role="status">Загрузка комнаты…</span></div>':null;}
+function roomArrow(step,label){return '<button type="button" class="scene-room-arrow '+(step<0?'previous-room':'next-room')+'" data-room-step="'+step+'" aria-label="'+label+'" disabled><svg viewBox="0 0 36 40" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m22 9-11 11 11 11" stroke="#684e3c" stroke-width="12" opacity=".3" transform="translate(0 2)"/><path d="m22 8-11 11 11 11" stroke="#765b42" stroke-width="11"/><path d="m22 8-11 11 11 11" stroke="#f4e7c8" stroke-width="8"/><path d="m21 7-10 11" stroke="#fff9e8" stroke-width="2.5"/></svg></button>';}
+function markup(s,kind){return supported(s,kind)?'<div class="modular-scene" data-art-style="modular-png"><canvas width="960" height="960" aria-label="Домашняя сцена с персонажем. Нажмите на свободный пол, чтобы переставить его."></canvas>'+roomArrow(-1,'Предыдущая комната')+roomArrow(1,'Следующая комната')+'<span class="art-load-status" role="status">Загрузка комнаты…</span></div>':null;}
 function settings(s,manifest,storage){const C=root.LifelineAssetCore;try{const raw=storage.getItem(storageKey(s));if(raw)return C.validateState(JSON.parse(raw),manifest);}catch{}return root.FamilyAppearance?root.FamilyAppearance.defaults(s):C.defaultState();}
 function load(){if(!ready)ready=fetch(BASE+'manifest.json?v=12').then(r=>{if(!r.ok)throw new Error('manifest');return r.json();}).then(manifest=>({manifest,art:root.LifelinePngRenderer.create(manifest,BASE)})).catch(error=>{ready=null;throw error;});return ready;}
 async function mount(host,s,kind){
@@ -45,16 +46,13 @@ async function mount(host,s,kind){
   if(!node.isConnected||node.renderToken!==token)return;
   for(const d of draws.sort((a,b)=>a.footY-b.footY))x.drawImage(d.im,d.x,d.y,(d.im.width||384)*d.scale,(d.im.height||512)*d.scale);
   if(node.dataset)node.dataset.household=JSON.stringify(household?.schedule.members||[]);
-  const label=host.querySelector('.activity-label');if(label&&label!==node)label.textContent=(scene.label||'Дома')+' · ← комнаты →';
+  const label=host.querySelector('.activity-label');if(label&&label!==node)label.textContent=(scene.label||'Дома');
   if(node.dataset){const emotion=expanded?root.LifelineHumanV12.expression(expanded.c.happiness,expanded.c.energy):null;if(emotion&&expanded.c.manualMouth&&emotion.eyeTier===0)emotion.mouth=expanded.c.manualMouth;node.dataset.sceneId=scene.id;node.dataset.profile=id;node.dataset.head=a.head;node.dataset.emotionScore=String(emotion?.score??a.emotionScore??'');node.dataset.mouth=emotion?.mouth??a.mouth;node.dataset.eyeTier=String(emotion?.eyeTier??a.eyeTier??'manual');node.dataset.pet=selection?.kind||'none';node.dataset.petBreed=selection?.variant||'';node.dataset.petAge=selection?.age||'';node.dataset.petPose=selection?.pose||'';node.dataset.petFootY=String(scene.petAnchor?.[1]??manifest.pets.dog.footPosition[1]);}
   node.hidden=false;canvas.style.visibility='visible';status.hidden=true;if(fallback)fallback.hidden=true;
-  let touch=null,swiped=false;
+  const controls=[...(node.querySelectorAll?.('[data-room-step]')||[])];
+  controls.forEach(button=>{button.disabled=false;button.onclick=async()=>{controls.forEach(b=>b.disabled=true);try{if(await root.GraphicsLab?.changeRoom(s,Number(button.dataset.roomStep))){await mount(host,s,kind);root.GraphicsLab.mountPanel(host,s);}}catch{controls.forEach(b=>b.disabled=false);status.hidden=false;status.textContent='Не удалось перейти в комнату. Попробуйте ещё раз.';}};});
   canvas.style.touchAction='pan-y';
-  canvas.onpointerdown=event=>{touch={x:event.clientX,y:event.clientY};swiped=false;};
-  canvas.onpointerup=async event=>{if(!touch)return;const dx=event.clientX-touch.x,dy=event.clientY-touch.y;touch=null;if(Math.abs(dx)<45||Math.abs(dx)<Math.abs(dy)*1.4)return;swiped=true;if(await root.GraphicsLab?.changeRoom(s,dx<0?1:-1)){mount(host,s,kind);root.GraphicsLab.mountPanel(host,s);}};
-  canvas.onpointercancel=()=>{touch=null;};
-  canvas.onclick=event=>{if(swiped){swiped=false;return;}
-
+  canvas.onclick=event=>{
    const box=canvas.getBoundingClientRect(),point=[(event.clientX-box.left)*320/box.width,(event.clientY-box.top)*320/box.height];
    if(root.GraphicsLab){if(root.GraphicsLab.move(s,scene,id,point,manifest)){mount(host,s,kind);root.GraphicsLab.mountPanel(host,s);}return;}if(!root.LifelineAssetCore.isWalkable(point,manifest.scene))return;
    const savedActor=config.actors[id];savedActor.pose='standing';savedActor.seatId=null;savedActor.position=point;
