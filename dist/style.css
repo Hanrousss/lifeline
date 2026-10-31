@@ -740,3 +740,8 @@ body dialog.game-menu-dialog h2,body dialog.game-menu-dialog .menu-brand{font-fa
 body dialog.game-menu-dialog .game-menu-options button,html[data-theme="dark"] body dialog.game-menu-dialog .game-menu-options button{background:var(--menu-paper);border:1px solid #969f90;border-radius:7px;box-shadow:inset 0 1px 0 #ffffff66;color:var(--menu-ink);font:400 13px/1.5 ui-monospace,'Courier New',monospace}
 body dialog.game-menu-dialog .game-menu-options button:hover,html[data-theme="dark"] body dialog.game-menu-dialog .game-menu-options button:hover{background:#c4d0b8;border-color:#879c78}
 body dialog.game-menu-dialog .close,html[data-theme="dark"] body dialog.game-menu-dialog .close{background:var(--menu-paper);color:var(--menu-ink);border:1px solid #969f90;box-shadow:none}
+.game-shell .decision-panel .decision-option:nth-child(n) .decision-button{background:var(--menu-paper);border:1px solid #969f90;border-radius:7px;box-shadow:inset 0 1px 0 #ffffff66;color:var(--menu-ink);font:400 13px/1.5 ui-monospace,'Courier New',monospace}
+.game-shell .decision-panel .decision-option:nth-child(n) .decision-button:hover:not(:disabled){background:#c4d0b8;border-color:#879c78;box-shadow:inset 0 1px 0 #ffffff66}
+.pet-touch-heart{position:absolute;z-index:15;pointer-events:none;color:#cf6b86;font:18px/1 Arial,sans-serif;text-shadow:0 1px #fff8;animation:pet-love 1.1s var(--pet-delay,0s) both}
+@keyframes pet-love{0%{opacity:0;transform:translate(0,0) scale(.7)}20%{opacity:1}100%{opacity:0;transform:translate(var(--pet-drift),-50px) scale(1.15)}}
+@media(prefers-reduced-motion:reduce){.pet-touch-heart{animation:none;opacity:.8}}

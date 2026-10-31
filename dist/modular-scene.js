@@ -27,7 +27,7 @@ function load(){if(!ready)ready=fetch(BASE+'game-manifest.json?v=14').then(r=>{i
 async function mount(host,s,kind){
  lastMount={host,s,kind};
  const node=host.querySelector('.modular-scene');if(!node||!supported(s,kind))return;
- const token=Symbol();node.renderToken=token;const canvas=node.querySelector('canvas'),fallback=null,status=node.querySelector('.art-load-status');const previous=frames.get(s.seed);if(previous){canvas.getContext('2d').drawImage(previous,0,0);status.hidden=true;}
+ const token=Symbol();node.renderToken=token;node.petHit=null;const canvas=node.querySelector('canvas'),fallback=null,status=node.querySelector('.art-load-status');const previous=frames.get(s.seed);if(previous){canvas.getContext('2d').drawImage(previous,0,0);status.hidden=true;}
  try{
   const {manifest,art}=await load(),config=root.GraphicsLab?root.GraphicsLab.preparePet(s,manifest):settings(s,manifest,root.localStorage),scene=root.GraphicsLab?await root.GraphicsLab.sceneFor(s):manifest.scene,id=displayProfileFor(s),pref=root.GraphicsLab?.preferences(s),a={...config.actors[id]};
   if(!pref||pref.emotionFromGame||root.LifelineDevMode&&!root.LifelineDevMode()){a.mouthMode='auto';a.happiness=Number.isFinite(s.stats?.joy)?s.stats.joy:100;a.fatigue=1-(Number.isFinite(s.stats?.energy)?Math.max(0,Math.min(100,s.stats.energy)):100)/100;Object.assign(a,root.LifelineAssetCore.resolveExpression(a));}else Object.assign(a,root.LifelineAssetCore.resolveExpression(a));
@@ -47,7 +47,7 @@ async function mount(host,s,kind){
   if(ratio!==1){g.scale*=ratio;const anchor=manifest.profiles[id].poses[a.pose].footAnchor;g.x=a.position[0]-anchor[0]*g.scale;g.y=a.position[1]-anchor[1]*g.scale;g.footY=a.position[1];}
   const x=canvas.getContext('2d');x.setTransform(3,0,0,3,0,0);x.clearRect(0,0,320,320);x.drawImage(bg,0,0,320,320);const draws=s.age<1&&!expanded&&!manualProfile(s)?[]:[{im:actor,...g}];
   if(node.dataset&&expanded){node.dataset.humanRevision='12';node.dataset.humanProfile=expanded.c.profile;node.dataset.humanFace=String(expanded.c.face);node.dataset.humanHair=expanded.c.hair;node.dataset.humanOutfit=String(expanded.c.outfit);}
-  if(dog){const pet=root.LifelineAssetCore.companionGeometry(manifest,selection);if(scene.petAnchor){pet.scale*=scene.petScale||1;const entry=root.LifelineAssetCore.companionEntry(manifest,selection).entry,anchor=entry.footAnchor;pet.x=scene.petAnchor[0]-anchor[0]*pet.scale;pet.y=scene.petAnchor[1]-anchor[1]*pet.scale-(entry.flightHeight||0)*(scene.petScale||1);pet.footY=scene.petAnchor[1];}draws.push({im:dog,...pet});}
+  if(dog){const pet=root.LifelineAssetCore.companionGeometry(manifest,selection);if(scene.petAnchor){pet.scale*=scene.petScale||1;const entry=root.LifelineAssetCore.companionEntry(manifest,selection).entry,anchor=entry.footAnchor;pet.x=scene.petAnchor[0]-anchor[0]*pet.scale;pet.y=scene.petAnchor[1]-anchor[1]*pet.scale-(entry.flightHeight||0)*(scene.petScale||1);pet.footY=scene.petAnchor[1];}node.petHit={im:dog,...pet};draws.push({im:dog,...pet});}
   for(const parent of parents){draws.push(parent);node.dataset[parent.role+'Appearance']=JSON.stringify(parent.parent);}
   if(!node.isConnected||node.renderToken!==token)return;
   for(const d of draws.sort((a,b)=>a.footY-b.footY))x.drawImage(d.im,d.x,d.y,(d.im.width||384)*d.scale,(d.im.height||512)*d.scale);
@@ -61,6 +61,7 @@ async function mount(host,s,kind){
   canvas.style.touchAction='pan-y';
   canvas.onclick=event=>{
    const box=canvas.getBoundingClientRect(),point=[(event.clientX-box.left)*320/box.width,(event.clientY-box.top)*320/box.height];
+   const hit=node.petHit;if(hit){const px=Math.floor((point[0]-hit.x)/hit.scale),py=Math.floor((point[1]-hit.y)/hit.scale);if(px>=0&&py>=0&&px<hit.im.width&&py<hit.im.height){const probe=document.createElement('canvas');probe.width=hit.im.width;probe.height=hit.im.height;const ctx=probe.getContext('2d');ctx.drawImage(hit.im,0,0);if(ctx.getImageData(px,py,1,1).data[3]>20){for(let i=0;i<3;i++){const heart=document.createElement('span');heart.className='pet-touch-heart';heart.textContent='♥';heart.setAttribute('aria-hidden','true');heart.style.cssText='left:'+(event.clientX-box.left+i*7-7)+'px;top:'+(event.clientY-box.top-12)+'px;--pet-drift:'+((i-1)*18)+'px;--pet-delay:'+i*.08+'s';node.append(heart);setTimeout(()=>heart.remove(),1300);}root.GraphicsLab.reactPet(s,selection,manifest);mount(host,s,kind);return;}}}
    if(root.GraphicsLab){if(root.GraphicsLab.move(s,scene,id,point,manifest)){mount(host,s,kind);root.GraphicsLab.mountPanel(host,s);}return;}if(!root.LifelineAssetCore.isWalkable(point,manifest.scene))return;
    const savedActor=config.actors[id];savedActor.pose='standing';savedActor.seatId=null;savedActor.position=point;
    try{root.localStorage.setItem(storageKey(s),JSON.stringify(config));}catch{status.textContent='Не удалось сохранить положение';status.hidden=false;return;}

@@ -15,7 +15,7 @@ function arrange(s,scene,player){
  const schedule=plan(s,scene.kind),slots=scene.slots||[],self={...player,position:[...player.position]},parents=[];
  for(const member of schedule.visible){
   const free=slots.find(slot=>self.pose!=='sitting'||slot.id!==self.seatId);
-  if(free)parents.push({...member,pose:'sitting',seatId:free.id,position:[...free.position]});
+  if(free){parents.push({...member,pose:'sitting',seatId:free.id,position:[...free.position]});if(self.pose!=='sitting'&&Math.abs(self.position[0]-free.position[0])<80){const low=scene.walkableAreas?.flat().map(p=>p[0])||[140,278],left=Math.min(...low)+5,right=Math.max(...low)-5;self.position=[Math.abs(left-free.position[0])>Math.abs(right-free.position[0])?left:right,self.position[1]];}}
   else {self.pose='standing';self.seatId=null;self.position=[140,scene.personAnchor?.[1]||282];parents.push({...member,pose:'standing',seatId:null,position:[278,scene.personAnchor?.[1]||282]});}
  }
  return {self,parents,schedule};
