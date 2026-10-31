@@ -1,6 +1,7 @@
 (function(root){
 'use strict';
 const BASE='art/',HOME_KINDS=new Set(['home']),KEY_PREFIX='lifeline-art-v1:';
+const frames=new Map();
 let ready,selectedProfile=null,showDog=false,lastMount=null;
 function selectDog(visible){showDog=Boolean(visible);}
 const PROFILE_LABELS={adult_f:'Девушка',adult_m:'Мужчина',elder_f:'Пожилая женщина',child:'Ребёнок'};
@@ -26,7 +27,7 @@ function load(){if(!ready)ready=fetch(BASE+'manifest.json?v=13').then(r=>{if(!r.
 async function mount(host,s,kind){
  lastMount={host,s,kind};
  const node=host.querySelector('.modular-scene');if(!node||!supported(s,kind))return;
- const token=Symbol();node.renderToken=token;const canvas=node.querySelector('canvas'),fallback=null,status=node.querySelector('.art-load-status');
+ const token=Symbol();node.renderToken=token;const canvas=node.querySelector('canvas'),fallback=null,status=node.querySelector('.art-load-status');const previous=frames.get(s.seed);if(previous){canvas.getContext('2d').drawImage(previous,0,0);status.hidden=true;}
  try{
   const {manifest,art}=await load(),config=root.GraphicsLab?root.GraphicsLab.preparePet(s,manifest):settings(s,manifest,root.localStorage),scene=root.GraphicsLab?await root.GraphicsLab.sceneFor(s):manifest.scene,id=displayProfileFor(s),pref=root.GraphicsLab?.preferences(s),a={...config.actors[id]};
   if(!pref||pref.emotionFromGame||root.LifelineDevMode&&!root.LifelineDevMode()){a.mouthMode='auto';a.happiness=Number.isFinite(s.stats?.joy)?s.stats.joy:100;a.fatigue=1-(Number.isFinite(s.stats?.energy)?Math.max(0,Math.min(100,s.stats.energy)):100)/100;Object.assign(a,root.LifelineAssetCore.resolveExpression(a));}else Object.assign(a,root.LifelineAssetCore.resolveExpression(a));
@@ -35,20 +36,25 @@ async function mount(host,s,kind){
   const household=root.HouseholdScene&&!manualProfile(s)?root.HouseholdScene.arrange(s,scene,a):null;if(household)Object.assign(a,household.self);
   const animal=root.GraphicsLab?root.GraphicsLab.animalVisible(s):showDog,selection=animal?(root.GraphicsLab?root.GraphicsLab.selectionFor(s,config,manifest):root.LifelineAssetCore.companionSelection(manifest,config,'dog')):null;
   // The optional test dog is visual only and does not create a family/ownership record.
-  const expanded=root.LifelineHumanGame?await root.LifelineHumanGame.render(s,a,scene,manualProfile(s)):null;
-  const [bg,actor,dog]=await Promise.all([art.image(scene.background),expanded?expanded.im:art.actor(id,a),animal?(selection.kind==='dog'?art.pet({dogBreed:selection.variant,dogAge:selection.age,dogPose:selection.pose,dogColor:selection.color}):art.companion(selection)):null]);
+  const background=art.image(scene.background.replace(/\.png$/,'.webp')).catch(()=>art.image(scene.background));
+  // Show the room immediately, while people and pets load concurrently.
+  background.then(bg=>{if(node.isConnected&&node.renderToken===token){const x=canvas.getContext('2d');x.setTransform(3,0,0,3,0,0);x.clearRect(0,0,320,320);x.drawImage(bg,0,0,320,320);canvas.style.visibility='visible';status.hidden=true;}}).catch(()=>{});
+  const relatives=household&&root.FamilyAppearance?Promise.all(household.parents.map(async member=>{const parent=root.FamilyAppearance.actor(s,member.role,manifest),pa={...config.actors[parent.profile],...parent,...member},person=root.LifelineHumanGame?await root.LifelineHumanGame.relative(s,pa,scene):null,im=person?person.im:await art.actor(parent.profile,pa),pg=person||root.HouseholdScene.geometry(manifest,scene,parent.profile,pa);return {im,...pg,role:member.role,parent};})):Promise.resolve([]);
+  const [bg,expanded,dog,parents]=await Promise.all([background,root.LifelineHumanGame?root.LifelineHumanGame.render(s,a,scene,manualProfile(s)):null,animal?(selection.kind==='dog'?art.pet({dogBreed:selection.variant,dogAge:selection.age,dogPose:selection.pose,dogColor:selection.color}):art.companion(selection)):null,relatives]);
+  const actor=expanded?expanded.im:await art.actor(id,a);
   if(!node.isConnected||node.renderToken!==token)return;
   const g=expanded|| (root.HouseholdScene?root.HouseholdScene.geometry(manifest,scene,id,a):art.geometry(id,a)),ratio=expanded||root.HouseholdScene?1:scene.personScale||1;
   if(ratio!==1){g.scale*=ratio;const anchor=manifest.profiles[id].poses[a.pose].footAnchor;g.x=a.position[0]-anchor[0]*g.scale;g.y=a.position[1]-anchor[1]*g.scale;g.footY=a.position[1];}
   const x=canvas.getContext('2d');x.setTransform(3,0,0,3,0,0);x.clearRect(0,0,320,320);x.drawImage(bg,0,0,320,320);const draws=s.age<1&&!expanded&&!manualProfile(s)?[]:[{im:actor,...g}];
   if(node.dataset&&expanded){node.dataset.humanRevision='12';node.dataset.humanProfile=expanded.c.profile;node.dataset.humanFace=String(expanded.c.face);node.dataset.humanHair=expanded.c.hair;node.dataset.humanOutfit=String(expanded.c.outfit);}
   if(dog){const pet=root.LifelineAssetCore.companionGeometry(manifest,selection);if(scene.petAnchor){pet.scale*=scene.petScale||1;const entry=root.LifelineAssetCore.companionEntry(manifest,selection).entry,anchor=entry.footAnchor;pet.x=scene.petAnchor[0]-anchor[0]*pet.scale;pet.y=scene.petAnchor[1]-anchor[1]*pet.scale-(entry.flightHeight||0)*(scene.petScale||1);pet.footY=scene.petAnchor[1];}draws.push({im:dog,...pet});}
-  if(household&&root.FamilyAppearance){await Promise.all(household.parents.map(async member=>{const parent=root.FamilyAppearance.actor(s,member.role,manifest),pa={...config.actors[parent.profile],...parent,...member},person=root.LifelineHumanGame?await root.LifelineHumanGame.relative(s,pa,scene):null,im=person?person.im:await art.actor(parent.profile,pa),pg=person||root.HouseholdScene.geometry(manifest,scene,parent.profile,pa);draws.push({im,...pg});node.dataset[member.role+'Appearance']=JSON.stringify(parent);}));}
+  for(const parent of parents){draws.push(parent);node.dataset[parent.role+'Appearance']=JSON.stringify(parent.parent);}
   if(!node.isConnected||node.renderToken!==token)return;
   for(const d of draws.sort((a,b)=>a.footY-b.footY))x.drawImage(d.im,d.x,d.y,(d.im.width||384)*d.scale,(d.im.height||512)*d.scale);
   if(node.dataset)node.dataset.household=JSON.stringify(household?.schedule.members||[]);
   const label=host.querySelector('.activity-label');if(label&&label!==node)label.textContent=(scene.label||'Дома');
   if(node.dataset){const emotion=expanded?root.LifelineHumanV12.expression(expanded.c.happiness,expanded.c.energy):null;if(emotion&&expanded.c.manualMouth&&emotion.eyeTier===0)emotion.mouth=expanded.c.manualMouth;node.dataset.sceneId=scene.id;node.dataset.profile=id;node.dataset.head=a.head;node.dataset.emotionScore=String(emotion?.score??a.emotionScore??'');node.dataset.mouth=emotion?.mouth??a.mouth;node.dataset.eyeTier=String(emotion?.eyeTier??a.eyeTier??'manual');node.dataset.pet=selection?.kind||'none';node.dataset.petBreed=selection?.variant||'';node.dataset.petAge=selection?.age||'';node.dataset.petPose=selection?.pose||'';node.dataset.petFootY=String(scene.petAnchor?.[1]??manifest.pets.dog.footPosition[1]);}
+  if(root.document?.createElement){const cached=document.createElement('canvas');cached.width=canvas.width;cached.height=canvas.height;cached.getContext('2d').drawImage(canvas,0,0);if(frames.size>=2)frames.delete(frames.keys().next().value);frames.set(s.seed,cached);}
   node.hidden=false;canvas.style.visibility='visible';status.hidden=true;if(fallback)fallback.hidden=true;
   const controls=[...(node.querySelectorAll?.('[data-room-step]')||[])];
   controls.forEach(button=>{button.disabled=false;button.onclick=async()=>{controls.forEach(b=>b.disabled=true);try{if(await root.GraphicsLab?.changeRoom(s,Number(button.dataset.roomStep))){await mount(host,s,kind);root.GraphicsLab.mountPanel(host,s);}}catch{controls.forEach(b=>b.disabled=false);status.hidden=false;status.textContent='Не удалось перейти в комнату. Попробуйте ещё раз.';}};});
