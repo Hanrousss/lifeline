@@ -22,6 +22,28 @@ function resolve(key,extra){const m=state(),item=m.active;if(!item)return false;
  else if(key==='write')journal(item.view.title,value);
  m.active=null;promote();return true;
 }
-function install(){HOOK.noPause=()=>true;reflectQuiet=()=>{};const original=graduate;graduate=function(...args){const school=S?.school,result=original(...args);if(['usec','voc'].includes(school)&&S.flags.justGrad===school)graduation();return result;};}
+function installDating(){
+ const build=DEC.partner.build,apply=DEC.partner.apply;
+ DEC.partner.build=function(...args){
+  const view=build.apply(this,args),candidate=S.flags.cand;
+  if(!candidate||candidate.arr||S.fam.married||S.fam.dating)return view;
+  const name=callName(candidate.name),hash=[...String(candidate.name?.full||name)].reduce((n,c)=>n+c.codePointAt(0),S.age);
+  candidate.lifelineOffer=hash%2?'incoming':'outgoing';
+  return {...view,lifelineDating:true,title:hash%2?'Вам предложили встречаться':'Предложить встречаться?',body:view.body+'\n\n'+(hash%2?name+' предлагает стать парой.':'Вы чувствуете симпатию. Хотите предложить '+name+' стать парой?'),choices:[{k:'lifeline-date-yes',label:'Да'},{k:'lifeline-date-no',label:'Нет'},{k:'lifeline-date-friends',label:'Остаться друзьями'}]};
+ };
+ DEC.partner.apply=function(key,...args){
+  if(!key.startsWith('lifeline-date-'))return apply.call(this,key,...args);
+  const candidate=S.flags.cand;
+  if(!candidate?.lifelineOffer)throw new Error('Unavailable relationship choice');
+  if(key==='lifeline-date-yes')return apply.call(this,'date',...args);
+  if(key==='lifeline-date-no')return apply.call(this,'no',...args);
+  if(key!=='lifeline-date-friends')throw new Error('Unavailable relationship choice');
+  const friends=S.lifelineFriends||(S.lifelineFriends=[]),name=callName(candidate.name);
+  if(!friends.some(p=>p.name.full===candidate.name.full))friends.push({...candidate,since:S.age,kind:'friend'});
+  S.flags.cand=null;
+  return {t:'Вы и '+name+' решили остаться друзьями.',k:'warm'};
+ };
+}
+function install(){installDating();HOOK.noPause=()=>true;reflectQuiet=()=>{};const original=graduate;graduate=function(...args){const school=S?.school,result=original(...args);if(['usec','voc'].includes(school)&&S.flags.justGrad===school)graduation();return result;};}
 root.LifelineMoments={install,settle,capture,observe,pending:()=>state().active,resolve};
 })(self);

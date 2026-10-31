@@ -20,5 +20,26 @@ await moments.call('new',{seed:'declined-capsule',country:'CAN'});await moments.
 moments.inspect("S.pending={id:'reflect',p:{},view:DEC.reflect.build()};");const old=(await moments.call('snapshot'));assert.equal(old.pending.id,'reflect');const cleaned=await moments.call('restore',{raw:old.raw,seed:old.seed,draws:old.draws});assert.notEqual(cleaned.pending?.id,'reflect');
 moments.inspect("var mark=LifelineMoments.capture();S.fam.marriages=(S.fam.marriages||0)+1;LifelineMoments.observe(mark);");let milestone=await moments.call('snapshot');assert(milestone.pending.id.startsWith('lifeline-wedding'));milestone=await moments.call('choose',{key:'write',extra:'Наш день.'});assert(milestone.raw.journal.some(n=>n.t==='Наш день.'));
 moments.inspect("var mark=LifelineMoments.capture();S.fam.kids.push({alive:true,bornAt:S.age,name:{full:'Тест'}});LifelineMoments.observe(mark);");milestone=await moments.call('snapshot');assert(milestone.pending.id.startsWith('lifeline-birth'));await moments.call('choose',{key:'skip'});
+// A first romance requires explicit consent; friendship is a separate saved contact.
+const directions=new Set();
+for(const key of ['lifeline-date-yes','lifeline-date-no','lifeline-date-friends']){
+ await moments.call('new',{seed:'dating-'+key,country:'CAN',sex:'F'});await moments.call('begin');
+ moments.inspect("S.age=24;S.fam.married=false;S.fam.dating=null;S.pending=null;var view=DEC.partner.build({});S.flags.cand.arr=0;S.flags.cand.mxi=0;");
+ // Country CAN normally generates the consent view; assert it rather than forcing a candidate.
+ const view=moments.inspect('view');assert(view.lifelineDating);assert.deepEqual(Array.from(view.choices,c=>c.label),['Да','Нет','Остаться друзьями']);directions.add(moments.inspect('S.flags.cand.lifelineOffer'));
+ moments.inspect("S.pending={id:'partner',p:{},view};");
+ const pending=await moments.call('snapshot'),hold=await moments.call('advance');assert.deepEqual(hold.pending,pending.pending);
+ const reload=await moments.call('restore',{raw:pending.raw,seed:pending.seed,draws:pending.draws});assert.deepEqual(reload.pending,pending.pending);
+ const result=await moments.call('choose',{key});assert.equal(!!result.raw.fam.dating,key==='lifeline-date-yes');assert.equal(!!result.raw.fam.married,false);
+ assert.equal((result.raw.lifelineFriends||[]).length,key==='lifeline-date-friends'?1:0);
+ if(key==='lifeline-date-friends'){const restored=await moments.call('restore',{raw:result.raw,seed:result.seed,draws:result.draws});assert.deepEqual(restored.raw.lifelineFriends,result.raw.lifelineFriends);}
+}
+for(let i=0;i<20&&directions.size<2;i++){
+ await moments.call('new',{seed:'initiator-'+i,country:'CAN',sex:'F'});await moments.call('begin');
+ moments.inspect("S.age=24;S.fam.married=false;S.fam.dating=null;DEC.partner.build({});");
+ directions.add(moments.inspect('S.flags.cand.lifelineOffer'));
+}
+assert.equal(directions.size,2,'Both initiators appear');
+console.log('Dating consent, both initiators, refusal, saved friendship and deferred choice verified.');
 console.log('Milestone notes, old reflection removal, capsule invitation/refusal, exact ten-year return, saved letters and single-use happiness statuses verified.');
 assert(e.calls.every(p=>manifest.parts.includes(p)||p===manifest.compressed||['manifest.json','countries-extra.json'].includes(p)));console.log('Reference engine: checksum, 237 countries, choices, pending pause, reload determinism and six complete lives verified.');})().catch(e=>{console.error(e);process.exit(1)});
