@@ -20,6 +20,7 @@
   "art/runtime/core.js",
   "art/runtime/renderer.js",
   "graphics-lab.js",
+  "household-scene.js",
   "modular-scene.js",
   "scene.js",
   "career-ui.js",

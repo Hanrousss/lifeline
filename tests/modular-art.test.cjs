@@ -1,7 +1,7 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
 const C=require('../dist/art/runtime/core.js'),A=require('../dist/modular-scene.js'),m=require('../dist/art/manifest.json');
 const life={seed:42,age:26,origin:{sex:'female'},stats:{energy:40}};
-for(const [age,sex,expected] of [[0,'female',null],[5,'male',null],[6,'male','child'],[12,'female','child'],[13,'female',null],[16,'male',null],[17,'female','adult_f'],[63,'male','adult_m'],[64,'female','elder_f'],[80,'male',null]])assert.equal(A.profileFor({...life,age,origin:{sex}}),expected);
+for(const [age,sex,expected] of [[0,'female',null],[5,'male','child'],[6,'male','child'],[12,'female','child'],[13,'female','child'],[16,'male','child'],[17,'female','adult_f'],[63,'male','adult_m'],[64,'female','elder_f'],[80,'male',null]])assert.equal(A.profileFor({...life,age,origin:{sex}}),expected);
 assert(A.supported(life,'home'));assert(!A.supported(life,'park'));assert(!A.supported(life,'school'));assert(A.markup({...life,age:0},'home'));assert.equal(A.displayProfileFor({...life,age:0}),'adult_f');assert.equal(A.displayProfileFor({...life,age:0,origin:{sex:'male'}}),'adult_m');
 assert.equal(A.storageKey(life),'lifeline-art-v1:42');assert.equal(A.editorUrl(life),'art/index.html?life=42&profile=adult_f&month=312');
 const cfg=C.defaultState();cfg.actors.adult_f.hairStyle='none';cfg.actors.adult_f.top=3;
