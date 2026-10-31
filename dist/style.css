@@ -762,3 +762,5 @@ body dialog.game-menu-dialog .close,html[data-theme="dark"] body dialog.game-men
 .relationships-panel .crush-toggle.is-crush{background:#efd5df;color:#a94066;border-color:#bf7e97}
 
 .game-shell .story-deck>.story-scroll:has(>.relationships-panel){padding-top:3px}
+
+.scene-player #cycle-music.music-brown{background:linear-gradient(165deg,#c39a77,#815d46 65%,#62432f);border-color:#664936;color:#fff5e9}

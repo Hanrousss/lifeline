@@ -1435,19 +1435,30 @@ function socialPanel(){if(state.age<14)return '';const n=LifeSocial.ensure(state
 ;/* preferences.js */
 (function(root){
 const key='lifeline-preferences-v1';
-// Three original compositions, with independent rhythm, register and instrumentation.
+// Three original compositions followed by continuous brown noise.
 const tracks=[
  {id:'morning',name:'Солнечный вальс',color:'sage',beat:250,bar:6,wave:'triangle',chordWave:'sine',chordVolume:.014,melodyVolume:.045,chords:[[261.63,329.63,392],[220,261.63,349.23],[174.61,261.63,349.23],[196,293.66,392]],notes:[523.25,659.25,783.99,0,659.25,587.33,523.25,0,440,523.25,698.46,659.25,587.33,523.25,440,0,349.23,440,523.25,587.33,659.25,0,587.33,493.88]},
  {id:'rain',name:'Городская прогулка',color:'blue',beat:180,bar:8,wave:'square',chordWave:'triangle',chordVolume:.012,melodyVolume:.022,chords:[[293.66,369.99,440],[329.63,415.30,493.88],[246.94,293.66,369.99],[220,277.18,329.63]],notes:[587.33,0,739.99,880,0,739.99,587.33,493.88,659.25,830.61,0,987.77,830.61,0,659.25,0,493.88,587.33,739.99,0,587.33,493.88,440,0,554.37,659.25,0,880,659.25,554.37,440,0]},
- {id:'stars',name:'Звёздный сон',color:'lilac',beat:450,bar:8,wave:'sine',chordWave:'sine',chordVolume:.012,melodyVolume:.055,chords:[[130.81,155.56,196],[103.83,155.56,207.65],[116.54,174.61,233.08],[98,146.83,196]],notes:[1046.50,0,0,1567.98,0,1244.51,0,0,0,932.33,0,0,1244.51,0,0,0,1174.66,0,0,1396.91,0,932.33,0,0,0,783.99,0,0,1174.66,0,0,0]}
+ {id:'melancholy',name:'Тихая грусть',color:'lilac',beat:570,bar:8,wave:'triangle',chordWave:'sine',chordVolume:.014,melodyVolume:.035,chords:[[220,261.63,329.63],[174.61,220,261.63],[130.81,164.81,196],[164.81,207.65,246.94]],notes:[440,0,523.25,493.88,440,329.63,0,0,349.23,0,440,392,349.23,261.63,0,0,329.63,392,0,523.25,493.88,392,329.63,0,415.30,0,493.88,440,415.30,329.63,0,0]},
+ {id:'brown',name:'Коричневый шум',color:'brown',noise:true}
+
 ];
 let prefs={music:false,musicTrack:0,dark:false};try{const saved=JSON.parse(localStorage.getItem(key));if(saved){prefs.music=saved.music===true;prefs.dark=saved.dark===true;prefs.musicTrack=Number.isInteger(saved.musicTrack)&&saved.musicTrack>=0&&saved.musicTrack<tracks.length?saved.musicTrack:0;}}catch{}
-let context=null,timer=null,voices=[],step=0,generation=0;
+let context=null,timer=null,voices=[],step=0,generation=0,noiseSource=null;
 function persist(){try{localStorage.setItem(key,JSON.stringify(prefs));}catch{}}
 function applyTheme(){document.documentElement.dataset.theme=prefs.dark?'dark':'light';}
-function stop(suspend=true){generation++;clearInterval(timer);timer=null;step=0;for(const voice of voices){try{voice.stop();voice.disconnect();}catch{}}voices=[];if(suspend&&context?.state==='running')return context.suspend();return Promise.resolve();}
-async function start(){if(!prefs.music||document.hidden||timer)return;const Audio=root.AudioContext||root.webkitAudioContext;if(!Audio)return;const token=generation;try{if(!context)context=new Audio();await context.resume();if(token!==generation||!prefs.music||document.hidden||timer)return;
- const track=tracks[prefs.musicTrack],beat=track.beat/1000;
+function stop(suspend=true){generation++;noiseSource=null;clearInterval(timer);timer=null;step=0;for(const voice of voices){try{voice.stop();voice.disconnect();}catch{}}voices=[];if(suspend&&context?.state==='running')return context.suspend();return Promise.resolve();}
+async function start(){if(!prefs.music||document.hidden||timer||noiseSource)return;const Audio=root.AudioContext||root.webkitAudioContext;if(!Audio)return;const token=generation;try{if(!context)context=new Audio();await context.resume();if(token!==generation||!prefs.music||document.hidden||timer||noiseSource)return;
+ const track=tracks[prefs.musicTrack];
+ if(track.noise){
+  const rate=context.sampleRate,length=rate*12,buffer=context.createBuffer(1,length,rate),data=buffer.getChannelData(0);let last=0,total=0;
+  for(let i=0;i<length;i++){last=(last+.02*(Math.random()*2-1))/1.02;data[i]=last;total+=last;}
+  const mean=total/length;let energy=0;for(let i=0;i<length;i++){data[i]-=mean;energy+=data[i]*data[i];}const scale=.12/Math.max(.001,Math.sqrt(energy/length));for(let i=0;i<length;i++)data[i]*=scale;
+  // Blend the seam so the looping texture does not click.
+  const fade=Math.floor(rate*.1);for(let i=0;i<fade;i++){const t=i/fade;data[length-fade+i]=data[length-fade+i]*(1-t)+data[i]*t;}
+  const voice=context.createBufferSource(),filter=context.createBiquadFilter(),gain=context.createGain();voice.buffer=buffer;voice.loop=true;voice.loopStart=.1;voice.loopEnd=12;filter.type='highpass';filter.frequency.value=30;gain.gain.setValueAtTime(0,context.currentTime);gain.gain.linearRampToValueAtTime(.35,context.currentTime+.25);voice.connect(filter);filter.connect(gain);gain.connect(context.destination);voice.onended=()=>{voice.disconnect();filter.disconnect();gain.disconnect();voices=voices.filter(v=>v!==voice);if(noiseSource===voice)noiseSource=null;};voices.push(voice);noiseSource=voice;voice.start();return;
+ }
+ const beat=track.beat/1000;
  const note=(frequency,volume,attack,duration,wave='sine')=>{const now=context.currentTime,voice=context.createOscillator(),gain=context.createGain();voice.type=wave;voice.frequency.value=frequency;gain.gain.setValueAtTime(0,now);gain.gain.linearRampToValueAtTime(volume,now+attack);gain.gain.linearRampToValueAtTime(volume*.4,now+Math.max(attack,duration*.45));gain.gain.linearRampToValueAtTime(0,now+duration);voice.connect(gain);gain.connect(context.destination);voices.push(voice);voice.onended=()=>{voice.disconnect();gain.disconnect();voices=voices.filter(v=>v!==voice);};voice.start(now);voice.stop(now+duration+.02);};
  const play=()=>{const chord=track.chords[Math.floor(step/track.bar)%track.chords.length];
   if(step%track.bar===0)for(const frequency of chord)note(frequency,track.chordVolume,track.id==='stars'?.4:.015,beat*(track.id==='stars'?7.8:track.bar*.75),track.chordWave);
@@ -1487,7 +1498,7 @@ root.LifePreferences={get:()=>({...prefs}),tracks:()=>tracks.map(({id,name,color
 'use strict';
 const legacyKey='lifeline-archived-lives-v1';let worker=null,sequence=0,activeHost=null,inflight=false,attached=null,lastError=null;const callbacks=new Map();
 function failWorker(error){lastError=error.message||String(error);if(worker)worker.terminate();worker=null;for(const cb of callbacks.values()){clearTimeout(cb.timer);cb.reject(error);}callbacks.clear();}
-function spawn(){if(worker)return;lastError=null;worker=new Worker('reference/worker.js?v=0.23.0');worker.onmessage=({data})=>{const cb=callbacks.get(data.id);if(!cb)return;callbacks.delete(data.id);clearTimeout(cb.timer);if(data.ok)cb.resolve(data.value);else{const error=new Error(data.error);cb.reject(error);if(data.bootError)failWorker(error);}};worker.onerror=e=>{failWorker(new Error(e.message||'Не удалось загрузить движок. Повторите подключение.'));};}
+function spawn(){if(worker)return;lastError=null;worker=new Worker('reference/worker.js?v=0.24.0');worker.onmessage=({data})=>{const cb=callbacks.get(data.id);if(!cb)return;callbacks.delete(data.id);clearTimeout(cb.timer);if(data.ok)cb.resolve(data.value);else{const error=new Error(data.error);cb.reject(error);if(data.bootError)failWorker(error);}};worker.onerror=e=>{failWorker(new Error(e.message||'Не удалось загрузить движок. Повторите подключение.'));};}
 function call(command,payload={}){spawn();return new Promise((resolve,reject)=>{const id=++sequence,timer=setTimeout(()=>failWorker(new Error('Загрузка механики заняла слишком долго. Проверьте соединение и повторите подключение.')),30000);callbacks.set(id,{resolve,reject,timer});worker.postMessage({id,command,payload});});}
 function preload(){if(!worker&&!lastError)spawn();}
 function retry(host){lastError=null;attached=null;attach(host);}
