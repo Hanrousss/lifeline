@@ -851,8 +851,8 @@ function expressionFor(happiness,energy){
  return {score,eyeTier,mouth:eyeTier===0?'smile':eyeTier===3?'sad':'neutral'};
 }
 function resolveExpression(actor){if(actor.mouthMode!=='auto')return actor;const emotion=expressionFor(actor.happiness,100-actor.fatigue*100);return {...actor,mouth:emotion.mouth,eyeTier:emotion.eyeTier,emotionScore:emotion.score};}
-function availableHairStyles(profile){return ['adult_f','elder_f'].includes(profile)?['short','bob']:['short','bob','none'];}
-function playerHairStyle(profile,style){return availableHairStyles(profile).includes(style)?style:'bob';}
+function availableHairStyles(profile){return profile.endsWith('_m')?['short','none']:['adult_f','elder_f'].includes(profile)?['short','bob']:['short','bob','none'];}
+function playerHairStyle(profile,style){return availableHairStyles(profile).includes(style)?style:profile.endsWith('_m')?'short':'bob';}
 function petDefinition(manifest,breed='prototype'){return breed==='prototype'?manifest.pets.dog:manifest.pets.dog.breeds?.[breed];}
 function petEntry(manifest,state){const breed=state.dogBreed||'prototype',pet=petDefinition(manifest,breed),entry=pet?.ages?.[state.dogAge||'adult']?.poses?.[state.dogPose||'standing'];if(!entry)throw Error('Нет рисунка для породы, возраста или позы собаки');return {pet,entry};}
 function petGeometry(manifest,age='adult',pose='standing',breed='prototype'){const p=petDefinition(manifest,breed),anchor=p.ages?.[age]?.poses?.[pose]?.footAnchor||p.footAnchor,scale=p.scale||manifest.pets.dog.scale,position=manifest.pets.dog.footPosition;return {x:position[0]-anchor[0]*scale,y:position[1]-anchor[1]*scale,scale,footY:position[1]};}
@@ -921,6 +921,124 @@ function geometry(id,a){const p=manifest.profiles[id],pose=p.poses[a.pose],scale
 return {image,colored,actor:makeActor,geometry,pet,companion};
 }
 root.LifelinePngRenderer={create};
+})(typeof window!=='undefined'?window:globalThis);
+
+
+;/* art/people-v12/runtime/humans.js */
+(function(root){
+'use strict';
+const AGE_GROUPS=[['infant',0],['toddler',12],['child',72],['teen',156],['adult',204],['elder',768]];
+const MALE_HAIR=['short','compact_coils','tousled','baby_tuft'];
+const BASES={
+ slavic:{faces:[0,2],skins:[0,1],hairColors:[0,1,2,4],styles:['short','bob','long_straight','braids','ponytail','bun','tousled']},
+ european:{faces:[0,1,2,3],skins:[0,1,2],hairColors:[0,1,2,4],styles:['short','bob','long_straight','compact_coils','braids','ponytail','bun','tousled']},
+ east_asian:{faces:[1,0],skins:[0,1,2],hairColors:[0,1],styles:['short','bob','long_straight','braids','ponytail','bun','tousled']},
+ south_asian:{faces:[1,3],skins:[1,2,3,4],hairColors:[0,1],styles:['short','bob','long_straight','compact_coils','braids','ponytail','bun','tousled']},
+ middle_eastern:{faces:[2,3],skins:[1,2,3],hairColors:[0,1],styles:['short','bob','long_straight','compact_coils','braids','ponytail','bun','tousled']},
+ african:{faces:[0,3],skins:[2,3,4],hairColors:[0,1],styles:['short','compact_coils','braids','tousled','bun','ponytail']},
+ latin_american:{faces:[0,1,2,3],skins:[0,1,2,3,4],hairColors:[0,1,2,4],styles:['short','bob','long_straight','compact_coils','braids','ponytail','bun','tousled']}
+};
+const copy=x=>JSON.parse(JSON.stringify(x));
+function ageGroup(months){if(!Number.isFinite(months)||months<0)throw Error('Возраст должен быть числом месяцев от нуля.');return AGE_GROUPS.filter(([,from])=>months>=from).at(-1)[0];}
+function profileFor(months,sex='female'){const age=ageGroup(months);return ['infant','toddler'].includes(age)?age:age+'_'+(sex==='male'?'m':'f');}
+function worldHeight(c){const age=ageGroup(c.months),n=c.months;if(age==='infant')return 52+Math.min(11,n)*18/11;if(age==='toddler')return 80+Math.min(59,n-12)*40/59;if(age==='child')return 125+Math.min(83,n-72)*30/83;if(age==='teen')return 160+Math.min(47,n-156)*25/47;return age==='elder'?180:190;}
+function expression(happiness=100,energy=100){const clamp=n=>Math.max(0,Math.min(100,Number.isFinite(n)?n:100)),score=Math.min(clamp(happiness),clamp(energy)),eyeTier=score>=75?0:score>=50?1:score>=25?2:3,mouth=eyeTier===0?'smile':eyeTier===3?'sad':'neutral';return {score,eyeTier,mouth};}
+function hash(seed,text){let h=(Number(seed)>>>0)^2166136261;for(const c of text)h=Math.imul(h^c.charCodeAt(0),16777619);return h>>>0;}
+function preset(base='slavic',seed=1,months=360,sex='female'){
+ const b=BASES[base];if(!b)throw Error('Неизвестная основа внешности.');const pick=(key,list)=>list[hash(seed,key)%list.length],age=ageGroup(months);
+ return {version:1,base,seed,months,sex,profile:profileFor(months,sex),face:pick('face',b.faces),skin:pick('skin',b.skins),hairColor:age==='elder'?3:pick('hair-color',b.hairColors),hair:age==='infant'?'baby_tuft':pick('hair',sex==='male'?b.styles.filter(k=>MALE_HAIR.includes(k)):b.styles),outfit:0,top:pick('top',[0,1,2,3]),bottom:pick('bottom',[0,1,2]),pose:age==='infant'?'lying':'standing',happiness:100,energy:100};
+}
+function fallbackHair(c){return c.profile==='infant'?'baby_tuft':c.sex==='male'?'short':'bob';}
+function hairOptions(m,c){const age=m.profiles[c.profile].age,items=Object.keys(m.hairStyles).filter(k=>m.hairStyles[k].ages.includes(age)&&(c.sex!=='male'||MALE_HAIR.includes(k)));if(c.sex==='male'||age==='infant')items.push('none');return items;}
+function migrate(m,input){const c=copy(input),p=m.profiles[c.profile];if(p){if(c.pose==='running')c.pose=p.poses[0];if(!hairOptions(m,c).includes(c.hair)&&(c.hair==='none'||Object.hasOwn(m.hairStyles,c.hair)))c.hair=fallbackHair(c);}return validate(m,c);}
+function validate(m,input){
+ const c=copy(input);c.shoes=c.shoes??0;if(c.version!==1||!['male','female'].includes(c.sex)||!m.profiles[c.profile])throw Error('Неизвестный профиль человека.');
+ if(profileFor(c.months,c.sex)!==c.profile)throw Error('Возраст и профиль не совпадают.');
+ const p=m.profiles[c.profile];if(!p.outfits[String(c.outfit)]?.poses[c.pose])throw Error('У этого тела нет выбранной одежды или позы.');
+ if(c.months<(p.outfits[String(c.outfit)].poses[c.pose].minimumMonths||0))throw Error('Эта поза ещё не подходит возрасту.');
+ for(const [key,max]of Object.entries({face:4,skin:m.palettes.skin.length,hairColor:m.palettes.hair.length,top:m.palettes.top.length,bottom:m.palettes.bottom.length,shoes:m.palettes.shoes.length})){if(!Number.isInteger(c[key])||c[key]<0||c[key]>=max)throw Error('Неверный признак: '+key);}
+ if(!hairOptions(m,c).includes(c.hair))throw Error('Причёска несовместима с возрастом.');
+ for(const key of ['happiness','energy'])if(!Number.isFinite(c[key])||c[key]<0||c[key]>100)throw Error('Показатель вне шкалы.');
+ if(c.manualMouth!==undefined&&!['smile','soft','neutral','sad'].includes(c.manualMouth))throw Error('Неизвестный рот.');
+ return c;
+}
+function create(manifest,base=''){
+ const images=new Map(),colored=new Map(),actors=new Map();
+ function image(path){if(!images.has(path)){if(images.size>96)images.delete(images.keys().next().value);images.set(path,new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>resolve(im);im.onerror=()=>reject(Error('Не загружен PNG: '+path));im.src=base+path+'?art=12';}));}return images.get(path);}
+ async function tint(path,color,referenceMean=null){if(!color)return image(path);const key=path+'|'+color+'|'+referenceMean;if(colored.has(key))return colored.get(key);const im=await image(path),out=document.createElement('canvas');out.width=im.width;out.height=im.height;const x=out.getContext('2d');x.drawImage(im,0,0);const p=x.getImageData(0,0,out.width,out.height),d=p.data,rgb=color.match(/\w\w/g).map(h=>parseInt(h,16));let total=0,n=0;for(let i=0;i<d.length;i+=4)if(d[i+3]){total+=.2126*d[i]+.7152*d[i+1]+.0722*d[i+2];n++;}const mean=referenceMean||total/Math.max(1,n);for(let i=0;i<d.length;i+=4)if(d[i+3]){const l=(.2126*d[i]+.7152*d[i+1]+.0722*d[i+2])/Math.max(1,mean);for(let k=0;k<3;k++)d[i+k]=Math.round(Math.min(255,rgb[k]*l));}x.putImageData(p,0,0);if(colored.size>64)colored.delete(colored.keys().next().value);colored.set(key,out);return out;}
+ async function actor(input){
+  const c=validate(manifest,input),key=JSON.stringify(c);if(actors.has(key))return actors.get(key);
+  const p=manifest.profiles[c.profile],d=p.outfits[String(c.outfit)].poses[c.pose],hd=manifest.heads[p.age+'_'+c.sex+'_'+c.face],pal=manifest.palettes,e=expression(c.happiness,c.energy),out=document.createElement('canvas');[out.width,out.height]=manifest.frame;const x=out.getContext('2d');if(c.manualMouth&&e.eyeTier===0)e.mouth=c.manualMouth;
+  // Fetch selected layers together so the new art does not add serial network delays.
+  const hairAssets=c.hair!=='none'?hd.hairLayers[c.hair]:null,eyeNames=c.pose==='sleeping'?['closedSkin','closedInk']:e.eyeTier?['upperSkin','upperInk',...(e.eyeTier>=2?['lowerSkin','lowerInk']:[]),...(e.eyeTier===3?['bruises']:[])]:[];
+  await Promise.all([...Object.values(d.layers),...Object.values(hd.layers),hd.mouths[c.pose==='sleeping'?'neutral':e.mouth],hairAssets?.back,hairAssets?.front,...eyeNames.map(name=>hd.eyelids[name])].filter(Boolean).map(image));
+  for(const [k,path]of Object.entries(d.layers))x.drawImage(await tint(path,k==='skin'?pal.skin[c.skin]:k==='top'?pal.top[c.top]:k==='bottom'?pal.bottom[c.bottom]:k==='shoes'?pal.shoes[c.shoes]:null),0,0);
+  const head=document.createElement('canvas');head.width=768;head.height=896;const h=head.getContext('2d'),off=[264,160],hl=c.hair!=='none'?hd.hairLayers[c.hair]:null;
+  if(hl)h.drawImage(await tint(hl.back,pal.hair[c.hairColor],manifest.hairStyles[c.hair].meanLuminance),off[0]+hl.offset[0],off[1]+hl.offset[1]);
+  for(const [k,path]of Object.entries(hd.layers))h.drawImage(await tint(path,k==='skin'?pal.skin[c.skin]:null),...off);
+  if(c.pose==='sleeping'){h.drawImage(await tint(hd.eyelids.closedSkin,pal.skin[c.skin]),...off);h.drawImage(await image(hd.eyelids.closedInk),...off);}
+  else if(e.eyeTier){for(const name of ['upperSkin','upperInk',...(e.eyeTier>=2?['lowerSkin','lowerInk']:[]),...(e.eyeTier===3?['bruises']:[])])h.drawImage(await tint(hd.eyelids[name],name.endsWith('Skin')?pal.skin[c.skin]:null),...off);}
+  h.drawImage(await image(hd.mouths[c.pose==='sleeping'?'neutral':e.mouth]),...off);
+  if(hl)h.drawImage(await tint(hl.front,pal.hair[c.hairColor],manifest.hairStyles[c.hair].meanLuminance),off[0]+hl.offset[0],off[1]+hl.offset[1]);
+  const scale=p.headHeight/280,[ax,ay]=hd.headAnchor,[nx,ny]=d.neckAnchor;x.save();x.translate(nx,ny);x.rotate(-d.headRotation*Math.PI/180);x.scale(scale,scale);x.drawImage(head,-ax-off[0],-ay-off[1]);x.restore();
+  if(actors.size>24)actors.delete(actors.keys().next().value);actors.set(key,out);return out;
+ }
+ function geometry(c,position=[160,278],slot=null){c=validate(manifest,c);const p=manifest.profiles[c.profile],d=p.outfits[String(c.outfit)].poses[c.pose],scale=worldHeight(c)/p.referenceHeight,anchor=slot&&d.seatAnchor?d.seatAnchor:d.footAnchor;return {x:position[0]-anchor[0]*scale,y:position[1]-anchor[1]*scale,scale,footY:position[1]+(d.footAnchor[1]-anchor[1])*scale};}
+ async function drawInScene(ctx,c,position=[160,278],slot=null,options={}){
+  const im=await actor(c),p=manifest.profiles[c.profile],crib=options.crib&&p.age==='infant'&&manifest.furniture?.crib?.poses.includes(c.pose)?manifest.furniture.crib:null;
+  if(crib){const [back,front]=await Promise.all([image(crib.back),image(crib.front)]),pos=options.cribPosition||crib.defaultPosition,fg={x:pos[0]-crib.footAnchor[0]*crib.scale,y:pos[1]-crib.footAnchor[1]*crib.scale};ctx.drawImage(back,fg.x,fg.y,back.width*crib.scale,back.height*crib.scale);const anchor=p.outfits[String(c.outfit)].poses[c.pose].footAnchor,scale=worldHeight(c)/p.referenceHeight;ctx.save();ctx.translate(pos[0]+crib.babyFootOffset[0],pos[1]+crib.babyFootOffset[1]);if(c.pose==='lying')ctx.rotate(crib.lyingRotationDegrees*Math.PI/180);ctx.drawImage(im,-anchor[0]*scale,-anchor[1]*scale,im.width*scale,im.height*scale);ctx.restore();ctx.drawImage(front,fg.x,fg.y,front.width*crib.scale,front.height*crib.scale);return {footY:pos[1],crib:true};}
+  const template=options.furniture||(options.templates&&p.age!=='infant'?(c.pose==='sleeping'?'bed':c.pose==='desk'?'desk':null):null),f=manifest.furniture?.[template];
+  if(f){
+   if(!f.accepts.includes(p.age)||!f.poses.includes(c.pose))throw Error('Эта поза несовместима с мебелью.');
+   const [back,front]=await Promise.all([image(f.back),image(f.front)]),pos=options.furniturePosition||f.defaultPosition,fx=pos[0]-f.footAnchor[0]*f.scale,fy=pos[1]-f.footAnchor[1]*f.scale,d=p.outfits[String(c.outfit)].poses[c.pose],scale=worldHeight(c)/p.referenceHeight;
+   ctx.drawImage(back,fx,fy,back.width*f.scale,back.height*f.scale);let x,y;
+   if(template==='bed'){
+    const hd=manifest.heads[p.age+'_'+c.sex+'_'+c.face],hs=p.headHeight/280,[ax,ay]=hd.headAnchor,[nx,ny]=d.neckAnchor;
+    const cx=d.headRotation?nx+(140-ay)*hs:nx+(120-ax)*hs,cy=d.headRotation?ny-(120-ax)*hs:ny+(140-ay)*hs;
+    x=pos[0]+f.headTargetOffset[0]-cx*scale;y=pos[1]+f.headTargetOffset[1]-cy*scale;
+   }else{x=pos[0]-d.footAnchor[0]*scale;y=pos[1]+(f.tableHandY-f.footAnchor[1])*f.scale-d.handAnchor[1]*scale;}
+   ctx.drawImage(im,x,y,im.width*scale,im.height*scale);ctx.drawImage(front,fx,fy,front.width*f.scale,front.height*f.scale);return {x,y,scale,footY:pos[1],furniture:template};
+  }
+  const g=geometry(c,position,slot);ctx.drawImage(im,g.x,g.y,im.width*g.scale,im.height*g.scale);return g;
+ }
+ async function portrait(c,size=256){const im=await actor(c),p=manifest.profiles[c.profile],d=p.outfits[String(c.outfit)].poses[c.pose],h=manifest.heads[p.age+'_'+c.sex+'_'+c.face],factor=p.headHeight/280,[nx,ny]=d.neckAnchor,[ax,ay]=h.headAnchor;const cx=nx+(120-ax)*factor,cy=ny+(125-ay)*factor,box=p.headHeight*1.65,out=document.createElement('canvas');out.width=size;out.height=size;out.getContext('2d').drawImage(im,cx-box/2,cy-box/2,box,box,0,0,size,size);return out;}
+ return {manifest,image,actor,geometry,drawInScene,portrait};
+}
+const api={AGE_GROUPS,BASES,MALE_HAIR,ageGroup,profileFor,worldHeight,expression,preset,hairOptions,fallbackHair,migrate,validate,create};root.LifelineHumanV12=api;if(typeof module!=='undefined')module.exports=api;
+})(typeof window!=='undefined'?window:globalThis);
+
+
+;/* art/people-v12/runtime/game-bridge.js */
+(function(root){
+'use strict';
+const C=root.LifelineHumanV12,PREFIX='lifeline-human-v12:';let ready;
+const storageKey=s=>PREFIX+(Number(s.seed)>>>0);
+function load(){if(!ready)ready=fetch('art/people-v12/manifest.json?v=12').then(r=>{if(!r.ok)throw Error('Новый набор людей не загружен');return r.json();}).then(manifest=>({manifest,art:C.create(manifest,'art/people-v12/')})).catch(e=>{ready=null;throw e;});return ready;}
+function saved(s,storage=root.localStorage){try{return JSON.parse(storage.getItem(storageKey(s))||'null');}catch{return null;}}
+function character(s,legacy,manifest,override=null,storage=root.localStorage){
+ let months=root.LifelineAssetCore?root.LifelineAssetCore.gameMonths(s):Math.max(0,Number(s.age)||0)*12,sex=s.origin?.sex==='male'?'male':'female';
+ if(override){if(override==='child')months=108;else if(override==='elder_f'){months=900;sex='female';}else if(override==='adult_f'||override==='adult_m'){months=360;sex=override==='adult_m'?'male':'female';}}
+ const stored=saved(s,storage),c=C.preset(stored?.traits?.base||'slavic',s.seed,months,sex),traits=stored?.traits||{};
+ Object.assign(c,{skin:legacy.skin??c.skin,hairColor:legacy.hairColor??c.hairColor,hair:legacy.hairStyle||c.hair,face:legacy.head==='sitting'?1:0,top:legacy.top??c.top,bottom:legacy.bottom??c.bottom},traits);
+ // Limited old controls remain useful after applying the expanded editor.
+ const map={head:'face',hairStyle:'hair',skin:'skin',hairColor:'hairColor',top:'top',bottom:'bottom'};
+ const baseline=stored?.legacyBaseline?.[legacy.profile]||stored?.legacyBaseline;if(baseline)for(const [key,target]of Object.entries(map))if(legacy[key]!==baseline[key])c[target]=key==='head'?(legacy.head==='sitting'?1:0):legacy[key];
+ c.profile=C.profileFor(months,sex);c.months=months;c.sex=sex;c.pose=manifest.profiles[c.profile].poses.includes(legacy.pose)?legacy.pose:manifest.profiles[c.profile].poses[0];
+ if(!C.hairOptions(manifest,c).includes(c.hair))c.hair=C.fallbackHair(c);
+ c.happiness=Number.isFinite(legacy.happiness)?legacy.happiness:100;c.energy=100*(1-(legacy.fatigue||0));
+ if(legacy.mouthMode==='manual')c.manualMouth=legacy.mouth||'smile';
+ return C.validate(manifest,c);
+}
+async function render(s,legacy,scene,override=null){const {manifest,art}=await load();const c=character(s,legacy,manifest,override),slot=legacy.pose==='sitting'?(scene.slots||[]).find(slot=>slot.id===legacy.seatId):null,position=slot?slot.position:legacy.position;
+ if(c.profile==='infant'&&scene.id!=='pilot_living_room')return null;
+ if(c.profile==='infant'){const im=document.createElement('canvas');im.width=960;im.height=960;const ctx=im.getContext('2d');ctx.scale(3,3);const g=await art.drawInScene(ctx,c,position,null,{crib:true});return {im,c,x:0,y:0,scale:1/3,footY:g.footY};}
+ const im=await art.actor(c),g=art.geometry(c,position,Boolean(slot)),ratio=scene.personScale||1;
+ if(ratio!==1){g.scale*=ratio;const d=manifest.profiles[c.profile].outfits[String(c.outfit)].poses[c.pose],anchor=slot&&d.seatAnchor?d.seatAnchor:d.footAnchor;g.x=position[0]-anchor[0]*g.scale;g.y=position[1]-anchor[1]*g.scale;g.footY=position[1]+(d.footAnchor[1]-anchor[1])*g.scale;}
+ return {im,c,...g};
+}
+async function relative(s,legacy,scene){const {manifest,art}=await load(),none={getItem:()=>null},c=C.migrate(manifest,Object.assign(character(s,legacy,manifest,legacy.profile,none),legacy.humanTraits||{})),slot=legacy.pose==='sitting'?(scene.slots||[]).find(v=>v.id===legacy.seatId):null,pos=slot?slot.position:legacy.position,im=await art.actor(c),g=art.geometry(c,pos,Boolean(slot)),ratio=scene.personScale||1;if(ratio!==1){g.scale*=ratio;const d=manifest.profiles[c.profile].outfits[String(c.outfit)].poses[c.pose],anchor=slot&&d.seatAnchor?d.seatAnchor:d.footAnchor;g.x=pos[0]-anchor[0]*g.scale;g.y=pos[1]-anchor[1]*g.scale;g.footY=pos[1]+(d.footAnchor[1]-anchor[1])*g.scale;}return {im,c,...g};}
+async function portrait(s,legacy,role='self'){const {manifest,art}=await load(),c=role==='self'?character(s,legacy,manifest):C.migrate(manifest,Object.assign(character(s,legacy,manifest,legacy.profile,{getItem:()=>null}),legacy.humanTraits||{}));c.pose=c.profile==='infant'?'lying':'standing';return art.portrait(c);}
+const api={PREFIX,storageKey,load,saved,character,render,relative,portrait};root.LifelineHumanGame=api;if(typeof module!=='undefined')module.exports=api;
 })(typeof window!=='undefined'?window:globalThis);
 
 
@@ -1023,7 +1141,7 @@ const api={plan,arrange,geometry};root.HouseholdScene=api;if(typeof module!=='un
 (function(root){
 'use strict';
 const BASE='art/',HOME_KINDS=new Set(['home']),KEY_PREFIX='lifeline-art-v1:';
-let ready,selectedProfile=null,showDog=false;
+let ready,selectedProfile=null,showDog=false,lastMount=null;
 function selectDog(visible){showDog=Boolean(visible);}
 const PROFILE_LABELS={adult_f:'Девушка',adult_m:'Мужчина',elder_f:'Пожилая женщина',child:'Ребёнок'};
 function displayProfileFor(s){return selectedProfile||root.GraphicsLab?.profile(s)||profileFor(s)||(s.origin?.sex==='male'?'adult_m':'adult_f');}
@@ -1038,12 +1156,13 @@ function profileFor(s){
  return null;
 }
 function storageKey(s){return KEY_PREFIX+(s.seed>>>0);}
-function editorUrl(s){return BASE+'index.html?life='+(s.seed>>>0)+'&profile='+displayProfileFor(s)+'&month='+root.LifelineAssetCore.gameMonths(s);}
+function editorUrl(s){return BASE+'index.html?life='+(s.seed>>>0)+'&profile='+displayProfileFor(s)+'&month='+root.LifelineAssetCore.gameMonths(s)+'&sex='+(s.origin?.sex==='male'?'male':'female');}
 function supported(s,kind){return HOME_KINDS.has(kind);}
 function markup(s,kind){return supported(s,kind)?'<div class="modular-scene" data-art-style="modular-png"><canvas width="960" height="960" aria-label="Домашняя сцена с персонажем. Нажмите на свободный пол, чтобы переставить его."></canvas><span class="art-load-status" role="status">Загрузка комнаты…</span></div>':null;}
 function settings(s,manifest,storage){const C=root.LifelineAssetCore;try{const raw=storage.getItem(storageKey(s));if(raw)return C.validateState(JSON.parse(raw),manifest);}catch{}return root.FamilyAppearance?root.FamilyAppearance.defaults(s):C.defaultState();}
-function load(){if(!ready)ready=fetch(BASE+'manifest.json?v=11').then(r=>{if(!r.ok)throw new Error('manifest');return r.json();}).then(manifest=>({manifest,art:root.LifelinePngRenderer.create(manifest,BASE)})).catch(error=>{ready=null;throw error;});return ready;}
+function load(){if(!ready)ready=fetch(BASE+'manifest.json?v=12').then(r=>{if(!r.ok)throw new Error('manifest');return r.json();}).then(manifest=>({manifest,art:root.LifelinePngRenderer.create(manifest,BASE)})).catch(error=>{ready=null;throw error;});return ready;}
 async function mount(host,s,kind){
+ lastMount={host,s,kind};
  const node=host.querySelector('.modular-scene');if(!node||!supported(s,kind))return;
  const token=Symbol();node.renderToken=token;const canvas=node.querySelector('canvas'),fallback=null,status=node.querySelector('.art-load-status');
  try{
@@ -1054,18 +1173,20 @@ async function mount(host,s,kind){
   const household=root.HouseholdScene&&!root.GraphicsLab?.profile(s)?root.HouseholdScene.arrange(s,scene,a):null;if(household)Object.assign(a,household.self);
   const animal=root.GraphicsLab?root.GraphicsLab.animalVisible(s):showDog,selection=animal?(root.GraphicsLab?root.GraphicsLab.selectionFor(s,config,manifest):root.LifelineAssetCore.companionSelection(manifest,config,'dog')):null;
   // The optional test dog is visual only and does not create a family/ownership record.
-  const [bg,actor,dog]=await Promise.all([art.image(scene.background),art.actor(id,a),animal?(selection.kind==='dog'?art.pet({dogBreed:selection.variant,dogAge:selection.age,dogPose:selection.pose,dogColor:selection.color}):art.companion(selection)):null]);
+  const expanded=root.LifelineHumanGame?await root.LifelineHumanGame.render(s,a,scene,selectedProfile||root.GraphicsLab?.profile(s)):null;
+  const [bg,actor,dog]=await Promise.all([art.image(scene.background),expanded?expanded.im:art.actor(id,a),animal?(selection.kind==='dog'?art.pet({dogBreed:selection.variant,dogAge:selection.age,dogPose:selection.pose,dogColor:selection.color}):art.companion(selection)):null]);
   if(!node.isConnected||node.renderToken!==token)return;
-  const g=root.HouseholdScene?root.HouseholdScene.geometry(manifest,scene,id,a):art.geometry(id,a),ratio=root.HouseholdScene?1:scene.personScale||1;
+  const g=expanded|| (root.HouseholdScene?root.HouseholdScene.geometry(manifest,scene,id,a):art.geometry(id,a)),ratio=expanded||root.HouseholdScene?1:scene.personScale||1;
   if(ratio!==1){g.scale*=ratio;const anchor=manifest.profiles[id].poses[a.pose].footAnchor;g.x=a.position[0]-anchor[0]*g.scale;g.y=a.position[1]-anchor[1]*g.scale;g.footY=a.position[1];}
-  const x=canvas.getContext('2d');x.setTransform(3,0,0,3,0,0);x.clearRect(0,0,320,320);x.drawImage(bg,0,0,320,320);const draws=s.age<1&&!root.GraphicsLab?.profile(s)?[]:[{im:actor,...g}];
+  const x=canvas.getContext('2d');x.setTransform(3,0,0,3,0,0);x.clearRect(0,0,320,320);x.drawImage(bg,0,0,320,320);const draws=s.age<1&&!expanded&&!root.GraphicsLab?.profile(s)?[]:[{im:actor,...g}];
+  if(node.dataset&&expanded){node.dataset.humanRevision='12';node.dataset.humanProfile=expanded.c.profile;node.dataset.humanFace=String(expanded.c.face);node.dataset.humanHair=expanded.c.hair;node.dataset.humanOutfit=String(expanded.c.outfit);}
   if(dog){const pet=root.LifelineAssetCore.companionGeometry(manifest,selection);if(scene.petAnchor){pet.scale*=scene.petScale||1;const entry=root.LifelineAssetCore.companionEntry(manifest,selection).entry,anchor=entry.footAnchor;pet.x=scene.petAnchor[0]-anchor[0]*pet.scale;pet.y=scene.petAnchor[1]-anchor[1]*pet.scale-(entry.flightHeight||0)*(scene.petScale||1);pet.footY=scene.petAnchor[1];}draws.push({im:dog,...pet});}
-  if(household&&root.FamilyAppearance){await Promise.all(household.parents.map(async member=>{const parent=root.FamilyAppearance.actor(s,member.role,manifest),pa={...config.actors[parent.profile],...parent,...member},im=await art.actor(parent.profile,pa),pg=root.HouseholdScene.geometry(manifest,scene,parent.profile,pa);draws.push({im,...pg});node.dataset[member.role+'Appearance']=JSON.stringify(parent);}));}
+  if(household&&root.FamilyAppearance){await Promise.all(household.parents.map(async member=>{const parent=root.FamilyAppearance.actor(s,member.role,manifest),pa={...config.actors[parent.profile],...parent,...member},person=root.LifelineHumanGame?await root.LifelineHumanGame.relative(s,pa,scene):null,im=person?person.im:await art.actor(parent.profile,pa),pg=person||root.HouseholdScene.geometry(manifest,scene,parent.profile,pa);draws.push({im,...pg});node.dataset[member.role+'Appearance']=JSON.stringify(parent);}));}
   if(!node.isConnected||node.renderToken!==token)return;
   for(const d of draws.sort((a,b)=>a.footY-b.footY))x.drawImage(d.im,d.x,d.y,(d.im.width||384)*d.scale,(d.im.height||512)*d.scale);
   if(node.dataset)node.dataset.household=JSON.stringify(household?.schedule.members||[]);
   const label=host.querySelector('.activity-label');if(label&&label!==node)label.textContent=(scene.label||'Дома')+' · ← комнаты →';
-  if(node.dataset){node.dataset.sceneId=scene.id;node.dataset.profile=id;node.dataset.head=a.head;node.dataset.emotionScore=String(a.emotionScore??'');node.dataset.mouth=a.mouth;node.dataset.eyeTier=String(a.eyeTier??'manual');node.dataset.pet=selection?.kind||'none';node.dataset.petBreed=selection?.variant||'';node.dataset.petAge=selection?.age||'';node.dataset.petPose=selection?.pose||'';node.dataset.petFootY=String(scene.petAnchor?.[1]??manifest.pets.dog.footPosition[1]);}
+  if(node.dataset){const emotion=expanded?root.LifelineHumanV12.expression(expanded.c.happiness,expanded.c.energy):null;if(emotion&&expanded.c.manualMouth&&emotion.eyeTier===0)emotion.mouth=expanded.c.manualMouth;node.dataset.sceneId=scene.id;node.dataset.profile=id;node.dataset.head=a.head;node.dataset.emotionScore=String(emotion?.score??a.emotionScore??'');node.dataset.mouth=emotion?.mouth??a.mouth;node.dataset.eyeTier=String(emotion?.eyeTier??a.eyeTier??'manual');node.dataset.pet=selection?.kind||'none';node.dataset.petBreed=selection?.variant||'';node.dataset.petAge=selection?.age||'';node.dataset.petPose=selection?.pose||'';node.dataset.petFootY=String(scene.petAnchor?.[1]??manifest.pets.dog.footPosition[1]);}
   node.hidden=false;canvas.style.visibility='visible';status.hidden=true;if(fallback)fallback.hidden=true;
   let touch=null,swiped=false;
   canvas.style.touchAction='pan-y';
@@ -1082,6 +1203,7 @@ async function mount(host,s,kind){
   };
  }catch{if(!node.isConnected||node.renderToken!==token)return;canvas.style.visibility='hidden';status.hidden=false;status.textContent='Не удалось загрузить PNG-сцену. Обновите страницу.';}
 }
+if(root.addEventListener)root.addEventListener('storage',event=>{if(lastMount&&event.key===root.LifelineHumanGame?.storageKey(lastMount.s)){mount(lastMount.host,lastMount.s,lastMount.kind);root.FamilyAppearance?.mount(lastMount.host,lastMount.s);}});
 const api={load,selectDog,displayProfileFor,selectProfile,profileControl,profileFor,storageKey,editorUrl,supported,markup,mount,settings};root.LifelineGameArt=api;if(typeof module!=='undefined')module.exports=api;
 })(typeof window!=='undefined'?window:globalThis);
 
@@ -1382,13 +1504,14 @@ root.ReferenceController={create,attach,archive,archived,action,busy:()=>infligh
 (function(root){
 'use strict';
 function hash(seed,role){let value=(Number(seed)>>>0)^2166136261;for(const c of role)value=Math.imul(value^c.charCodeAt(0),16777619);value^=value>>>16;return value>>>0;}
-function identity(s){const take=(role,n)=>hash(s.seed,role)%n,motherSkin=take('mother-skin',5),fatherSkin=take('father-skin',5),childSkin=Math.round((motherSkin+fatherSkin)/2);const actor=(role,profile,skin)=>({profile,skin,hairColor:role==='grandmother'?3:[0,1,2,4][take(role+'-hair',4)],hairStyle:take(role+'-style',2)?'bob':'short',head:take(role+'-face',2)?'sitting':'standing',top:take(role+'-top',4),bottom:take(role+'-bottom',3),mouth:'soft',fatigue:0,pose:'standing',seatId:null});return {mother:actor('mother','adult_f',motherSkin),father:actor('father','adult_m',fatherSkin),grandmother:actor('grandmother','elder_f',motherSkin),self:actor('self',s.origin?.sex==='male'?'adult_m':'adult_f',childSkin)};}
+function identity(s){const take=(role,n)=>hash(s.seed,role)%n,motherSkin=take('mother-skin',5),fatherSkin=take('father-skin',5),childSkin=Math.round((motherSkin+fatherSkin)/2);const actor=(role,profile,skin)=>({profile,skin,hairColor:role==='grandmother'?3:[0,1,2,4][take(role+'-hair',4)],hairStyle:profile.endsWith('_m')?'short':take(role+'-style',2)?'bob':'short',head:take(role+'-face',2)?'sitting':'standing',top:take(role+'-top',4),bottom:take(role+'-bottom',3),mouth:'soft',fatigue:0,pose:'standing',seatId:null});return {mother:actor('mother','adult_f',motherSkin),father:actor('father','adult_m',fatherSkin),grandmother:actor('grandmother','elder_f',motherSkin),self:actor('self',s.origin?.sex==='male'?'adult_m':'adult_f',childSkin)};}
 function defaults(s){const config=root.LifelineAssetCore.defaultState(),who=identity(s).self;for(const a of Object.values(config.actors))Object.assign(a,{skin:who.skin,hairColor:who.hairColor,head:who.head,top:who.top,bottom:who.bottom,hairStyle:root.LifelineAssetCore.playerHairStyle(a.profile,who.hairStyle)});return config;}
 function storageKey(s){return 'lifeline-family-appearance-v1:'+(s.seed>>>0);}
-function actor(s,role,manifest){const base=identity(s)[role];if(!base)throw Error('Unknown family role');if(role==='self')return {...root.LifelineGameArt.settings(s,manifest,root.localStorage).actors[base.profile],profile:base.profile};let saved={};try{saved=JSON.parse(root.localStorage.getItem(storageKey(s))||'{}')[role]||{};}catch{}const out={...base};for(const [key,length]of [['skin',5],['hairColor',5],['top',4],['bottom',3]])if(Number.isInteger(saved[key])&&saved[key]>=0&&saved[key]<length)out[key]=saved[key];if(['standing','sitting'].includes(saved.head))out.head=saved.head;if(root.LifelineAssetCore.availableHairStyles(base.profile).includes(saved.hairStyle))out.hairStyle=saved.hairStyle;if(root.LifelineAssetCore.MOUTHS.includes(saved.mouth))out.mouth=saved.mouth;return out;}
-function setActor(s,role,value,manifest){if(!['mother','father'].includes(role))throw Error('Unknown parent');let saved={};try{saved=JSON.parse(root.localStorage.getItem(storageKey(s))||'{}');}catch{}saved[role]={...actor(s,role,manifest),...value};root.localStorage.setItem(storageKey(s),JSON.stringify(saved));return actor(s,role,manifest);}
-function markup(s,role){if(role==='self')return '<span class="newborn-placeholder" role="img" aria-label="Изображение младенца пока не готово"><svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="21" r="10"/><path d="M20 31c-6 5-9 11-9 17 0 9 9 13 21 13s21-4 21-13c0-6-3-12-9-17L18 50m26-19L24 58"/></svg></span>';const name=role==='self'?s.origin?.name:s.family?.[role]?.name||'';const label=String(name||'Персонаж').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));return '<span class="family-art-avatar" data-family-avatar="'+role+'"><canvas width="256" height="256" role="img" aria-label="'+label+'" hidden></canvas><span class="family-art-status" aria-hidden="true">'+label.slice(0,1)+'</span></span>';}
+function actor(s,role,manifest){const base=identity(s)[role];if(!base)throw Error('Unknown family role');if(role==='self')return {...root.LifelineGameArt.settings(s,manifest,root.localStorage).actors[base.profile],profile:base.profile};let saved={};try{saved=JSON.parse(root.localStorage.getItem(storageKey(s))||'{}')[role]||{};}catch{}const out={...base};for(const [key,length]of [['skin',5],['hairColor',5],['top',4],['bottom',3]])if(Number.isInteger(saved[key])&&saved[key]>=0&&saved[key]<length)out[key]=saved[key];if(['standing','sitting'].includes(saved.head))out.head=saved.head;if(root.LifelineAssetCore.availableHairStyles(base.profile).includes(saved.hairStyle))out.hairStyle=saved.hairStyle;if(root.LifelineAssetCore.MOUTHS.includes(saved.mouth))out.mouth=saved.mouth;if(root.LifelineHumanV12){const t={};if(Number.isInteger(saved.face)&&saved.face>=0&&saved.face<4)t.face=saved.face;if(Number.isInteger(saved.outfit)&&saved.outfit>=0&&saved.outfit<3)t.outfit=saved.outfit;if(Number.isInteger(saved.shoes)&&saved.shoes>=0&&saved.shoes<3)t.shoes=saved.shoes;if(Object.hasOwn(root.LifelineHumanV12.BASES,saved.base||''))t.base=saved.base;const hair=base.profile.endsWith('_m')?['short','compact_coils','tousled','none']:['short','bob','compact_coils','tousled','long_straight','ponytail','bun','braids'];if(hair.includes(saved.hair))t.hair=saved.hair;if(Object.keys(t).length)out.humanTraits=t;}return out;}
+function setActor(s,role,value,manifest){if(!['mother','father','grandmother'].includes(role))throw Error('Unknown parent');let saved={};try{saved=JSON.parse(root.localStorage.getItem(storageKey(s))||'{}');}catch{}saved[role]={...saved[role],...actor(s,role,manifest),...value};root.localStorage.setItem(storageKey(s),JSON.stringify(saved));return actor(s,role,manifest);}
+function markup(s,role){const name=role==='self'?s.origin?.name:s.family?.[role]?.name||'';const label=String(name||'Персонаж').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));return '<span class="family-art-avatar" data-family-avatar="'+role+'"><canvas width="256" height="256" role="img" aria-label="'+label+'" hidden></canvas><span class="family-art-status" aria-hidden="true">'+label.slice(0,1)+'</span></span>';}
 async function mount(host,s){const nodes=[...host.querySelectorAll('[data-family-avatar]')];if(!nodes.length)return;const identities=identity(s);try{const {manifest,art}=await root.LifelineGameArt.load(),config=root.LifelineGameArt.settings(s,manifest,root.localStorage);await Promise.all(nodes.map(async node=>{const token=Symbol();node.avatarToken=token;const role=node.dataset.familyAvatar,who=actor(s,role,manifest),canvas=node.querySelector('canvas'),status=node.querySelector('.family-art-status'),x=canvas.getContext('2d');let image;
+ if(root.LifelineHumanGame){image=await root.LifelineHumanGame.portrait(s,who,role);if(!node.isConnected||node.avatarToken!==token)return;x.clearRect(0,0,256,256);x.drawImage(image,0,0,256,256);canvas.hidden=false;status.hidden=true;node.dataset.avatarReady='true';return;}
  const a={...config.actors[who.profile],...who,pose:'standing',fatigue:0};image=await art.actor(who.profile,a);if(!node.isConnected||node.avatarToken!==token)return;const [hx,hy,hw,hh]=manifest.profiles[who.profile].poses.standing.headRect,top=Math.max(0,hy-hh*.15),size=hh*1.8,left=hx+hw/2-size/2;x.clearRect(0,0,256,256);x.drawImage(image,left,top,size,size,0,0,256,256);
  canvas.hidden=false;status.hidden=true;node.dataset.avatarReady='true';}));}catch{for(const node of nodes)node.dataset.avatarError='true';}}
 const api={identity,defaults,storageKey,actor,setActor,markup,mount};root.FamilyAppearance=api;if(typeof module!=='undefined')module.exports=api;

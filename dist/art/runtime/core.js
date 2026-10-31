@@ -19,8 +19,8 @@ function expressionFor(happiness,energy){
  return {score,eyeTier,mouth:eyeTier===0?'smile':eyeTier===3?'sad':'neutral'};
 }
 function resolveExpression(actor){if(actor.mouthMode!=='auto')return actor;const emotion=expressionFor(actor.happiness,100-actor.fatigue*100);return {...actor,mouth:emotion.mouth,eyeTier:emotion.eyeTier,emotionScore:emotion.score};}
-function availableHairStyles(profile){return ['adult_f','elder_f'].includes(profile)?['short','bob']:['short','bob','none'];}
-function playerHairStyle(profile,style){return availableHairStyles(profile).includes(style)?style:'bob';}
+function availableHairStyles(profile){return profile.endsWith('_m')?['short','none']:['adult_f','elder_f'].includes(profile)?['short','bob']:['short','bob','none'];}
+function playerHairStyle(profile,style){return availableHairStyles(profile).includes(style)?style:profile.endsWith('_m')?'short':'bob';}
 function petDefinition(manifest,breed='prototype'){return breed==='prototype'?manifest.pets.dog:manifest.pets.dog.breeds?.[breed];}
 function petEntry(manifest,state){const breed=state.dogBreed||'prototype',pet=petDefinition(manifest,breed),entry=pet?.ages?.[state.dogAge||'adult']?.poses?.[state.dogPose||'standing'];if(!entry)throw Error('Нет рисунка для породы, возраста или позы собаки');return {pet,entry};}
 function petGeometry(manifest,age='adult',pose='standing',breed='prototype'){const p=petDefinition(manifest,breed),anchor=p.ages?.[age]?.poses?.[pose]?.footAnchor||p.footAnchor,scale=p.scale||manifest.pets.dog.scale,position=manifest.pets.dog.footPosition;return {x:position[0]-anchor[0]*scale,y:position[1]-anchor[1]*scale,scale,footY:position[1]};}

@@ -19,6 +19,8 @@
   "live-scene.js",
   "art/runtime/core.js",
   "art/runtime/renderer.js",
+  "art/people-v12/runtime/humans.js",
+  "art/people-v12/runtime/game-bridge.js",
   "graphics-lab.js",
   "household-scene.js",
   "modular-scene.js",

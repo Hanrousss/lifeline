@@ -1,0 +1,151 @@
+{
+  "revision": 12,
+  "status": "installed_working_baseline_browser_recheck_pending",
+  "requestedScope": [
+    "age_groups",
+    "face_shapes",
+    "hairstyles",
+    "clothing_and_shoes",
+    "static_poses"
+  ],
+  "pendingDecisions": [],
+  "constraints": {
+    "art": "approved hand-inked cartoon PNG",
+    "blueRimLight": false,
+    "modifyGameUI": false,
+    "existingGameSaveMigration": "required before integration",
+    "sharedClothing": "within a compatible age/body family and pose",
+    "nationality": "not inferred from appearance",
+    "realWalkAnimation": "outside this static-pose scope"
+  },
+  "inventory": [
+    {
+      "category": "age_groups",
+      "status": "registered_in_manifest"
+    },
+    {
+      "category": "face_shapes",
+      "status": "registered_in_manifest"
+    },
+    {
+      "category": "hairstyles",
+      "status": "registered_in_manifest"
+    },
+    {
+      "category": "clothing_and_shoes",
+      "status": "registered_in_manifest"
+    },
+    {
+      "category": "static_poses",
+      "status": "registered_in_manifest"
+    }
+  ],
+  "ageGroupsMonths": [
+    [
+      "infant",
+      0,
+      12
+    ],
+    [
+      "toddler",
+      12,
+      72
+    ],
+    [
+      "child",
+      72,
+      156
+    ],
+    [
+      "teen",
+      156,
+      204
+    ],
+    [
+      "adult",
+      204,
+      768
+    ],
+    [
+      "elder",
+      768,
+      null
+    ]
+  ],
+  "decisionsSource": "User: retain existing age groups plus infant 0–1 and toddler 1–6; use broad appearance bases such as Slavic and Asian instead of separate countries",
+  "appearanceBases": [
+    {
+      "id": "slavic",
+      "label": "Славянская"
+    },
+    {
+      "id": "european",
+      "label": "Европейская"
+    },
+    {
+      "id": "east_asian",
+      "label": "Восточноазиатская"
+    },
+    {
+      "id": "south_asian",
+      "label": "Южноазиатская"
+    },
+    {
+      "id": "middle_eastern",
+      "label": "Ближневосточная"
+    },
+    {
+      "id": "african",
+      "label": "Африканская"
+    },
+    {
+      "id": "latin_american",
+      "label": "Латиноамериканская"
+    }
+  ],
+  "posePolicy": {
+    "adult": [
+      "standing",
+      "sitting",
+      "relaxed_sitting",
+      "desk",
+      "sleeping"
+    ],
+    "elder": [
+      "standing",
+      "sitting",
+      "relaxed_sitting",
+      "desk",
+      "sleeping"
+    ],
+    "teen": [
+      "standing",
+      "sitting",
+      "relaxed_sitting",
+      "desk",
+      "sleeping"
+    ],
+    "child": [
+      "standing",
+      "sitting",
+      "relaxed_sitting",
+      "desk",
+      "sleeping",
+      "floor_play"
+    ],
+    "infant": [
+      "lying",
+      "supported_sitting",
+      "tummy_time",
+      "sleeping"
+    ],
+    "toddler": [
+      "standing",
+      "sitting",
+      "floor_play",
+      "sleeping"
+    ]
+  },
+  "posePolicyNote": "User: no human running anywhere.",
+  "maleHairPolicy": "Short shapes only for male characters; exclude bob, long straight, ponytail, bun and braids."
+}
