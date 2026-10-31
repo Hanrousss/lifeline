@@ -693,9 +693,9 @@ html[data-theme="dark"] .scene-finance-corner,html[data-theme="dark"] .live-scen
 .scene-room-arrow{position:absolute;z-index:3;top:54%;display:grid;place-items:center;width:34px;height:44px;min-height:0;margin:0;padding:2px;border:0;border-radius:16px;background:transparent;color:#765b42;box-shadow:none;transform:translateY(-50%);touch-action:manipulation;filter:drop-shadow(0 2px 1px #523b2920)}.scene-room-arrow svg{display:block;width:27px;height:34px}.scene-room-arrow.previous-room{left:2px}.scene-room-arrow.next-room{right:2px}.scene-room-arrow.next-room svg{transform:rotate(180deg)}.scene-room-arrow:hover{transform:translateY(-50%) scale(1.05)}.scene-room-arrow:active{transform:translateY(calc(-50% + 1px)) scale(.96)}.scene-room-arrow:disabled{opacity:.4;cursor:default}.scene-room-arrow:focus-visible{outline:2px solid #fff7de;outline-offset:-2px}
 
 /* Neutral plastic shell and tactile controls; display interiors keep their palette. */
-html:not([data-theme="dark"]):has(.game-shell){background:#e9e9ec}
-body:has(.game-shell){background-color:#f1f1f3;background-image:radial-gradient(ellipse at 20% 0%,#ffffffb0,transparent 65%),radial-gradient(#62636a0a .5px,transparent .7px),linear-gradient(115deg,#f7f7f8,#e7e7ea);box-shadow:inset 2px 0 2px #ffffffb0,inset -2px 0 3px #8c8e9533}
-.live-visuals{--scene-rim-body:#e8e8eb;--scene-rim-edge:#acadb3;--scene-rim-light:#ffffff;--scene-rim-shadow:#999ba3}
+html:not([data-theme="dark"]):has(.game-shell){background:#dfe0e4}
+body:has(.game-shell){background-color:#d4d6db;background-image:radial-gradient(ellipse at 20% 0%,#ffffff59,transparent 65%),radial-gradient(#62636a0a .5px,transparent .7px),linear-gradient(115deg,#e0e2e6,#c9ccd2);box-shadow:inset 2px 0 2px #ffffffb0,inset -2px 0 3px #8c8e9533}
+.live-visuals{--scene-rim-body:#d0d3d9;--scene-rim-edge:#989da7;--scene-rim-light:#f4f5f7;--scene-rim-shadow:#898f9a}
 .scene-player .player-action:not(.player-music),.scene-player #cycle-speed,.scene-player #cycle-speed.speed-active,.scene-player #cycle-music.music-off{border-color:#606168;background:linear-gradient(180deg,#c0c1c6,#9a9ca3 15%,#7b7d85 58%,#686a72);color:#fafafb;box-shadow:inset 0 2px 1px #ffffff99,inset 0 -1px 1px #30313955,0 3px 0 #45464e,0 5px 7px #34353d2b}
 .scene-player .player-action:not(.player-music):hover:not(:disabled),.scene-player #cycle-speed:hover:not(:disabled),.scene-player #cycle-speed.speed-active:hover:not(:disabled){background:linear-gradient(180deg,#ced0d4,#a6a8b0 18%,#878991 60%,#74767f)}
 .scene-player .player-action:not(.player-music):active:not(:disabled),.scene-player #cycle-speed.speed-active:active:not(:disabled){box-shadow:inset 0 1px 3px #30313955,0 1px 0 #45464e}
@@ -706,3 +706,5 @@ html[data-theme="dark"] .scene-player .player-action:not(.player-music):not(:dis
 .game-shell .story-deck .feed-heading{justify-content:flex-end}
 
 .capsule-quiz fieldset{border:0;border-bottom:1px solid #bcc4b64d;margin:0;padding:10px 0 14px;min-width:0}.capsule-quiz legend{font-size:14px;font-weight:600;padding:0;float:left;width:100%;margin-bottom:10px}.capsule-options{display:flex;gap:8px;clear:both;flex-wrap:wrap}.capsule-options label{display:flex;align-items:center;gap:5px;font-size:12px;cursor:pointer;min-height:32px}.capsule-options input{accent-color:#6b8d56;width:17px;height:17px;margin:0}.capsule-comparison p{font-size:13px;line-height:1.5;border-bottom:1px solid #bcc4b64d;padding-bottom:8px}
+
+html:not([data-theme="dark"]) dialog.game-menu-dialog,html:not([data-theme="dark"]) body:has(.game-shell) dialog.game-menu-dialog{background:#dfe1e6f5;border-color:#f3f4f7;color:#454b56}

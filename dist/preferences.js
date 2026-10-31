@@ -21,6 +21,7 @@ async function start(){if(!prefs.music||document.hidden||timer)return;const Audi
   if(track.id==='rain'){if(step%4===0)note(chord[0]/2,.035,.005,beat*1.6,'triangle');if(step%4===2)note(110,.016,.003,.065,'triangle');}
   step++;};play();timer=setInterval(play,track.beat);
  }catch{if(token===generation)await stop();}}
+function resetMusic(){prefs.music=false;prefs.musicTrack=0;persist();return stop();}
 async function toggleMusic(){prefs.music=!prefs.music;persist();if(prefs.music)await start();else await stop();return prefs.music;}
 async function cycleMusic(){const next=prefs.music?prefs.musicTrack+1:0;stop(false);if(next>=tracks.length)prefs.music=false;else{prefs.music=true;prefs.musicTrack=next;}persist();if(prefs.music)await start();else await stop();return {...prefs};}
 
@@ -42,5 +43,5 @@ async function playClick(){
 function toggleTheme(){prefs.dark=!prefs.dark;applyTheme();persist();return prefs.dark;}
 applyTheme();document.addEventListener('pointerdown',()=>{if(prefs.music)start();},{passive:true});document.addEventListener('visibilitychange',()=>{if(document.hidden)stop();else if(prefs.music&&context)start();});
 document.addEventListener('click',event=>{const button=event.target?.closest?.('.scene-player .player-action');if(button&&!button.disabled&&!button.closest('[inert]'))playClick();});
-root.LifePreferences={get:()=>({...prefs}),tracks:()=>tracks.map(({id,name,color})=>({id,name,color})),toggleMusic,cycleMusic,toggleTheme,playClick,audioState:()=>context?.state||'idle'};
+root.LifePreferences={get:()=>({...prefs}),tracks:()=>tracks.map(({id,name,color})=>({id,name,color})),toggleMusic,cycleMusic,resetMusic,toggleTheme,playClick,audioState:()=>context?.state||'idle'};
 })(window);
