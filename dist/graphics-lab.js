@@ -13,7 +13,7 @@ function gameplaySelection(s,manifest){const p=gameplayPet(s),kind=petKinds[p?.k
 
 function loadCatalog(){if(!catalogPromise)catalogPromise=fetch('art/graphics_catalog.json').then(r=>{if(!r.ok)throw Error('Не удалось загрузить список комнат');return r.json();}).catch(e=>{catalogPromise=null;throw e;});return catalogPromise;}
 function chooseScene(catalog,p){const house=catalog.houses.find(h=>h.id===p.house)||catalog.houses[0],scene=house.rooms.find(r=>r.kind===p.room)||house.rooms.find(r=>r.kind==='living_room')||house.rooms[0];return {...scene,houseId:house.id,label:house.label+' · '+scene.label};}
-async function sceneFor(s){return chooseScene(await loadCatalog(),preferences(s));}
+async function sceneFor(s){const catalog=await loadCatalog(),p=preferences(s),override=!root.LifelineDevMode?.()&&s.reference?.snapshot?.raw?.lifelineHome?.interiors?.[p.room];return chooseScene(catalog,override?{...p,house:override}:p);}
 async function changeRoom(s,direction){const catalog=await loadCatalog(),pref=preferences(s),scene=chooseScene(catalog,pref),house=catalog.houses.find(h=>h.id===scene.houseId),rooms=house.rooms.filter(r=>r.kind!=='exterior'),index=rooms.findIndex(r=>r.kind===scene.kind);pref.room=rooms[(index+direction+rooms.length)%rooms.length].kind;savePreferences(s,pref);return true;}
 function positionFor(s,scene,id,fallback){const point=preferences(s).positions[scene.id+':'+id];return Array.isArray(point)&&root.LifelineAssetCore.isWalkable(point,scene)?point:scene.id==='pilot_living_room'?fallback:scene.personAnchor;}
 function saveConfig(s,config,manifest){const checked=root.LifelineAssetCore.validateState(config,manifest);root.localStorage.setItem(root.LifelineGameArt.storageKey(s),JSON.stringify(checked));}
