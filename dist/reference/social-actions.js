@@ -1,0 +1,15 @@
+/* Attraction is simulation state; opening the UI never toggles it. */
+(function(root){
+'use strict';
+const clock=()=>S.age+(S.t||0);
+function hash(value){let h=2166136261;for(const c of value)h=Math.imul(h^c.charCodeAt(0),16777619);return h>>>0;}
+function state(){return S.lifelineSocial||(S.lifelineSocial={friends:{}});}
+function compatible(person){const age=person.age??S.age;if(S.age<14||age<14||(S.age<18)!==(age<18)||S.age<18&&Math.abs(S.age-age)>3)return false;return S.flags.bi?true:S.flags.ss?person.sex===S.sex:person.sex!==S.sex;}
+function decorate(rows){const store=state();for(const row of rows){if(row.group!=='friends')continue;let entry=store.friends[row.id];if(!entry)entry=store.friends[row.id]={metAt:clock()-.5,attracted:hash(seed+'|attraction|'+row.id)%100<28,dismissed:false,mutual:false};row.crush=!!(entry.attracted&&!entry.dismissed&&clock()-entry.metAt>=.5&&compatible(row.person));row.mutual=entry.mutual;}return rows;}
+function perform(payload){if(S.phase!=='life'||S.pending||LifelineMoments.pending())throw Error('Сначала завершите текущий выбор');const person=decorate(relationshipRoster()).find(p=>p.id===payload.id&&p.group==='friends'&&p.crush);if(!person)throw Error('Симпатия сейчас недоступна');const entry=state().friends[person.id],name=person.name,committed=S.fam.married&&S.fam.partner?.alive&&!S.fam.partner.divorced||S.fam.dating;
+ if(payload.mode==='friend'){entry.dismissed=true;entry.mutual=false;eff({so:1});log('Вы решили сохранить дружбу с '+name+' и не развивать романтическую симпатию.','note');return;}
+ if(payload.mode==='confess'){if(entry.confessed)throw Error('Вы уже рассказали о своих чувствах');entry.confessed=true;if(chance(.55+Math.min(.2,S.st.so/500))){entry.mutual=true;eff({h:3});log('Вы рассказали '+name+' о своих чувствах. Симпатия оказалась взаимной.'+(committed?' Теперь вам предстоит решить, что делать с текущими отношениями.':''),'warm');}else {entry.dismissed=true;eff({h:-2});log(name+' не ответил'+(person.person.sex==='F'?'а':'')+' взаимностью. Вы решили не давить и сохранить уважение друг к другу.','note');}return;}
+ if(payload.mode==='propose'){if(committed)throw Error('Сначала нужно решить, что делать с текущими отношениями');if(S.flags.celib)throw Error('Вы выбрали не вступать в романтические отношения');if(!entry.mutual&&!chance(.5+Math.min(.25,S.st.so/400))){entry.dismissed=true;eff({h:-2});log(name+' предпоч'+(person.person.sex==='F'?'ла':'ёл')+' остаться друзьями.','note');return;}DEC.partner.build({meet:true});const candidate=S.flags.cand;if(!candidate)throw Error('Не удалось начать отношения');const n=person.person.name;Object.assign(candidate,{name:typeof n==='object'?{...n,g:n.g||n.full,full:n.full||n.g,f:n.f||''}:{full:name,g:name,f:'',cl:S.cl},age:person.person.age??S.age,sex:person.person.sex,ss:person.person.sex===S.sex,arr:false,obj:false,mxi:false});const result=DEC.partner.apply('date');entry.dismissed=true;entry.mutual=false;if(result)log(typeof result==='string'?result:result.t,'warm');return;}
+ throw Error('Неизвестное действие с симпатией');}
+root.LifelineSocialActions={state,decorate,compatible,perform};
+})(self);
