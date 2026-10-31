@@ -47,7 +47,7 @@ function resolve(key,extra){const m=state(),item=m.active;if(!item)return false;
  m.active=null;promote();return true;
 }
 function pregnancyPolicy(){const code=ABL_C[S.cur];return {allowed:code===1||code===2,reason:code===5?'В вашей стране запрещено':code===3||code===4?'Недоступно без медицинских оснований':code===6?'Доступность зависит от региона':'Нет данных о доступности',fact:code?ablFact(S.cur):''};}
-function householdShare(){const partner=S.fam.partner,together=!!(S.fam.married&&partner?.alive!==false&&partner&&!partner.divorced&&!ptAway()&&S.job!=='prison'),saving=together&&S.income>0&&partner.inc>0?Math.max(0,Math.min(incomeAt(C(),.5)*.3*.4*.5,S.income*.1,partner.inc*.1)):0;return {together,saving,partnerIncome:together?Math.max(0,partner.inc||0):0};}
+function householdShare(){const partner=S.fam.partner,together=!!(S.fam.married&&partner?.alive!==false&&partner&&!partner.divorced&&!ptAway()&&S.job!=='prison'),saving=0;return {together,saving,partnerIncome:together?Math.max(0,partner.inc||0):0};}
 function installPregnancyAndBudget(){
  const build=DEC.datepreg.build,apply=DEC.datepreg.apply;
  DEC.datepreg.build=function(...args){const view=build.apply(this,args),policy=pregnancyPolicy();view.choices.push({k:'lifeline-abortion',label:S.sex==='F'?'Прервать беременность':'Обсудить прерывание беременности',sub:policy.allowed?'':policy.reason,dis:!policy.allowed,warning:!policy.allowed});view.fact=[view.fact,policy.fact].filter(Boolean).join(' ');return view;};
