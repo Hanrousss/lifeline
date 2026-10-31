@@ -54,6 +54,18 @@ function installPregnancyAndBudget(){
  DEC.datepreg.apply=function(key,...args){if(key!=='lifeline-abortion')return apply.call(this,key,...args);if(!pregnancyPolicy().allowed)throw Error('Этот выбор недоступен в вашей стране');S.stats.lifelineAbortions=(S.stats.lifelineAbortions||0)+1;return {t:S.sex==='F'?'Вы решили прервать беременность.':'Вы вместе обсудили ситуацию и приняли решение прервать беременность.',k:'note'};};
  const original=finances;finances=function(...args){const result=original.apply(this,args),share=householdShare();S.lifelineHousehold=share;if(share.saving>0&&S.phase==='life'){S.money+=share.saving;book('Экономия на общих бытовых расходах',share.saving);}return result;};
 }
+function retirementContext(){
+ const worth=netWorth(),liquid=Math.max(0,S.money-sovOwe()),cost=incomeAt(C(),.5)*.3*(S.fam.married?.6:1)*oldShare(),pension=Math.max(0,S.flags.retPen||S.pension||0),gap=Math.max(0,cost-pension);
+ const note=liquid>=cost*20?'Накопления дают большую финансовую подушку — вы не зависите только от пенсии.':worth>cost*20&&liquid<cost*3?'Значительная часть состояния — имущество и другие активы. Это не то же самое, что деньги для повседневных расходов.':gap===0?'По текущей оценке пенсия покрывает основные расходы.':liquid>=gap?'Накопления могут покрывать разницу между пенсией и расходами.':'Без дополнительных доходов или накоплений бюджет после выхода на пенсию будет ограничен.';
+ return 'Общее состояние: '+usdStr(worth)+' PPP. Доступные накопления: '+usdStr(liquid)+' PPP. '+note;
+}
+function installRetirement(){const build=DEC.retire.build;DEC.retire.build=function(...args){const view=build.apply(this,args),context=retirementContext(),pattern=/На пенсию(?: и то, что присылают дети,)? можно прожить, если экономить\./;view.body=pattern.test(view.body)?view.body.replace(pattern,context):view.body+'\n\n'+context;return view;};}
+function certificate(){
+ if(S.phase!=='dead')return null;
+ const places=[{id:S.born,from:0}],years=S.years||[];for(const year of years)if(year.cur&&year.cur!==places.at(-1).id)places.push({id:year.cur,from:year.a});if(S.cur!==places.at(-1).id)places.push({id:S.cur,from:S.age});
+ const spouses=[...(S.flags.exs||[]).map(p=>p.n),S.flags.exP?.name?.full,S.fam.partner?.name?.full].filter(Boolean),hardships=(S.log||[]).filter(row=>['bad','loss'].includes(row.kind)&&row.a<S.age);
+ return {name:S.name.full,age:S.deathAt?.age??S.age,birthCountry:CBY[S.born]?.ko||S.born,residences:places.map((p,i)=>({name:CBY[p.id]?.ko||p.id,from:p.from,to:places[i+1]?.from??S.age})),marriages:S.fam.marriages||0,spouses:[...new Set(spouses)],children:S.fam.kids.filter(k=>!k.sk).length,income:years.reduce((sum,y)=>sum+Math.max(0,y.inc||0),0),peakIncome:S.stats.maxIncome||Math.max(0,...years.map(y=>y.inc||0)),netWorth:netWorth(),hardships:hardships.slice(-10).map(row=>({age:row.a,text:row.text})),hardshipCount:hardships.length,cause:S.deathAt?.label||'Причина не указана',where:CBY[S.deathAt?.where||S.cur]?.ko||S.cur};
+}
 function installDating(){
  const build=DEC.partner.build,apply=DEC.partner.apply;
  DEC.partner.build=function(...args){
@@ -76,6 +88,6 @@ function installDating(){
   return {t:'Вы и '+name+' решили остаться друзьями.',k:'warm'};
  };
 }
-function install(){installDating();installPregnancyAndBudget();HOOK.noPause=()=>true;reflectQuiet=()=>{};const original=graduate;graduate=function(...args){const school=S?.school,result=original(...args);if(['usec','voc'].includes(school)&&S.flags.justGrad===school)graduation();return result;};}
-root.LifelineMoments={pregnancyPolicy,householdShare,install,settle,capture,observe,pending:()=>state().active,resolve};
+function install(){installRetirement();installDating();installPregnancyAndBudget();HOOK.noPause=()=>true;reflectQuiet=()=>{};const original=graduate;graduate=function(...args){const school=S?.school,result=original(...args);if(['usec','voc'].includes(school)&&S.flags.justGrad===school)graduation();return result;};}
+root.LifelineMoments={certificate,pregnancyPolicy,householdShare,install,settle,capture,observe,pending:()=>state().active,resolve};
 })(self);
