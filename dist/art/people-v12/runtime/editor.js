@@ -1,8 +1,8 @@
 (async function(){
 'use strict';
-const C=LifelineHumanV12,$=id=>document.getElementById(id),m=await fetch('manifest.json?v=12').then(r=>r.json()),art=C.create(m),key='lifeline-human-v12-editor',params=new URLSearchParams(location.search);
+const C=LifelineHumanV12,$=id=>document.getElementById(id),m=await fetch('manifest.json?v=13').then(r=>r.json()),art=C.create(m),key='lifeline-human-v12-editor',params=new URLSearchParams(location.search);
 [$('figure').width,$('figure').height]=m.frame;
-const labels={infant:'Младенец · до года',toddler:'Малыш · 1–6',child:'Ребёнок · 6–13',teen:'Подросток · 13–17',adult:'Взрослый · 17–64',elder:'Пожилой · 64+',standing:'Стоит',sitting:'Сидит прямо',relaxed_sitting:'Сидит расслабленно',desk:'За столом',sleeping:'Спит',lying:'Лежит',supported_sitting:'Сидит с поддержкой',tummy_time:'На животе',floor_play:'Играет на полу',short:'Короткие кудри',bob:'Каре',compact_coils:'Плотные кудри',tousled:'Короткие волнистые',long_straight:'Длинные прямые',ponytail:'Хвост',bun:'Пучок',braids:'Две косы',baby_tuft:'Младенческий пушок',none:'Без волос'};
+const labels={infant:'Младенец · до года',toddler:'Малыш · 1–6',child:'Ребёнок · 6–13',teen:'Подросток · 13–17',adult:'Взрослый · 17–64',elder:'Пожилой · 64+',standing:'Стоит',sitting:'Сидит прямо',relaxed_sitting:'Сидит расслабленно',desk:'За столом',sleeping:'Спит',lying:'Лежит',supported_sitting:'Сидит с поддержкой',tummy_time:'На животе',floor_play:'Играет на полу',short:'Короткие кудри',bob:'Каре',compact_coils:'Плотные кудри',tousled:'Короткие волнистые',long_straight:'Прямые до плеч',long_sleek:'Длинные прямые',long_curly:'Длинные кудрявые',single_braid:'Одна коса',ponytail:'Хвост',bun:'Пучок',braids:'Две косы',baby_tuft:'Младенческий пушок',none:'Без волос'};
 let state=C.preset('slavic',1,360,'female'),token=0,actorCanvas;
 try{const saved=localStorage.getItem(key);if(saved)state=C.migrate(m,JSON.parse(saved));}catch{}
 const life=/^\d+$/.test(params.get('life')||'')?String(Number(params.get('life'))>>>0):null;
@@ -19,10 +19,10 @@ function sync(){
  fill('skin',m.palettes.skin.map((_,i)=>[i,'Тон '+(i+1)]),state.skin);fill('hair',C.hairOptions(m,state).map(id=>[id,labels[id]]),state.hair);
  fill('hairColor',['Каштановый','Чёрный','Рыжий','Седой','Светлый'].map((s,i)=>[i,s]),state.hairColor);
  for(const id of ['top','bottom','shoes'])fill(id,m.palettes[id].map((_,i)=>[i,'Цвет '+(i+1)]),state[id]||0);
- const p=m.profiles[state.profile];fill('pose',p.poses.filter(pose=>state.months>=(p.outfits[String(state.outfit)].poses[pose].minimumMonths||0)).map(id=>[id,labels[id]]),state.pose);
+ const p=m.profiles[state.profile];fill('outfit',Object.keys(p.outfits).map(k=>[k,({0:'Повседневный',1:'Лёгкий',2:'Для сна',3:'Платье с кардиганом',4:'Блузка с юбкой',5:'Жакет с брюками'})[k]]),state.outfit);fill('pose',p.poses.filter(pose=>state.months>=(p.outfits[String(state.outfit)].poses[pose].minimumMonths||0)).map(id=>[id,labels[id]]),state.pose);
  for(const id of ['outfit','happiness','energy'])$(id).value=state[id];
 }
-function adapt(){state.profile=C.profileFor(state.months,state.sex);const p=m.profiles[state.profile];if(!C.hairOptions(m,state).includes(state.hair))state.hair=C.fallbackHair(state);const d=p.outfits[String(state.outfit)].poses[state.pose];if(!d||state.months<(d.minimumMonths||0))state.pose=p.poses[0];}
+function adapt(){state.profile=C.profileFor(state.months,state.sex);const p=m.profiles[state.profile];if(!p.outfits[String(state.outfit)])state.outfit=0;if(!C.hairOptions(m,state).includes(state.hair))state.hair=C.fallbackHair(state);const d=p.outfits[String(state.outfit)].poses[state.pose];if(!d||state.months<(d.minimumMonths||0))state.pose=p.poses[0];}
 let bg;
 try{bg=new Image();bg.src=params.get('background')||'assets/review_background.png';await bg.decode();}catch{bg=null;}
 async function render(){

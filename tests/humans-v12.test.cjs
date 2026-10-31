@@ -23,7 +23,7 @@ for(const [age,months]of C.AGE_GROUPS){const male=C.preset('slavic',8,months,'ma
 assert(C.hairOptions(m,C.preset('slavic',1,360,'female')).includes('bob'));
 assert(C.worldHeight({...toddler,months:12})<C.worldHeight({...toddler,months:60}));
 const seen=new Set();for(const f of m.files){assert(!seen.has(f.path),'duplicate '+f.path);seen.add(f.path);assert(fs.existsSync(path.join(R,f.path)),f.path);}
-assert.equal(Object.keys(m.heads).length,48);assert.equal(Object.keys(m.profiles).length,10);assert.equal(Object.keys(m.hairStyles).length,9);
+assert.equal(Object.keys(m.heads).length,48);assert.equal(Object.keys(m.profiles).length,10);assert.equal(Object.keys(m.hairStyles).length,12);
 const fakeStore=value=>({getItem:()=>value?JSON.stringify(value):null});
 const legacy={profile:'child',pose:'standing',head:'standing',hairStyle:'short',skin:2,hairColor:0,top:1,bottom:2,happiness:70,fatigue:.4};
 const s={seed:42,age:3,origin:{sex:'female'}};
@@ -41,3 +41,11 @@ F.setActor(s,'grandmother',{hair:'none'},old);assert.notEqual(F.actor(s,'grandmo
 console.log(`Human v12: ${defaults} age/sex/basis defaults, ${poses} age-safe poses, ${m.files.length} PNG paths, migration and compatibility passed`);
 
 for(let happy=0;happy<=100;happy+=5)for(let energy=0;energy<=100;energy+=5){const e=C.expression(happy,energy);assert.equal(e.score,Math.min(happy,energy));assert.deepEqual(e,C.expression(energy,happy),'both inputs have equal influence');assert.deepEqual(e,C.expression(Math.min(happy,energy),100),'the worst input determines the entire expression');}console.log('PASS: v12 preserves Lifeline worst-input emotions across all 441 combinations.');
+
+// Additional female wardrobe is family-specific; changing age/sex must remain safe.
+for(const id of ['adult_f','elder_f']){assert.equal(Object.keys(m.profiles[id].outfits).length,6);for(const outfit of [3,4,5])for(const pose of m.profiles[id].poses)assert(C.validate(m,{...C.preset('slavic',1,id==='elder_f'?900:360,'female'),outfit,pose}));}
+for(const hair of ['long_sleek','long_curly','single_braid','bun']){assert(C.hairOptions(m,C.preset('slavic',1,360,'female')).includes(hair));assert(!C.hairOptions(m,C.preset('slavic',1,360,'male')).includes(hair));}
+const changedSex=C.migrate(m,{...C.preset('slavic',1,360,'male'),outfit:5,hair:'long_curly'});assert.equal(changedSex.outfit,0);assert.equal(changedSex.hair,'short');
+F.setActor(s,'mother',{outfit:5,hair:'long_curly'},old);assert.equal(F.actor(s,'mother',old).humanTraits.outfit,5);assert.equal(F.actor(s,'mother',old).humanTraits.hair,'long_curly');
+// Semi-transparent dark edge pixels must not brighten small skin parts such as the neck.
+const flat=[180,120,80,255],data=new Uint8ClampedArray([...flat,...flat,...flat,20,10,5,50]);assert.equal(C.skinReference(data),.2126*180+.7152*120+.0722*80);

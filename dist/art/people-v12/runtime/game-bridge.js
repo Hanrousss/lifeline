@@ -2,7 +2,7 @@
 'use strict';
 const C=root.LifelineHumanV12,PREFIX='lifeline-human-v12:';let ready;
 const storageKey=s=>PREFIX+(Number(s.seed)>>>0);
-function load(){if(!ready)ready=fetch('art/people-v12/manifest.json?v=12').then(r=>{if(!r.ok)throw Error('Новый набор людей не загружен');return r.json();}).then(manifest=>({manifest,art:C.create(manifest,'art/people-v12/')})).catch(e=>{ready=null;throw e;});return ready;}
+function load(){if(!ready)ready=fetch('art/people-v12/manifest.json?v=13').then(r=>{if(!r.ok)throw Error('Новый набор людей не загружен');return r.json();}).then(manifest=>({manifest,art:C.create(manifest,'art/people-v12/')})).catch(e=>{ready=null;throw e;});return ready;}
 function saved(s,storage=root.localStorage){try{return JSON.parse(storage.getItem(storageKey(s))||'null');}catch{return null;}}
 function character(s,legacy,manifest,override=null,storage=root.localStorage){
  let months=root.LifelineAssetCore?root.LifelineAssetCore.gameMonths(s):Math.max(0,Number(s.age)||0)*12,sex=s.origin?.sex==='male'?'male':'female';
@@ -16,10 +16,9 @@ function character(s,legacy,manifest,override=null,storage=root.localStorage){
  if(!C.hairOptions(manifest,c).includes(c.hair))c.hair=C.fallbackHair(c);
  c.happiness=Number.isFinite(legacy.happiness)?legacy.happiness:100;c.energy=100*(1-(legacy.fatigue||0));
  if(legacy.mouthMode==='manual')c.manualMouth=legacy.mouth||'smile';
- return C.validate(manifest,c);
+ return C.migrate(manifest,c);
 }
 async function render(s,legacy,scene,override=null){const {manifest,art}=await load();const c=character(s,legacy,manifest,override),slot=legacy.pose==='sitting'?(scene.slots||[]).find(slot=>slot.id===legacy.seatId):null,position=slot?slot.position:legacy.position;
- if(c.profile==='infant'&&scene.id!=='pilot_living_room')return null;
  if(c.profile==='infant'){const im=document.createElement('canvas');im.width=960;im.height=960;const ctx=im.getContext('2d');ctx.scale(3,3);const g=await art.drawInScene(ctx,c,position,null,{crib:true});return {im,c,x:0,y:0,scale:1/3,footY:g.footY};}
  const im=await art.actor(c),g=art.geometry(c,position,Boolean(slot)),ratio=scene.personScale||1;
  if(ratio!==1){g.scale*=ratio;const d=manifest.profiles[c.profile].outfits[String(c.outfit)].poses[c.pose],anchor=slot&&d.seatAnchor?d.seatAnchor:d.footAnchor;g.x=position[0]-anchor[0]*g.scale;g.y=position[1]-anchor[1]*g.scale;g.footY=position[1]+(d.footAnchor[1]-anchor[1])*g.scale;}

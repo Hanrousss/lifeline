@@ -1,5 +1,5 @@
 {
-  "revision": 12,
+  "revision": 13,
   "status": "installed_working_baseline_browser_recheck_pending",
   "requestedScope": [
     "age_groups",
@@ -147,5 +147,28 @@
     ]
   },
   "posePolicyNote": "User: no human running anywhere.",
-  "maleHairPolicy": "Short shapes only for male characters; exclude bob, long straight, ponytail, bun and braids."
+  "maleHairPolicy": "Short shapes only for male characters; exclude bob, long straight, ponytail, bun and braids.",
+  "womenExpansion": {
+    "hairstyles": [
+      "long_sleek",
+      "long_curly",
+      "single_braid",
+      "bun"
+    ],
+    "newOutfits": [
+      "cardigan_midi_dress",
+      "blouse_midi_skirt",
+      "jacket_wide_trousers"
+    ],
+    "outfitProfiles": [
+      "adult_f",
+      "elder_f"
+    ],
+    "hairProfiles": [
+      "teen_f",
+      "adult_f",
+      "elder_f"
+    ],
+    "skinRendering": "opaque flat-tone reference, shared method for face/body/eyelids"
+  }
 }
