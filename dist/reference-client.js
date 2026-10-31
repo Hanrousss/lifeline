@@ -2,7 +2,7 @@
 'use strict';
 const legacyKey='lifeline-archived-lives-v1';let worker=null,sequence=0,activeHost=null,inflight=false,attached=null,lastError=null;const callbacks=new Map();
 function failWorker(error){lastError=error.message||String(error);if(worker)worker.terminate();worker=null;for(const cb of callbacks.values()){clearTimeout(cb.timer);cb.reject(error);}callbacks.clear();}
-function spawn(){if(worker)return;lastError=null;worker=new Worker('reference/worker.js?v=0.22.0');worker.onmessage=({data})=>{const cb=callbacks.get(data.id);if(!cb)return;callbacks.delete(data.id);clearTimeout(cb.timer);if(data.ok)cb.resolve(data.value);else{const error=new Error(data.error);cb.reject(error);if(data.bootError)failWorker(error);}};worker.onerror=e=>{failWorker(new Error(e.message||'Не удалось загрузить движок. Повторите подключение.'));};}
+function spawn(){if(worker)return;lastError=null;worker=new Worker('reference/worker.js?v=0.23.0');worker.onmessage=({data})=>{const cb=callbacks.get(data.id);if(!cb)return;callbacks.delete(data.id);clearTimeout(cb.timer);if(data.ok)cb.resolve(data.value);else{const error=new Error(data.error);cb.reject(error);if(data.bootError)failWorker(error);}};worker.onerror=e=>{failWorker(new Error(e.message||'Не удалось загрузить движок. Повторите подключение.'));};}
 function call(command,payload={}){spawn();return new Promise((resolve,reject)=>{const id=++sequence,timer=setTimeout(()=>failWorker(new Error('Загрузка механики заняла слишком долго. Проверьте соединение и повторите подключение.')),30000);callbacks.set(id,{resolve,reject,timer});worker.postMessage({id,command,payload});});}
 function preload(){if(!worker&&!lastError)spawn();}
 function retry(host){lastError=null;attached=null;attach(host);}
