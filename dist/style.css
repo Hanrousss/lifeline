@@ -747,16 +747,18 @@ body dialog.game-menu-dialog .close,html[data-theme="dark"] body dialog.game-men
 @media(prefers-reduced-motion:reduce){.pet-touch-heart{animation:none;opacity:.8}}
 
 /* Compact relationship roster in the pager. */
-.game-shell .story-deck .relationships-panel{padding:0 2px 6px}
-.game-shell .story-deck .relationship-group{margin:0 0 10px;padding:0}
-.game-shell .story-deck .relationship-group h3{font:600 11px/1.3 system-ui,sans-serif;letter-spacing:.04em;margin:3px 0 5px;color:var(--muted,#647063)}
-.relationship-row{display:flex;align-items:center;gap:10px;min-height:48px;padding:5px 0;border-bottom:1px solid #68726020}
+.game-shell .story-deck .relationships-panel{padding:0 0 3px}
+.game-shell .story-deck .relationship-group{margin:0 0 5px;padding:0}
+.game-shell .story-deck .relationship-group h3{font:600 10px/1.3 system-ui,sans-serif;letter-spacing:.025em;margin:1px 0 2px;color:var(--muted,#647063)}
+.relationship-row{display:flex;align-items:center;gap:7px;min-height:38px;padding:2px 0;border-bottom:1px solid #68726020}
 .relationship-row:last-child{border-bottom:0}
-.relationship-row .family-art-avatar,.relationship-symbol{flex:0 0 38px;width:38px;height:38px;border-radius:50%;overflow:hidden;background:#e7e8dd;border:1px solid #a4ad9770;display:grid;place-items:center;margin:0}
+.relationship-row .family-art-avatar,.relationship-symbol{flex:0 0 30px;width:30px;height:30px;border-radius:50%;overflow:hidden;background:#e7e8dd;border:1px solid #a4ad9770;display:grid;place-items:center;margin:0}
 .relationship-row .family-art-avatar canvas{width:100%;height:100%;object-fit:cover}
-.relationship-symbol{font-size:23px}
-.relationship-copy{min-width:0;flex:1;display:flex;flex-direction:column;gap:3px}
-.relationship-copy strong{font:600 13px/1.25 system-ui,sans-serif;overflow-wrap:anywhere}
-.relationship-copy small{font:11px/1.3 system-ui,sans-serif;opacity:.8}
+.relationship-symbol{font-size:20px}
+.relationship-copy{min-width:0;flex:1;display:flex;flex-direction:column;gap:1px}
+.relationship-copy strong{font:600 12px/1.25 system-ui,sans-serif;overflow-wrap:anywhere}
+.relationship-copy small{font:10px/1.3 system-ui,sans-serif;opacity:.8}
 .relationships-panel .crush-toggle{width:40px;min-width:40px;height:40px;padding:0;border:1px solid #929b8740;border-radius:50%;background:transparent;color:#697068;font:26px/1 system-ui}
 .relationships-panel .crush-toggle.is-crush{background:#efd5df;color:#a94066;border-color:#bf7e97}
+
+.game-shell .story-deck>.story-scroll:has(>.relationships-panel){padding-top:3px}
