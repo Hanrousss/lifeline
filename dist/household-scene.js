@@ -5,11 +5,11 @@ function hash(seed,key){let n=(Number(seed)>>>0)^2166136261;for(const c of key)n
 // Visual schedules never advance the simulation RNG or change family records.
 function plan(s,currentRoom){
  const month=Math.max(0,Math.floor(s.flow?.months??Number(s.age||0)*12)),pick=key=>hash(s.seed,month+':'+key),eligible=Number(s.age)<17||s.flow?.activity==='family',members=[];
- const residents=s.reference?.snapshot?.relationships;if(residents){for(const p of residents.filter(p=>p.home&&p.alive!==false)){members.push({role:p.id,person:p.person,name:p.name,relation:p.role,room:ROOMS[pick(p.id)%ROOMS.length]});}}
+ const residents=s.reference?.snapshot?.relationships;if(residents){for(const p of residents.filter(p=>p.home&&p.alive!==false)){members.push({role:p.id,person:p.person,name:p.name,relation:p.role,room:ROOMS[(members.length+pick('household-rotation'))%ROOMS.length]});}}
  else if(eligible)for(const role of ['mother','father']){const p=s.family?.[role];if(p&&p.alive!==false&&!p.absent&&!p.sep)members.push({role,room:ROOMS[pick(role)%ROOMS.length]});}
  if(!residents&&members.length===2&&members[0].room===members[1].room)members[1].room=ROOMS[(ROOMS.indexOf(members[0].room)+1)%ROOMS.length];
  // One visitor alongside the player; the other relative stays elsewhere in the house.
- const visible=members.filter(p=>p.room===currentRoom).slice(0,2);
+ const visible=members.filter(p=>p.room===currentRoom).slice(0,1);
  return {month,members,visible};
 }
 function arrange(s,scene,player){
