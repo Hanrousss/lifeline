@@ -1188,7 +1188,7 @@ function load(){if(!ready)ready=fetch(BASE+'game-manifest.json?v=14').then(r=>{i
 async function mount(host,s,kind){
  lastMount={host,s,kind};
  const node=host.querySelector('.modular-scene');if(!node||!supported(s,kind))return;
- const token=Symbol();node.renderToken=token;node.petHit=null;node.querySelectorAll('.scene-nameplate').forEach(n=>n.remove());const canvas=node.querySelector('canvas'),fallback=null,status=node.querySelector('.art-load-status');const previous=frames.get(s.seed);if(previous){canvas.getContext('2d').drawImage(previous,0,0);status.hidden=true;}
+ const token=Symbol();node.renderToken=token;node.petHit=null;(node.querySelectorAll?.('.scene-nameplate')||[]).forEach(n=>n.remove());const canvas=node.querySelector('canvas'),fallback=null,status=node.querySelector('.art-load-status');const previous=frames.get(s.seed);if(previous){canvas.getContext('2d').drawImage(previous,0,0);status.hidden=true;}
  try{
   const {manifest,art}=await load(),config=root.GraphicsLab?root.GraphicsLab.preparePet(s,manifest):settings(s,manifest,root.localStorage),scene=root.GraphicsLab?await root.GraphicsLab.sceneFor(s):manifest.scene,id=displayProfileFor(s),pref=root.GraphicsLab?.preferences(s),a={...config.actors[id]};
   if(!pref||pref.emotionFromGame||root.LifelineDevMode&&!root.LifelineDevMode()){a.mouthMode='auto';a.happiness=Number.isFinite(s.stats?.joy)?s.stats.joy:100;a.fatigue=1-(Number.isFinite(s.stats?.energy)?Math.max(0,Math.min(100,s.stats.energy)):100)/100;Object.assign(a,root.LifelineAssetCore.resolveExpression(a));}else Object.assign(a,root.LifelineAssetCore.resolveExpression(a));

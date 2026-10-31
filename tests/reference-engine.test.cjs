@@ -64,4 +64,4 @@ await moments.call('new',{seed:'disaster-savings',country:'CAN',sex:'F'});await 
 console.log('Pregnancy access, disabled-choice enforcement, no unwanted birth and bounded shared-household savings verified.');
 console.log('Dating consent, both initiators, refusal, saved friendship and deferred choice verified.');
 console.log('Milestone notes, old reflection removal, capsule invitation/refusal, exact ten-year return, saved letters and single-use happiness statuses verified.');
-assert(e.calls.every(p=>manifest.parts.includes(p)||p===manifest.compressed||['manifest.json','countries-extra.json','economy-data.json'].includes(p)));console.log('Reference engine: checksum, 237 countries, choices, pending pause, reload determinism and six complete lives verified.');})().catch(e=>{console.error(e);process.exit(1)});
+assert(e.calls.every(p=>manifest.parts.includes(p)||p===manifest.compressed||['manifest.json','countries-extra.json','economy-data.json','air-data.json'].includes(p)));console.log('Reference engine: checksum, 237 countries, choices, pending pause, reload determinism and six complete lives verified.');})().catch(e=>{console.error(e);process.exit(1)});
