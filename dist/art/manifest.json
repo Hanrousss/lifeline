@@ -10505,7 +10505,7 @@
         "cavalier": {
           "label": "Кавалер кинг чарльз спаниель",
           "accessory": "collar",
-          "scale": 0.35,
+          "scale": 0.385,
           "ages": {
             "puppy": {
               "poses": {
@@ -10854,7 +10854,7 @@
         "spitz": {
           "label": "Шпиц",
           "accessory": "harness",
-          "scale": 0.35,
+          "scale": 0.385,
           "ages": {
             "puppy": {
               "poses": {
@@ -11203,7 +11203,7 @@
         "dachshund": {
           "label": "Такса",
           "accessory": "collar",
-          "scale": 0.35,
+          "scale": 0.385,
           "ages": {
             "puppy": {
               "poses": {
@@ -11901,7 +11901,7 @@
         "papillon": {
           "label": "Папильон",
           "accessory": "collar",
-          "scale": 0.35,
+          "scale": 0.385,
           "ages": {
             "puppy": {
               "poses": {
@@ -12250,7 +12250,7 @@
         "pug": {
           "label": "Мопс",
           "accessory": "collar",
-          "scale": 0.35,
+          "scale": 0.385,
           "ages": {
             "puppy": {
               "poses": {
@@ -12329,7 +12329,7 @@
                     240,
                     310
                   ],
-                  "visibleHeight": 47,
+                  "visibleHeight": 48,
                   "visibleWidth": 95,
                   "layers": {
                     "base": "assets/pets/dog/breeds/pug/puppy/sleeping/base.png",
@@ -12443,7 +12443,7 @@
                     240,
                     310
                   ],
-                  "visibleHeight": 65,
+                  "visibleHeight": 64,
                   "visibleWidth": 129,
                   "layers": {
                     "base": "assets/pets/dog/breeds/pug/adult/sleeping/base.png",
@@ -12949,7 +12949,12 @@
       "ageBoundariesMonths": [
         12,
         96
-      ]
+      ],
+      "review": {
+        "status": "approved_by_user",
+        "date": "2026-10-30",
+        "note": "Owner confirmed all dogs and the small-breed scale."
+      }
     }
   },
   "playerHairOptions": {
@@ -12972,7 +12977,7 @@
       "none"
     ]
   },
-  "artRevision": 8,
+  "artRevision": 11,
   "mouthSystem": {
     "states": [
       "smile",
@@ -13022,5 +13027,10 @@
   },
   "eyelidValidation": "previews/eyelids_v5/regression_report.json",
   "dogValidation": "previews/dogs_v6/regression_report.json",
-  "graphicsCatalog": "graphics_catalog.json"
+  "graphicsCatalog": "graphics_catalog.json",
+  "humanLighting": {
+    "coloredRimLight": false,
+    "policy": "Neutral local material shading only; never add electric blue rim light to people.",
+    "validation": "previews/people_v11/qa_report.json"
+  }
 }

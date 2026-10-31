@@ -10,7 +10,7 @@ function profileControl(s){return '<div class="art-profile-control"><label>Те�
 
 function profileFor(s){
  const age=Number(s.age),sex=s.origin?.sex;
- if(age>=6&&age<=12)return 'child';
+ if(age>=1&&age<17)return 'child';
  if(age>=17&&age<64)return sex==='male'?'adult_m':sex==='female'?'adult_f':null;
  if(age>=64&&sex==='female')return 'elder_f';
  return null;
@@ -20,7 +20,7 @@ function editorUrl(s){return BASE+'index.html?life='+(s.seed>>>0)+'&profile='+di
 function supported(s,kind){return HOME_KINDS.has(kind);}
 function markup(s,kind){return supported(s,kind)?'<div class="modular-scene" data-art-style="modular-png"><canvas width="960" height="960" aria-label="Домашняя сцена с персонажем. Нажмите на свободный пол, чтобы переставить его."></canvas><span class="art-load-status" role="status">Загрузка комнаты…</span></div>':null;}
 function settings(s,manifest,storage){const C=root.LifelineAssetCore;try{const raw=storage.getItem(storageKey(s));if(raw)return C.validateState(JSON.parse(raw),manifest);}catch{}return root.FamilyAppearance?root.FamilyAppearance.defaults(s):C.defaultState();}
-function load(){if(!ready)ready=fetch(BASE+'manifest.json').then(r=>{if(!r.ok)throw new Error('manifest');return r.json();}).then(manifest=>({manifest,art:root.LifelinePngRenderer.create(manifest,BASE)})).catch(error=>{ready=null;throw error;});return ready;}
+function load(){if(!ready)ready=fetch(BASE+'manifest.json?v=11').then(r=>{if(!r.ok)throw new Error('manifest');return r.json();}).then(manifest=>({manifest,art:root.LifelinePngRenderer.create(manifest,BASE)})).catch(error=>{ready=null;throw error;});return ready;}
 async function mount(host,s,kind){
  const node=host.querySelector('.modular-scene');if(!node||!supported(s,kind))return;
  const token=Symbol();node.renderToken=token;const canvas=node.querySelector('canvas'),fallback=null,status=node.querySelector('.art-load-status');
@@ -29,20 +29,29 @@ async function mount(host,s,kind){
   if(!pref||pref.emotionFromGame){a.mouthMode='auto';a.happiness=Number.isFinite(s.stats?.joy)?s.stats.joy:100;a.fatigue=1-(Number.isFinite(s.stats?.energy)?Math.max(0,Math.min(100,s.stats.energy)):100)/100;Object.assign(a,root.LifelineAssetCore.resolveExpression(a));}else Object.assign(a,root.LifelineAssetCore.resolveExpression(a));
   if(root.GraphicsLab)a.position=root.GraphicsLab.positionFor(s,scene,id,a.position);
   if(!scene.slots?.length){a.pose='standing';a.seatId=null;}
-  const animal=root.GraphicsLab?root.GraphicsLab.animalVisible(s):showDog;
+  const household=root.HouseholdScene&&!root.GraphicsLab?.profile(s)?root.HouseholdScene.arrange(s,scene,a):null;if(household)Object.assign(a,household.self);
+  const animal=root.GraphicsLab?root.GraphicsLab.animalVisible(s):showDog,selection=animal?(root.GraphicsLab?root.GraphicsLab.selectionFor(s,config,manifest):root.LifelineAssetCore.companionSelection(manifest,config,'dog')):null;
   // The optional test dog is visual only and does not create a family/ownership record.
-  const [bg,actor,dog]=await Promise.all([art.image(scene.background),art.actor(id,a),animal?art.pet(config):null]);
+  const [bg,actor,dog]=await Promise.all([art.image(scene.background),art.actor(id,a),animal?(selection.kind==='dog'?art.pet({dogBreed:selection.variant,dogAge:selection.age,dogPose:selection.pose,dogColor:selection.color}):art.companion(selection)):null]);
   if(!node.isConnected||node.renderToken!==token)return;
-  const g=art.geometry(id,a),ratio=scene.personScale||1;
+  const g=root.HouseholdScene?root.HouseholdScene.geometry(manifest,scene,id,a):art.geometry(id,a),ratio=root.HouseholdScene?1:scene.personScale||1;
   if(ratio!==1){g.scale*=ratio;const anchor=manifest.profiles[id].poses[a.pose].footAnchor;g.x=a.position[0]-anchor[0]*g.scale;g.y=a.position[1]-anchor[1]*g.scale;g.footY=a.position[1];}
   const x=canvas.getContext('2d');x.setTransform(3,0,0,3,0,0);x.clearRect(0,0,320,320);x.drawImage(bg,0,0,320,320);const draws=s.age<1&&!root.GraphicsLab?.profile(s)?[]:[{im:actor,...g}];
-  if(dog){const pet=root.LifelineAssetCore.petGeometry(manifest,config.dogAge,config.dogPose,config.dogBreed);if(scene.petAnchor){pet.scale*=scene.petScale||1;const anchor=root.LifelineAssetCore.petEntry(manifest,config).entry.footAnchor;pet.x=scene.petAnchor[0]-anchor[0]*pet.scale;pet.y=scene.petAnchor[1]-anchor[1]*pet.scale;pet.footY=scene.petAnchor[1];}draws.push({im:dog,...pet});}
+  if(dog){const pet=root.LifelineAssetCore.companionGeometry(manifest,selection);if(scene.petAnchor){pet.scale*=scene.petScale||1;const entry=root.LifelineAssetCore.companionEntry(manifest,selection).entry,anchor=entry.footAnchor;pet.x=scene.petAnchor[0]-anchor[0]*pet.scale;pet.y=scene.petAnchor[1]-anchor[1]*pet.scale-(entry.flightHeight||0)*(scene.petScale||1);pet.footY=scene.petAnchor[1];}draws.push({im:dog,...pet});}
+  if(household&&root.FamilyAppearance){await Promise.all(household.parents.map(async member=>{const parent=root.FamilyAppearance.actor(s,member.role,manifest),pa={...config.actors[parent.profile],...parent,...member},im=await art.actor(parent.profile,pa),pg=root.HouseholdScene.geometry(manifest,scene,parent.profile,pa);draws.push({im,...pg});node.dataset[member.role+'Appearance']=JSON.stringify(parent);}));}
+  if(!node.isConnected||node.renderToken!==token)return;
   for(const d of draws.sort((a,b)=>a.footY-b.footY))x.drawImage(d.im,d.x,d.y,(d.im.width||384)*d.scale,(d.im.height||512)*d.scale);
-  if(root.FamilyAppearance&&!root.GraphicsLab?.profile(s)&&(s.age<6||s.flow?.activity==='family')){const parents=['mother','father'].filter(role=>s.family?.[role]?.alive!==false);for(const [index,role]of parents.entries()){const parent=root.FamilyAppearance.actor(s,role,manifest),position=[index===0?155:265,scene.personAnchor?.[1]||278],pa={...config.actors[parent.profile],...parent,position,pose:'standing',seatId:null},im=await art.actor(parent.profile,pa),pg=art.geometry(parent.profile,pa);if(!node.isConnected||node.renderToken!==token)return;if(ratio!==1){pg.scale*=ratio;const pivot=manifest.profiles[parent.profile].poses.standing.footAnchor;pg.x=position[0]-pivot[0]*pg.scale;pg.y=position[1]-pivot[1]*pg.scale;}x.drawImage(im,pg.x,pg.y,im.width*pg.scale,im.height*pg.scale);node.dataset[role+'Appearance']=JSON.stringify(parent);}}
-  const label=host.querySelector('.activity-label');if(label&&label!==node)label.textContent=(scene.label||'Дома')+' · тест графики';
-  if(node.dataset){node.dataset.sceneId=scene.id;node.dataset.profile=id;node.dataset.head=a.head;node.dataset.emotionScore=String(a.emotionScore??'');node.dataset.mouth=a.mouth;node.dataset.eyeTier=String(a.eyeTier??'manual');node.dataset.pet=animal?'dog':'none';node.dataset.petBreed=config.dogBreed||'prototype';node.dataset.petAge=config.dogAge;node.dataset.petPose=config.dogPose;node.dataset.petFootY=String(scene.petAnchor?.[1]??manifest.pets.dog.footPosition[1]);}
+  if(node.dataset)node.dataset.household=JSON.stringify(household?.schedule.members||[]);
+  const label=host.querySelector('.activity-label');if(label&&label!==node)label.textContent=(scene.label||'Дома')+' · ← комнаты →';
+  if(node.dataset){node.dataset.sceneId=scene.id;node.dataset.profile=id;node.dataset.head=a.head;node.dataset.emotionScore=String(a.emotionScore??'');node.dataset.mouth=a.mouth;node.dataset.eyeTier=String(a.eyeTier??'manual');node.dataset.pet=selection?.kind||'none';node.dataset.petBreed=selection?.variant||'';node.dataset.petAge=selection?.age||'';node.dataset.petPose=selection?.pose||'';node.dataset.petFootY=String(scene.petAnchor?.[1]??manifest.pets.dog.footPosition[1]);}
   node.hidden=false;canvas.style.visibility='visible';status.hidden=true;if(fallback)fallback.hidden=true;
-  canvas.onclick=event=>{
+  let touch=null,swiped=false;
+  canvas.style.touchAction='pan-y';
+  canvas.onpointerdown=event=>{touch={x:event.clientX,y:event.clientY};swiped=false;};
+  canvas.onpointerup=async event=>{if(!touch)return;const dx=event.clientX-touch.x,dy=event.clientY-touch.y;touch=null;if(Math.abs(dx)<45||Math.abs(dx)<Math.abs(dy)*1.4)return;swiped=true;if(await root.GraphicsLab?.changeRoom(s,dx<0?1:-1)){mount(host,s,kind);root.GraphicsLab.mountPanel(host,s);}};
+  canvas.onpointercancel=()=>{touch=null;};
+  canvas.onclick=event=>{if(swiped){swiped=false;return;}
+
    const box=canvas.getBoundingClientRect(),point=[(event.clientX-box.left)*320/box.width,(event.clientY-box.top)*320/box.height];
    if(root.GraphicsLab){if(root.GraphicsLab.move(s,scene,id,point,manifest)){mount(host,s,kind);root.GraphicsLab.mountPanel(host,s);}return;}if(!root.LifelineAssetCore.isWalkable(point,manifest.scene))return;
    const savedActor=config.actors[id];savedActor.pose='standing';savedActor.seatId=null;savedActor.position=point;
