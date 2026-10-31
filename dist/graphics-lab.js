@@ -4,7 +4,7 @@ const KEY='lifeline-graphics-lab-v1:',profiles=['adult_f','adult_m','elder_f','c
 function defaults(){return {house:'modest_01',room:'living_room',profile:null,animal:'none',emotionFromGame:true,positions:{}};}
 function preferences(s,storage=root.localStorage){try{const raw=JSON.parse(storage.getItem(KEY+(s.seed>>>0)));if(!raw||typeof raw!=='object')return defaults();return {...defaults(),...raw,profile:profiles.includes(raw.profile)?raw.profile:null,animal:raw.animal==='dog'||Object.hasOwn(root.LifelineAssetCore.PET_TYPES,raw.animal)?raw.animal:'none',positions:raw.positions&&typeof raw.positions==='object'?raw.positions:{}};}catch{return defaults();}}
 function savePreferences(s,p){root.localStorage.setItem(KEY+(s.seed>>>0),JSON.stringify(p));}
-function profile(s){return preferences(s).profile;}
+function profile(s){return root.LifelineDevMode&&!root.LifelineDevMode()?null:preferences(s).profile;}
 function animalVisible(s){return preferences(s).animal!=='none';}
 function loadCatalog(){if(!catalogPromise)catalogPromise=fetch('art/graphics_catalog.json').then(r=>{if(!r.ok)throw Error('Не удалось загрузить список комнат');return r.json();}).catch(e=>{catalogPromise=null;throw e;});return catalogPromise;}
 function chooseScene(catalog,p){const house=catalog.houses.find(h=>h.id===p.house)||catalog.houses[0],scene=house.rooms.find(r=>r.kind===p.room)||house.rooms.find(r=>r.kind==='living_room')||house.rooms[0];return {...scene,houseId:house.id,label:house.label+' · '+scene.label};}
