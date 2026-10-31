@@ -49,3 +49,5 @@ const changedSex=C.migrate(m,{...C.preset('slavic',1,360,'male'),outfit:5,hair:'
 F.setActor(s,'mother',{outfit:5,hair:'long_curly'},old);assert.equal(F.actor(s,'mother',old).humanTraits.outfit,5);assert.equal(F.actor(s,'mother',old).humanTraits.hair,'long_curly');
 // Semi-transparent dark edge pixels must not brighten small skin parts such as the neck.
 const flat=[180,120,80,255],data=new Uint8ClampedArray([...flat,...flat,...flat,20,10,5,50]);assert.equal(C.skinReference(data),.2126*180+.7152*120+.0722*80);
+
+for(const months of [12,15,18,23,24,30,35]){const life={seed:42,age:months/12,origin:{sex:'female'}};assert(['floor_play','sitting','standing'].includes(B.character(life,legacy,m,null,fakeStore(null)).pose));}for(const months of [3,4,5])assert(['tummy_time','lying'].includes(B.character({seed:42,age:months/12,origin:{sex:'female'}},legacy,m,null,fakeStore(null)).pose));for(const months of [6,8,11])assert(['supported_sitting','tummy_time'].includes(B.character({seed:42,age:months/12,origin:{sex:'female'}},legacy,m,null,fakeStore(null)).pose));
