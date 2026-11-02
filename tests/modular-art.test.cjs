@@ -8,14 +8,15 @@ const cfg=C.defaultState();cfg.actors.adult_f.hairStyle='none';cfg.actors.adult_
 assert.equal(A.settings(life,m,{getItem:()=>JSON.stringify(cfg)}).actors.adult_f.hairStyle,'bob');assert.equal(A.settings(life,m,{getItem:()=>JSON.stringify(cfg)}).actors.adult_f.top,3);assert.deepEqual(A.settings(life,m,{getItem:()=>'{bad'}),C.defaultState());
 for(const file of m.files){assert(fs.existsSync(path.join(__dirname,'../dist/art',file.path)),file.path);}
 const catalog=require('../dist/art/graphics_catalog.json'),backgrounds=new Set(catalog.houses.flatMap(h=>h.rooms.map(r=>r.background)));backgrounds.add(m.scene.background);let sourceBytes=0,optimizedBytes=0;for(const asset of backgrounds){const source=path.join(__dirname,'../dist/art',asset),optimized=source.replace(/\.png$/,'.webp'),bytes=fs.readFileSync(optimized);assert.equal(bytes.toString('ascii',0,4),'RIFF');assert.equal(bytes.toString('ascii',8,12),'WEBP');sourceBytes+=fs.statSync(source).size;optimizedBytes+=bytes.length;}assert(optimizedBytes<sourceBytes*.25,'Room downloads should be substantially smaller');
-const original=JSON.stringify(life),writes=[],draws=[],frameDraws=[];global.document={createElement:()=>({width:960,height:960,getContext:()=>({setTransform(){},drawImage(...args){frameDraws.push(args);}})})};let block=false;
+const original=JSON.stringify(life),writes=[],draws=[],frameDraws=[];global.document={createElement:()=>({width:960,height:960,style:{},getContext:()=>({setTransform(){},drawImage(...args){frameDraws.push(args);},getImageData:()=>({data:new Uint8ClampedArray(0)})})})};let block=false;
 global.localStorage={getItem:()=>JSON.stringify(C.defaultState()),setItem:(k,v)=>writes.push([k,JSON.parse(v)])};
 global.fetch=async()=>({ok:true,json:async()=>m});
-global.LifelinePngRenderer={create:()=>({image:async()=>{if(block)throw Error('unavailable');return {};},actor:async()=>({}),pet:async()=>({width:320,height:256}),geometry:()=>({x:1,y:2,scale:.5})})};
+global.LifelinePngRenderer={create:()=>({image:async()=>{if(block)throw Error('unavailable');return {src:'http://localhost/art/room.webp'};},actor:async()=>({}),pet:async()=>({width:320,height:256}),geometry:()=>({x:1,y:2,scale:.5})})};
 const canvas={width:960,height:960,style:{},getContext:()=>({setTransform(){},clearRect(){},drawImage(...args){draws.push(args);}}),getBoundingClientRect:()=>({left:0,top:0,width:320,height:320})};
-const status={hidden:false},fallback={hidden:false},node={isConnected:true,parentElement:{querySelector:()=>fallback},querySelector:s=>s==='canvas'?canvas:status},host={querySelector:()=>node};
+const backdrop={},status={hidden:false},fallback={hidden:false},node={isConnected:true,append(){},querySelectorAll:()=>[],parentElement:{style:{setProperty:(key,value)=>backdrop[key]=value},querySelector:()=>fallback},querySelector:s=>s==='canvas'?canvas:status},host={querySelector:()=>node};
 (async()=>{
- await A.mount(host,life,'home');assert.equal(draws.length,2);assert.equal(frameDraws.length,2,'Background and actor are composed offscreen');assert(status.hidden);assert.equal(writes.length,0);assert.equal(JSON.stringify(life),original);
+ await A.mount(host,life,'home');assert.equal(draws.length,2);assert.equal(frameDraws.length,3,'Background and actor are composed offscreen; actor alpha is probed for its nameplate');assert(status.hidden);assert.equal(writes.length,0);assert.equal(JSON.stringify(life),original);
+ assert.equal(backdrop['--scene-backdrop'],'url("http://localhost/art/room.webp")','Blurred side fields use the current room image');
  canvas.onclick({clientX:0,clientY:0});assert.equal(writes.length,0,'blocked floor must not save');
  // Same valid foreground used by the art editor; only the appearance key is written.
  const point=m.scene.walkableAreas[0].reduce((p,q)=>[p[0]+q[0]/m.scene.walkableAreas[0].length,p[1]+q[1]/m.scene.walkableAreas[0].length],[0,0]);

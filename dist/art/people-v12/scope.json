@@ -1,5 +1,5 @@
 {
-  "revision": 13,
+  "revision": 14,
   "status": "installed_working_baseline_browser_recheck_pending",
   "requestedScope": [
     "age_groups",
@@ -170,5 +170,6 @@
       "elder_f"
     ],
     "skinRendering": "opaque flat-tone reference, shared method for face/body/eyelids"
-  }
+  },
+  "hairRegistration": "intact authored sprites; fit position/width to head without erasing pixels"
 }

@@ -38,23 +38,27 @@ function validate(m,input){
 }
 function create(manifest,base=''){
  const images=new Map(),colored=new Map(),actors=new Map();
- function image(path){if(!images.has(path)){if(images.size>96)images.delete(images.keys().next().value);images.set(path,new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>resolve(im);im.onerror=()=>reject(Error('Не загружен PNG: '+path));im.src=base+path+'?art=13';}));}return images.get(path);}
+ function image(path){if(!images.has(path)){if(images.size>96)images.delete(images.keys().next().value);images.set(path,new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>resolve(im);im.onerror=()=>reject(Error('Не загружен PNG: '+path));im.src=base+path+'?art=15-sealed-seams';}));}return images.get(path);}
  async function tint(path,color,referenceMean=null){if(!color)return image(path);const key=path+'|'+color+'|'+referenceMean;if(colored.has(key))return colored.get(key);const im=await image(path),out=document.createElement('canvas');out.width=im.width;out.height=im.height;const x=out.getContext('2d');x.drawImage(im,0,0);const p=x.getImageData(0,0,out.width,out.height),d=p.data,rgb=color.match(/\w\w/g).map(h=>parseInt(h,16));let total=0,n=0;for(let i=0;i<d.length;i+=4)if(d[i+3]){total+=.2126*d[i]+.7152*d[i+1]+.0722*d[i+2];n++;}const mean=referenceMean==='skin'?skinReference(d):referenceMean||total/Math.max(1,n);for(let i=0;i<d.length;i+=4)if(d[i+3]){const l=(.2126*d[i]+.7152*d[i+1]+.0722*d[i+2])/Math.max(1,mean);for(let k=0;k<3;k++)d[i+k]=Math.round(Math.min(255,rgb[k]*l));}x.putImageData(p,0,0);if(colored.size>64)colored.delete(colored.keys().next().value);colored.set(key,out);return out;}
  async function actor(input){
-  const c=validate(manifest,input),emotion=expression(c.happiness,c.energy),visual={...c};delete visual.months;delete visual.seed;delete visual.base;delete visual.happiness;delete visual.energy;visual.eyeTier=emotion.eyeTier;visual.mouth=c.manualMouth&&emotion.eyeTier===0?c.manualMouth:emotion.mouth;const key=JSON.stringify(visual);if(actors.has(key))return actors.get(key);
+  const c=validate(manifest,input),key=JSON.stringify(c);if(actors.has(key))return actors.get(key);
   const p=manifest.profiles[c.profile],d=p.outfits[String(c.outfit)].poses[c.pose],hd=manifest.heads[p.age+'_'+c.sex+'_'+c.face],pal=manifest.palettes,e=expression(c.happiness,c.energy),out=document.createElement('canvas');[out.width,out.height]=manifest.frame;const x=out.getContext('2d');if(c.manualMouth&&e.eyeTier===0)e.mouth=c.manualMouth;
-  // Fetch selected layers together so the new art does not add serial network delays.
-  const hairAssets=c.hair!=='none'?hd.hairLayers[c.hair]:null,eyeNames=c.pose==='sleeping'?['closedSkin','closedInk']:e.eyeTier?['upperSkin','upperInk',...(e.eyeTier>=2?['lowerSkin','lowerInk']:[]),...(e.eyeTier===3?['bruises']:[])]:[];
-  await Promise.all([...Object.values(d.layers),...Object.values(hd.layers),hd.mouths[c.pose==='sleeping'?'neutral':e.mouth],hairAssets?.back,hairAssets?.front,...eyeNames.map(name=>hd.eyelids[name])].filter(Boolean).map(image));
+  const hl=c.hair!=='none'?hd.hairLayers[c.hair]:null,eyeNames=c.pose==='sleeping'?['closedSkin','closedInk']:e.eyeTier?['upperSkin','upperInk',...(e.eyeTier>=2?['lowerSkin','lowerInk']:[]),...(e.eyeTier===3?['bruises']:[])]:[];
+  await Promise.all([...Object.values(d.layers),...Object.values(hd.layers),hd.mouths[c.pose==='sleeping'?'neutral':e.mouth],hl?.back,hl?.front,hl?.locks,hl?.temples,...eyeNames.map(name=>hd.eyelids[name])].filter(Boolean).map(image));
+  const off=[264,160],scale=p.headHeight/280,[ax,ay]=hd.headAnchor,[nx,ny]=d.neckAnchor;
+  const headCanvas=()=>{const canvas=document.createElement('canvas');canvas.width=768;canvas.height=896;return canvas;};
+  function placeHead(canvas){x.save();x.translate(nx,ny);x.rotate(-d.headRotation*Math.PI/180);x.scale(scale,scale);x.drawImage(canvas,-ax-off[0],-ay-off[1]);x.restore();}
+  async function hairLayer(role){if(!hl?.[role])return;const canvas=headCanvas(),h=canvas.getContext('2d');h.drawImage(await tint(hl[role],pal.hair[c.hairColor],hl[role+'Mean']||manifest.hairStyles[c.hair].meanLuminance),off[0]+hl.offset[0],off[1]+hl.offset[1]);placeHead(canvas);}
+  // Actual authored rear mass -> intact body -> hanging locks -> face -> cap.
+  // The face naturally occludes lock roots; no hair pixels are erased for eyes.
+  await hairLayer('back');
   for(const [k,path]of Object.entries(d.layers))x.drawImage(await tint(path,k==='skin'?pal.skin[c.skin]:k==='top'?pal.top[c.top]:k==='bottom'?pal.bottom[c.bottom]:k==='shoes'?pal.shoes[c.shoes]:null,k==='skin'?'skin':null),0,0);
-  const head=document.createElement('canvas');head.width=768;head.height=896;const h=head.getContext('2d'),off=[264,160],hl=c.hair!=='none'?hd.hairLayers[c.hair]:null;
-  if(hl)h.drawImage(await tint(hl.back,pal.hair[c.hairColor],manifest.hairStyles[c.hair].meanLuminance),off[0]+hl.offset[0],off[1]+hl.offset[1]);
+  await hairLayer('locks');
+  const head=headCanvas(),h=head.getContext('2d');
   for(const [k,path]of Object.entries(hd.layers))h.drawImage(await tint(path,k==='skin'?pal.skin[c.skin]:null,k==='skin'?'skin':null),...off);
   if(c.pose==='sleeping'){h.drawImage(await tint(hd.eyelids.closedSkin,pal.skin[c.skin],'skin'),...off);h.drawImage(await image(hd.eyelids.closedInk),...off);}
   else if(e.eyeTier){for(const name of ['upperSkin','upperInk',...(e.eyeTier>=2?['lowerSkin','lowerInk']:[]),...(e.eyeTier===3?['bruises']:[])])h.drawImage(await tint(hd.eyelids[name],name.endsWith('Skin')?pal.skin[c.skin]:null,name.endsWith('Skin')?'skin':null),...off);}
-  h.drawImage(await image(hd.mouths[c.pose==='sleeping'?'neutral':e.mouth]),...off);
-  if(hl)h.drawImage(await tint(hl.front,pal.hair[c.hairColor],manifest.hairStyles[c.hair].meanLuminance),off[0]+hl.offset[0],off[1]+hl.offset[1]);
-  const scale=p.headHeight/280,[ax,ay]=hd.headAnchor,[nx,ny]=d.neckAnchor;x.save();x.translate(nx,ny);x.rotate(-d.headRotation*Math.PI/180);x.scale(scale,scale);x.drawImage(head,-ax-off[0],-ay-off[1]);x.restore();
+  h.drawImage(await image(hd.mouths[c.pose==='sleeping'?'neutral':e.mouth]),...off);placeHead(head);await hairLayer('temples');await hairLayer('front');
   if(actors.size>24)actors.delete(actors.keys().next().value);actors.set(key,out);return out;
  }
  function geometry(c,position=[160,278],slot=null){c=validate(manifest,c);const p=manifest.profiles[c.profile],d=p.outfits[String(c.outfit)].poses[c.pose],scale=worldHeight(c)/p.referenceHeight,anchor=slot&&d.seatAnchor?d.seatAnchor:d.footAnchor;return {x:position[0]-anchor[0]*scale,y:position[1]-anchor[1]*scale,scale,footY:position[1]+(d.footAnchor[1]-anchor[1])*scale};}
