@@ -14,7 +14,8 @@ function character(s,legacy,manifest,override=null,storage=root.localStorage){
  const baseline=stored?.legacyBaseline?.[legacy.profile]||stored?.legacyBaseline;if(baseline)for(const [key,target]of Object.entries(map))if(legacy[key]!==baseline[key])c[target]=key==='head'?(legacy.head==='sitting'?1:0):legacy[key];
  c.profile=C.profileFor(months,sex);c.months=months;c.sex=sex;c.pose=manifest.profiles[c.profile].poses.includes(legacy.pose)?legacy.pose:manifest.profiles[c.profile].poses[0];
  if(!override&&!root.LifelineDevMode?.()&&months<36){const poses=months<3?['lying','sleeping']:months<6?['tummy_time','lying']:months<12?['supported_sitting','tummy_time']:months<24?['floor_play','sitting']:['floor_play','sitting','standing'];c.pose=poses[((Number(s.seed)>>>0)+Math.floor(months/2))%poses.length];}
- if(!override&&!root.LifelineDevMode?.()&&months>=36&&months<204)c.pose='standing';
+ if(!override&&!root.LifelineDevMode?.()&&months>=36&&months<204&&!s.reference?.snapshot?.details?.health?.disability?.wheelchair)c.pose='standing';
+ if(!override&&!root.LifelineDevMode?.()){const cycle=Math.floor(months/12),seed=Number(s.seed)>>>0,outfits=Object.keys(manifest.profiles[c.profile].outfits).map(Number);c.outfit=outfits[(seed+cycle)%outfits.length];c.top=(seed+cycle)%manifest.palettes.top.length;c.bottom=(Math.floor(seed/7)+cycle)%manifest.palettes.bottom.length;}
  if(!C.hairOptions(manifest,c).includes(c.hair))c.hair=C.fallbackHair(c);
  c.happiness=Number.isFinite(legacy.happiness)?legacy.happiness:100;c.energy=100*(1-(legacy.fatigue||0));
  if(legacy.mouthMode==='manual')c.manualMouth=legacy.mouth||'smile';

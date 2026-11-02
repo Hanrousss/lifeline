@@ -29,9 +29,9 @@ const legacy={profile:'child',pose:'standing',head:'standing',hairStyle:'short',
 const s={seed:42,age:3,origin:{sex:'female'}};
 assert.equal(B.character(s,legacy,m,null,fakeStore(null)).profile,'toddler');
 const record={version:1,traits:{base:'african',face:3,hair:'braids',skin:4,outfit:2},legacyBaseline:{child:{...legacy}}};
-let c=B.character(s,legacy,m,null,fakeStore(record));assert.equal(c.face,3);assert.equal(c.hair,'braids');assert.equal(c.outfit,2);
+const auto=B.character(s,legacy,m,null,fakeStore(record)),sameYear=B.character({...s,age:3.5},legacy,m,null,fakeStore(record)),later=B.character({...s,age:4},legacy,m,null,fakeStore(record));assert.deepEqual([auto.outfit,auto.top,auto.bottom],[sameYear.outfit,sameYear.top,sameYear.bottom],'Clothes stay the same within a game year');assert.notDeepEqual([auto.outfit,auto.top,auto.bottom],[later.outfit,later.top,later.bottom]);global.LifelineDevMode=()=>true;let c=B.character(s,legacy,m,null,fakeStore(record));assert.equal(c.face,3);assert.equal(c.hair,'braids');assert.equal(c.outfit,2);
 c=B.character(s,{...legacy,hairStyle:'bob'},m,null,fakeStore(record));assert.equal(c.hair,'bob');assert.equal(c.face,3,'old control changes only its trait');
-assert.equal(B.character({...s,age:65,origin:{sex:'male'}},legacy,m,null,fakeStore(null)).profile,'elder_m');
+global.LifelineDevMode=()=>false;assert.equal(B.character({...s,age:65,origin:{sex:'male'}},legacy,m,null,fakeStore(null)).profile,'elder_m');
 assert.equal(B.character(s,legacy,m,'adult_f',fakeStore(null)).profile,'adult_f');
 global.LifelineAssetCore=require('../dist/art/runtime/core.js');const memory=new Map();global.localStorage={getItem:k=>memory.get(k)||null,setItem:(k,v)=>memory.set(k,v)};
 const F=require('../dist/family-appearance.js'),old=JSON.parse(fs.readFileSync(path.join(R,'../manifest.json'))),before=JSON.stringify(s);
