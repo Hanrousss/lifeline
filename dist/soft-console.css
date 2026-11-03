@@ -529,3 +529,19 @@ html body #dialog.game-menu-dialog .menu-brand{max-width:100%;margin:18px auto 0
 .game-shell .scene-player.console-arrow-dock .console-speed-step{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;padding:3px}
 .game-shell .console-speed-step svg{width:12px;height:12px;flex:none}
 .game-shell .console-speed-label{display:block;font:700 9px/11px Manrope,Arial,sans-serif;font-variant-numeric:tabular-nums;white-space:nowrap}
+/* Responsive phone body: equal safe gutters and natural vertical flow. */
+body:has(.game-shell){--phone-gutter:max(8px,env(safe-area-inset-left,0px),env(safe-area-inset-right,0px));--phone-top:max(8px,env(safe-area-inset-top,0px));--phone-bottom:max(8px,env(safe-area-inset-bottom,0px));--console-safe:clamp(10px,3vw,16px);--display-width:100%;padding:var(--phone-top) var(--phone-gutter) var(--phone-bottom);min-height:100svh;min-height:var(--app-height,100svh);height:auto;overflow-y:auto;overflow-x:clip}
+body:has(.game-shell)>#app{width:100%;min-width:0;overflow:visible}
+.game-shell.flow-layout{width:min(440px,100%);max-width:440px;min-width:0;min-height:calc(var(--app-height,100svh) - var(--phone-top) - var(--phone-bottom));height:auto;margin:0 auto}
+.game-shell .flow-main.story-screen{width:100%;min-width:0;min-height:inherit;padding:12px var(--console-safe);overflow:visible}
+.game-shell .live-stage,.game-shell .live-visuals,.game-shell .scene-player,.game-shell .story-deck{width:100%;min-width:0;margin-inline:0}
+.game-shell .live-visuals .live-scene-frame{width:100%;height:auto;min-height:0;max-height:none;aspect-ratio:1}
+.game-shell .story-deck,.game-shell .story-deck:has(.lcd-nav){flex:1 0 226px;height:auto;min-height:226px;max-height:none}
+.game-shell .story-deck.graphics-deck{flex-basis:266px;min-height:266px}
+.game-shell .story-deck>.story-scroll{min-height:0;overflow-y:auto;overflow-x:hidden}
+.game-shell .console-life-progress,.game-shell .console-life-progress .scene-age-line{min-width:0;max-width:100%}
+.game-shell .console-life-progress .scene-age-track{flex:1 1 40px;min-width:24px}
+.game-shell .console-life-progress .scene-age-name,.game-shell .console-life-progress .scene-age-next{flex:0 1 auto;min-width:0;white-space:normal;overflow-wrap:anywhere}
+.game-shell .console-scene-footer .console-finance-strip-item{min-width:0}
+body #dialog{max-height:calc(var(--app-height,100dvh) - 24px);overscroll-behavior:contain}
+@media(max-width:359px){.game-shell .scene-player.console-arrow-dock{padding-inline:4px}.game-shell .scene-player.console-arrow-dock .console-transport-arrow{width:28px;height:30px}.game-shell .story-deck>.lcd-nav{padding-inline:8px}}
