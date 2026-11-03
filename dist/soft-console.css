@@ -524,3 +524,8 @@ html body #dialog.game-menu-dialog .menu-brand{max-width:100%;margin:18px auto 0
 .game-shell .story-deck{width:100%;margin:12px 0 0;flex:none;color:#444a42}
 .game-shell .story-deck>.story-scroll{overflow-y:auto;overflow-x:hidden;min-width:0}
 .game-shell .story-deck .feed-row p{overflow-wrap:anywhere}
+
+/* Rate labels fit inside the existing round keys without moving the dock. */
+.game-shell .scene-player.console-arrow-dock .console-speed-step{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;padding:3px}
+.game-shell .console-speed-step svg{width:12px;height:12px;flex:none}
+.game-shell .console-speed-label{display:block;font:700 9px/11px Manrope,Arial,sans-serif;font-variant-numeric:tabular-nums;white-space:nowrap}
