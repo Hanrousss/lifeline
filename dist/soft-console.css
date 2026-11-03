@@ -545,3 +545,5 @@ body:has(.game-shell)>#app{width:100%;min-width:0;overflow:visible}
 .game-shell .console-scene-footer .console-finance-strip-item{min-width:0}
 body #dialog{max-height:calc(var(--app-height,100dvh) - 24px);overscroll-behavior:contain}
 @media(max-width:359px){.game-shell .scene-player.console-arrow-dock{padding-inline:4px}.game-shell .scene-player.console-arrow-dock .console-transport-arrow{width:28px;height:30px}.game-shell .story-deck>.lcd-nav{padding-inline:8px}}
+/* Three times the lower plastic rim; preserve the display's available height. */
+.game-shell .flow-main.story-screen{padding-bottom:36px;min-height:calc(var(--app-height,100svh) - var(--phone-top) - var(--phone-bottom) + 24px)}
